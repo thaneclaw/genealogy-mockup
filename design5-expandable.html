@@ -385,7 +385,6 @@
         const JUNCT_DIST = 30;
         const svgNS = 'http://www.w3.org/2000/svg';
 
-        const wrap = document.getElementById('treeWrap');
         const svg = document.getElementById('linesSvg');
         const scroll = document.getElementById('treeScroll');
         const panel = document.getElementById('detailPanel');
@@ -517,8 +516,7 @@
         // === RENDER ===
         function render() {
             // Clear
-            wrap.innerHTML = '<svg class="lines-svg" id="linesSvg"></svg>';
-            svg = document.getElementById('linesSvg');
+            svg.innerHTML = '';
 
             // Determine visible set
             let visible = buildTree('g0-0', maxGen);
