@@ -348,81 +348,96 @@
     <script>
     // ===== DATA =====
     const allPeople = {
-        'p00': { name: "Graeme Mooney", years: "b. 1966", status: "you", gen: 0, parents: ['p10','p11'], sources: [], suggestion: null },
+        'p000': { name: "Graeme Mooney", years: "b. 1966", status: "you", gen: 0, parents: ['p100','p101'], sources: [], suggestion: null },
 
-        'p10': { name: "Joseph Mooney", years: "1931\u20132004", status: "confirmed", gen: 1, parents: ['p20','p21'], sources: [
+        'p100': { name: "Joseph Mooney", years: "1931\u20132004", status: "confirmed", gen: 1, parents: ['p200','p201'], sources: [
             {title: "Birth Certificate", meta: "Dundee, 1931", status: "confirmed"},
-            {title: "Marriage Certificate", meta: "Alice Lynch, 1929", status: "confirmed"},
-            {title: "Death Certificate", meta: "2004", status: "confirmed"}
+            {title: "Marriage Certificate", meta: "Lochee, 1951", status: "confirmed"},
+            {title: "Death Certificate", meta: "Ontario, 2004", status: "confirmed"}
         ], suggestion: null },
-        'p11': { name: "Rose Craigie", years: "b. 1931", status: "confirmed", gen: 1, parents: ['p22','p23'], sources: [
+        'p101': { name: "Rose Craigie", years: "b. 1931", status: "confirmed", gen: 1, parents: ['p202','p203'], sources: [
             {title: "Birth Certificate", meta: "Dundee, 1931", status: "confirmed"}
-        ], suggestion: {text: "Buy Rose's parents' marriage cert to confirm her maternal grandparents", price: "\u00a32"} },
+        ], suggestion: null },
 
-        'p20': { name: "Joseph Mooney", years: "1905\u20131974", status: "confirmed", gen: 2, parents: ['p30','p31'], sources: [
-            {title: "Birth Certificate", meta: "Dundee, 1905", status: "confirmed"},
+        'p200': { name: "Joseph Mooney", years: "1906\u20131974", status: "confirmed", gen: 2, parents: ['p300','p301'], sources: [
+            {title: "Birth Certificate", meta: "Dundee, 1906", status: "confirmed"},
+            {title: "Marriage Certificate", meta: "1929", status: "confirmed"},
             {title: "Death Certificate", meta: "1974", status: "confirmed"}
-        ], suggestion: {text: "Buy Joseph + Alice Lynch marriage cert to unlock 4 grandparents", price: "\u00a32"} },
-        'p21': { name: "Alice Lynch", years: "1907\u20131978", status: "confirmed", gen: 2, parents: ['p32','p33'], sources: [
+        ], suggestion: null },
+        'p201': { name: "Alice Lynch", years: "1907\u2013?", status: "confirmed", gen: 2, parents: ['p302','p303'], sources: [
             {title: "Birth Certificate", meta: "Dundee, 1907", status: "confirmed"}
         ], suggestion: null },
-        'p22': { name: "Andrew Craigie", years: "1902\u20131972", status: "confirmed", gen: 2, parents: ['p34','p35'], sources: [
-            {title: "Birth Certificate", meta: "Dundee, 1902", status: "confirmed"}
+        'p202': { name: "Andrew Craigie", years: "1902\u20131972", status: "confirmed", gen: 2, parents: ['p304','p305'], sources: [
+            {title: "Birth Certificate", meta: "Dundee, 1902", status: "confirmed"},
+            {title: "Death Certificate", meta: "1972", status: "confirmed"}
         ], suggestion: null },
-        'p23': { name: "Agnes Crawford", years: "b. 1902", status: "confirmed", gen: 2, parents: ['p36','p37'], sources: [
-            {title: "Birth Certificate", meta: "Dundee, 1902", status: "confirmed"}
+        'p203': { name: "Agnes Crawford", years: "1900\u20131987", status: "confirmed", gen: 2, parents: ['p306','p307'], sources: [
+            {title: "Birth Certificate", meta: "1900", status: "confirmed"},
+            {title: "Death Certificate", meta: "1987", status: "confirmed"}
         ], suggestion: null },
 
-        'p30': { name: "Joseph Mooney", years: "1879\u2013?", status: "probable", gen: 3, parents: ['p40','p41'], sources: [], suggestion: {text: "Search ScotlandsPeople for Joseph Mooney b. ~1879 in Dundee", price: "Free search"} },
-        'p31': { name: "Catherine Farrell", years: "b. 1883", status: "probable", gen: 3, parents: ['p42','p43'], sources: [], suggestion: null },
-        'p32': { name: "Edward Lynch", years: "1868\u2013?", status: "probable", gen: 3, parents: ['p44','p45'], sources: [], suggestion: null },
-        'p33': { name: "Mary Graham", years: "1865\u2013?", status: "probable", gen: 3, parents: ['p46','p47'], sources: [], suggestion: null },
-        'p34': { name: "James Craigie", years: "1872\u2013?", status: "probable", gen: 3, parents: ['p48','p49'], sources: [], suggestion: null },
-        'p35': { name: "Agnes Henderson", years: "\u20131938", status: "probable", gen: 3, parents: ['p410','p411'], sources: [
-            {title: "Death Certificate", meta: "Lochee, 1938", status: "confirmed"}
+        'p300': { name: "Joseph Mooney", years: "1878\u2013?", status: "probable", gen: 3, parents: ['p400','p401'], sources: [], suggestion: null },
+        'p301': { name: "Catherine Farrell", years: "b. 1883", status: "probable", gen: 3, parents: ['p402','p403'], sources: [], suggestion: null },
+        'p302': { name: "Edward Lynch", years: "1868\u2013?", status: "probable", gen: 3, parents: ['p404','p405'], sources: [], suggestion: null },
+        'p303': { name: "Mary Graham", years: "1868\u2013?", status: "probable", gen: 3, parents: ['p406','p407'], sources: [], suggestion: null },
+        'p304': { name: "James George R Craigie", years: "b. 1872, England", status: "probable", gen: 3, parents: ['p408','p409'], sources: [], suggestion: null },
+        'p305': { name: "Agnes Dow Craigie", years: "?", status: "probable", gen: 3, parents: ['p410','p411'], sources: [], suggestion: null },
+        'p306': { name: "Patrick Crawford", years: "1872\u2013?", status: "probable", gen: 3, parents: ['p412','p413'], sources: [
+            {title: "Marriage Certificate", meta: "Rose Anna McFarland, Lochee 1895", status: "confirmed"}
         ], suggestion: null },
-        'p36': { name: "Patrick Crawford", years: "1872\u2013?", status: "probable", gen: 3, parents: ['p412','p413'], sources: [
-            {title: "Marriage Certificate", meta: "Rose McFarland, Lochee 1895", status: "confirmed"}
-        ], suggestion: null },
-        'p37': { name: "Rose McFarland", years: "1872\u2013?", status: "probable", gen: 3, parents: ['p414','p415'], sources: [
+        'p307': { name: "Rose Anna McFarland", years: "1872\u2013?", status: "probable", gen: 3, parents: ['p414','p415'], sources: [
             {title: "Marriage Certificate", meta: "Patrick Crawford, Lochee 1895", status: "confirmed"}
         ], suggestion: null },
 
-        'p40': { name: "Thomas Mooney", years: "1835\u2013?", status: "probable", gen: 4, parents: ['p50','p51'], sources: [], suggestion: null },
-        'p41': { name: "Hannah Mooney", years: "1833\u20131862", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-        'p42': { name: "James Farrell", years: "Stone Quarry", status: "probable", gen: 4, parents: ['p52','p53'], sources: [], suggestion: null },
-        'p43': { name: "Helen McDonald", years: "Jute Spinner", status: "probable", gen: 4, parents: ['p54','p55'], sources: [], suggestion: null },
-        'p44': { name: "Owen Lynch", years: "1833\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-        'p45': { name: "Alice Rogers", years: "1831\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-        'p46': { name: "James Graham", years: "1835\u2013?", status: "probable", gen: 4, parents: ['p56','p57'], sources: [], suggestion: null },
-        'p47': { name: "Elizabeth Rattray", years: "1810\u2013?", status: "probable", gen: 4, parents: ['p58','p59'], sources: [], suggestion: null },
-        'p48': { name: "William Craigie", years: "1841\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-        'p49': { name: "Elizabeth (Betsy)", years: "1842\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-        'p410': { name: "Francis Crawford", years: "Gen Labourer", status: "probable", gen: 4, parents: ['p510','p511'], sources: [], suggestion: null },
-        'p411': { name: "Alice Gourley", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-        'p412': { name: "Andrew Henderson", years: "Shoemaker", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-        'p413': { name: "Elizabeth Simpson", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-        'p414': { name: "John McFarland", years: "Gen Labourer", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-        'p415': { name: "Mary Shields", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-
-        'p50': { name: "Thomas Mooney", years: "1805\u2013?", status: "brickwall", gen: 5, parents: null, sources: [], suggestion: null },
-        'p51': { name: "Margaret Reilly", years: "1803\u2013?", status: "brickwall", gen: 5, parents: null, sources: [], suggestion: null },
-        'p52': { name: "John Farrell", years: "Stone Quarry", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-        'p53': { name: "Ann Quinn", years: "\u2013", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-        'p54': { name: "Patrick McDonald", years: "Carpet Weaver", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-        'p55': { name: "Barbara Gordon", years: "?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-        'p56': { name: "David Graham", years: "b. 1809", status: "probable", gen: 5, parents: null, sources: [
-            {title: "Old Parish Register", meta: "Strathmiglo, baptised Arngask 1 Jan 1809", status: "confirmed"}
+        'p400': { name: "Thomas Mooney", years: "1852\u20131911", status: "confirmed", gen: 4, parents: ['p500','p501'], sources: [
+            {title: "Death Certificate", meta: "22 Dec 1911", status: "confirmed"}
         ], suggestion: null },
-        'p57': { name: "Elizabeth McNauchton", years: "?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-        'p58': { name: "John Reilly", years: "1821\u2013?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-        'p59': { name: "Catherine", years: "1822\u2013?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-        'p510': { name: "? Father", years: "?", status: "brickwall", gen: 5, parents: null, sources: [], suggestion: null },
-        'p511': { name: "? Mother", years: "?", status: "brickwall", gen: 5, parents: null, sources: [], suggestion: null },
+        'p401': { name: "Catherine Lynch", years: "b. 1858", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'p402': { name: "James Farrell", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'p403': { name: "Helen McDonald", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'p404': { name: "Owen Lynch", years: "1833\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'p405': { name: "Alice Rogers", years: "1831\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'p406': { name: "James Graham", years: "1835\u2013?", status: "probable", gen: 4, parents: ['p502','p503'], sources: [], suggestion: null },
+        'p407': { name: "Ann Reilly", years: "1844\u2013?", status: "probable", gen: 4, parents: ['p504','p505'], sources: [], suggestion: null },
+        'p408': { name: "William Craigie", years: "1841\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'p409': { name: "Elizabeth (Betsy)", years: "1843\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'p410': { name: "Francis Crawford", years: "1850\u2013?", status: "probable", gen: 4, parents: ['p506','p507'], sources: [
+            {title: "Marriage Certificate", meta: "Eliza McGinley, 22 Jan 1869", status: "confirmed"}
+        ], suggestion: null },
+        'p411': { name: "Eliza McGinley", years: "1852\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'p412': { name: "John McFarland", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'p413': { name: "Mary Shields", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'p414': { name: "Alex Craigie", years: "b. 1816, Fife", status: "probable", gen: 4, parents: ['p508','p509'], sources: [], suggestion: null },
+        'p415': { name: "Ann", years: "b. 1822, Fife", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+
+        'p500': { name: "Michael Mooney", years: "1798\u20131875", status: "confirmed", gen: 5, parents: ['p600','p601'], sources: [
+            {title: "Old Parish Register", meta: "b. 1798 Cavan, Ireland", status: "confirmed"},
+            {title: "Death Certificate", meta: "23 Mar 1875", status: "confirmed"}
+        ], suggestion: null },
+        'p501': { name: "Agnes Harrington", years: "1799\u20131857", status: "probable", gen: 5, parents: null, sources: [
+            {title: "Death Certificate", meta: "12 Nov 1857", status: "confirmed"}
+        ], suggestion: null },
+        'p502': { name: "David Graham", years: "1800\u2013?", status: "probable", gen: 5, parents: ['p602','p603'], sources: [
+            {title: "Marriage Certificate", meta: "12 Jun 1834", status: "confirmed"}
+        ], suggestion: null },
+        'p503': { name: "Elizabeth Rattray", years: "1810\u2013?", status: "probable", gen: 5, parents: ['p604','p605'], sources: [], suggestion: null },
+        'p504': { name: "John Reilly", years: "1821\u2013?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'p505': { name: "Catherine", years: "1822\u2013?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'p506': { name: "Francis Crawford", years: "?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'p507': { name: "Alice", years: "?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'p508': { name: "Peter McGinley", years: "?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'p509': { name: "Margaret", years: "?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+
+        'p600': { name: "Thomas Mooney", years: "b. ~1770 est.", status: "brickwall", gen: 6, parents: null, sources: [], suggestion: null },
+        'p601': { name: "Bridget Kelly", years: "?", status: "brickwall", gen: 6, parents: null, sources: [], suggestion: null },
+        'p602': { name: "David Graham", years: "?", status: "probable", gen: 6, parents: null, sources: [], suggestion: null },
+        'p603': { name: "Elizabeth McNauchton", years: "?", status: "probable", gen: 6, parents: null, sources: [], suggestion: null },
+        'p604': { name: "George Rattray", years: "?", status: "brickwall", gen: 6, parents: null, sources: [], suggestion: null },
+        'p605': { name: "?", years: "?", status: "brickwall", gen: 6, parents: null, sources: [], suggestion: null },
     };
 
     // ===== STATE =====
-    let rootPath = ['p00'];
+    let rootPath = ['p000'];
     let currentView = 'compact'; // 'compact' = 5 gens, 'full' = all
     let currentZoom = 1;
 
@@ -698,7 +713,7 @@
         currentView = view;
         document.getElementById('btnCompact').classList.toggle('active', view === 'compact');
         document.getElementById('btnFull').classList.toggle('active', view === 'full');
-        if (view === 'full') rootPath = ['p00'];
+        if (view === 'full') rootPath = ['p000'];
         rebuildBreadcrumbs();
         render();
     };
