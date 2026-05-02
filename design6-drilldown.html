@@ -503,9 +503,10 @@
         const gens = groupByGen(nodes);
         const numG = gens.length;
 
-        // sort each gen
+        // sort each gen (NUMERIC sort, not string sort — p49 < p410)
+        function idNum(id) { return parseInt(id.replace('p',''), 10); }
         for (let g = 0; g < numG; g++) {
-            if (gens[g]) gens[g].sort();
+            if (gens[g]) gens[g].sort((a,b) => idNum(a) - idNum(b));
         }
 
         // Build arrays
@@ -573,7 +574,21 @@
             }
         }
 
-        // Apply positions
+        // Collision resolution: if two cards in same gen overlap, push apart
+        for (let g = 0; g < numG; g++) {
+            if (!cards[g] || cards[g].length < 2) continue;
+            for (let pass = 0; pass < 3; pass++) {
+                let moved = false;
+                for (let i = 1; i < cards[g].length; i++) {
+                    const prevBottom = positions[g][i-1] + heights[g][i-1];
+                    if (positions[g][i] < prevBottom + 8) {
+                        positions[g][i] = prevBottom + 8;
+                        moved = true;
+                    }
+                }
+                if (!moved) break;
+            }
+        }
         for (let g = 0; g < numG; g++) {
             if (!cards[g]) continue;
             for (let i = 0; i < cards[g].length; i++) {
