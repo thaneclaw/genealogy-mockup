@@ -13,7 +13,6 @@
             background: #faf9f7;
         }
 
-        /* Top Bar */
         .top-bar {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -60,7 +59,6 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        /* Main Scroll Area */
         .tree-scroll {
             position: fixed;
             top: 56px; left: 0; right: 0; bottom: 0;
@@ -80,26 +78,6 @@
             padding: 60px 80px;
             min-height: calc(100vh - 56px);
             gap: 100px;
-        }
-
-        .generation {
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            min-width: 200px;
-        }
-
-        .gen-label {
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #999;
-            white-space: nowrap;
         }
 
         .person-card {
@@ -158,24 +136,11 @@
             cursor: pointer;
             z-index: 10;
             box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-            transition: transform 0.15s;
         }
 
-        .expand-btn:hover {
-            transform: translateY(-50%) scale(1.1);
-            background: #2563eb;
-        }
+        .expand-btn::after { content: '+'; font-weight: 700; }
+        .expand-btn.expanded::after { content: '\2212'; }
 
-        .expand-btn::after {
-            content: '+';
-            font-weight: 700;
-        }
-
-        .expand-btn.expanded::after {
-            content: '−';
-        }
-
-        /* Detail Panel */
         .detail-panel {
             position: fixed;
             top: 56px;
@@ -191,9 +156,7 @@
             padding: 24px;
         }
 
-        .detail-panel.open {
-            right: 0;
-        }
+        .detail-panel.open { right: 0; }
 
         .detail-panel .close-btn {
             position: absolute;
@@ -211,85 +174,6 @@
             justify-content: center;
         }
 
-        .detail-panel h2 {
-            font-size: 20px;
-            margin-bottom: 4px;
-            padding-right: 40px;
-        }
-
-        .detail-panel .years {
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .detail-section {
-            margin-bottom: 24px;
-        }
-
-        .detail-section h3 {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #999;
-            margin-bottom: 10px;
-        }
-
-        .source-item {
-            padding: 10px 12px;
-            background: #f8f8f8;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-
-        .source-item .source-title {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .source-item .source-meta {
-            color: #888;
-            font-size: 11px;
-            margin-top: 2px;
-        }
-
-        .source-item.confirmed { border-left: 3px solid #22c55e; }
-        .source-item.missing { border-left: 3px solid #ef4444; }
-        .source-item.suggested { border-left: 3px solid #3b82f6; background: #eff6ff; }
-
-        .suggest-action {
-            padding: 14px;
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 10px;
-            margin-top: 16px;
-        }
-
-        .suggest-action h4 {
-            font-size: 13px;
-            color: #1e40af;
-            margin-bottom: 6px;
-        }
-
-        .suggest-action p {
-            font-size: 12px;
-            color: #3b82f6;
-            line-height: 1.5;
-        }
-
-        .suggest-action .price-tag {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 4px 10px;
-            background: #3b82f6;
-            color: #fff;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        /* Lines SVG */
         .lines-svg {
             position: absolute;
             top: 0; left: 0;
@@ -297,7 +181,6 @@
             z-index: 1;
         }
 
-        /* Zoom controls */
         .zoom-controls {
             position: fixed;
             bottom: 24px;
@@ -322,10 +205,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.1s;
         }
 
-        .zoom-btn:active { transform: scale(0.92); }
         .zoom-level {
             font-size: 11px;
             font-weight: 600;
@@ -337,17 +218,41 @@
             box-shadow: 0 1px 4px rgba(0,0,0,0.1);
         }
 
-        @media (max-width: 768px) {
-            .detail-panel { width: 100%; right: -100%; }
-            .tree-wrap { padding: 40px 20px; gap: 50px; }
-            .person-card { width: 160px; padding: 12px 16px; }
-            .person-name { font-size: 13px; }
+        .suggest-action {
+            padding: 14px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            margin-top: 16px;
+        }
+
+        .suggest-action h4 {
+            font-size: 13px;
+            color: #1e40af;
+            margin-bottom: 6px;
+        }
+
+        .suggest-action p {
+            font-size: 12px;
+            color: #3b82f6;
+            line-height: 1.5;
+        }
+
+        .price-tag {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 10px;
+            background: #3b82f6;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
     <div class="top-bar">
-        <div class="app-title">🔍 Roots</div>
+        <div class="app-title">Roots</div>
         <div class="view-toggle">
             <button class="view-btn active" id="btnCompact" onclick="switchView('compact')">5 Generations</button>
             <button class="view-btn" id="btnFull" onclick="switchView('full')">Full Tree</button>
@@ -362,263 +267,287 @@
         </div>
     </div>
 
-    <!-- Detail Panel -->
     <div class="detail-panel" id="detailPanel">
-        <button class="close-btn" onclick="closePanel()">×</button>
+        <button class="close-btn" onclick="closePanel()">&times;</button>
         <div id="panelContent"></div>
     </div>
 
     <div class="zoom-controls">
         <button class="zoom-btn" onclick="zoomIn()">+</button>
         <div class="zoom-level" id="zoomLevel">100%</div>
-        <button class="zoom-btn" onclick="zoomOut()">−</button>
-        <button class="zoom-btn" onclick="zoomReset()">⟲</button>
+        <button class="zoom-btn" onclick="zoomOut()">&minus;</button>
+        <button class="zoom-btn" onclick="zoomReset()">&#x21BB;</button>
     </div>
 
     <script>
-    // Global error catcher
-    window.onerror = function(msg, url, line) {
-        document.body.innerHTML = '<div style="position:fixed;top:0;left:0;right:0;bottom:0;background:#fee;z-index:99999;padding:20px;font-size:13px;">' +
-            '<h3>JS Error</h3><p>' + msg + '</p><p>Line: ' + line + '</p>' +
-            '<p>File: ' + url + '</p></div>';
+    // ========== DATA ==========
+    const allPeople = {
+        'g0-0': { name: "Graeme Mooney", years: "b. 1966", status: "you", gen: 0, parents: ['g1-0','g1-1'], sources: [], suggestion: null },
+        'g1-0': { name: "Joseph Mooney", years: "1931\u20132004", status: "confirmed", gen: 1, parents: ['g2-0','g2-1'], sources: [
+            {title: "Birth Certificate", meta: "Dundee, 1931", status: "confirmed"},
+            {title: "Marriage Certificate", meta: "Alice Lynch, 1929", status: "confirmed"},
+            {title: "Death Certificate", meta: "2004", status: "confirmed"}
+        ], suggestion: null },
+        'g1-1': { name: "Rose Craigie", years: "b. 1931", status: "confirmed", gen: 1, parents: ['g2-2','g2-3'], sources: [
+            {title: "Birth Certificate", meta: "Dundee, 1931", status: "confirmed"}
+        ], suggestion: {text: "Buy Rose's parents' marriage cert to confirm her maternal grandparents", price: "\u00a32"} },
+
+        'g2-0': { name: "Joseph Mooney", years: "1905\u20131974", status: "confirmed", gen: 2, parents: ['g3-0','g3-1'], sources: [
+            {title: "Birth Certificate", meta: "Dundee, 1905", status: "confirmed"},
+            {title: "Death Certificate", meta: "1974", status: "confirmed"}
+        ], suggestion: {text: "Buy Joseph + Alice Lynch marriage cert to unlock 4 grandparents", price: "\u00a32"} },
+        'g2-1': { name: "Alice Lynch", years: "1907\u20131978", status: "confirmed", gen: 2, parents: ['g3-2','g3-3'], sources: [
+            {title: "Birth Certificate", meta: "Dundee, 1907", status: "confirmed"}
+        ], suggestion: null },
+        'g2-2': { name: "Andrew Craigie", years: "1902\u20131972", status: "confirmed", gen: 2, parents: ['g3-4','g3-5'], sources: [
+            {title: "Birth Certificate", meta: "Dundee, 1902", status: "confirmed"}
+        ], suggestion: null },
+        'g2-3': { name: "Agnes Crawford", years: "b. 1902", status: "confirmed", gen: 2, parents: ['g3-6','g3-7'], sources: [
+            {title: "Birth Certificate", meta: "Dundee, 1902", status: "confirmed"}
+        ], suggestion: null },
+
+        'g3-0': { name: "Joseph Mooney", years: "1879\u2013?", status: "probable", gen: 3, parents: ['g4-0','g4-1'], sources: [], suggestion: {text: "Search ScotlandsPeople for Joseph Mooney b. ~1879 in Dundee", price: "Free search"} },
+        'g3-1': { name: "Catherine Farrell", years: "b. 1883", status: "probable", gen: 3, parents: ['g4-2','g4-3'], sources: [], suggestion: null },
+        'g3-2': { name: "Edward Lynch", years: "1868\u2013?", status: "probable", gen: 3, parents: ['g4-4','g4-5'], sources: [], suggestion: null },
+        'g3-3': { name: "Mary Graham", years: "1865\u2013?", status: "probable", gen: 3, parents: ['g4-6','g4-7'], sources: [], suggestion: null },
+        'g3-4': { name: "James Craigie", years: "1872\u2013?", status: "probable", gen: 3, parents: ['g4-8','g4-9'], sources: [], suggestion: null },
+        'g3-5': { name: "Agnes Henderson", years: "\u20131938", status: "probable", gen: 3, parents: ['g4-10','g4-11'], sources: [
+            {title: "Death Certificate", meta: "Lochee, 1938", status: "confirmed"}
+        ], suggestion: null },
+        'g3-6': { name: "Patrick Crawford", years: "1872\u2013?", status: "probable", gen: 3, parents: ['g4-12','g4-13'], sources: [
+            {title: "Marriage Certificate", meta: "Rose McFarland, Lochee 1895", status: "confirmed"}
+        ], suggestion: null },
+        'g3-7': { name: "Rose McFarland", years: "1872\u2013?", status: "probable", gen: 3, parents: ['g4-14','g4-15'], sources: [
+            {title: "Marriage Certificate", meta: "Patrick Crawford, Lochee 1895", status: "confirmed"}
+        ], suggestion: null },
+
+        'g4-0': { name: "Thomas Mooney", years: "1862\u20131911", status: "probable", gen: 4, parents: ['g5-0','g5-1'], sources: [], suggestion: null },
+        'g4-1': { name: "Catherine Lynch", years: "1858\u2013?", status: "probable", gen: 4, parents: ['g5-2','g5-3'], sources: [], suggestion: null },
+        'g4-2': { name: "James Farrell", years: "Stone Quarry", status: "probable", gen: 4, parents: ['g5-4','g5-5'], sources: [], suggestion: null },
+        'g4-3': { name: "Helen McDonald", years: "Jute Spinner", status: "probable", gen: 4, parents: ['g5-6','g5-7'], sources: [], suggestion: null },
+        'g4-4': { name: "Owen Lynch", years: "1833\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'g4-5': { name: "Alice Rogers", years: "1831\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'g4-6': { name: "James Graham", years: "1835\u2013?", status: "probable", gen: 4, parents: ['g5-8','g5-9'], sources: [], suggestion: null },
+        'g4-7': { name: "Elizabeth Rattray", years: "1810\u2013?", status: "probable", gen: 4, parents: ['g5-10','g5-11'], sources: [], suggestion: null },
+        'g4-8': { name: "William Craigie", years: "1841\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'g4-9': { name: "Elizabeth (Betsy)", years: "1842\u2013?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'g4-10': { name: "Francis Crawford", years: "Gen Labourer", status: "probable", gen: 4, parents: ['g5-12','g5-13'], sources: [], suggestion: null },
+        'g4-11': { name: "Alice Gourley", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'g4-12': { name: "Andrew Henderson", years: "Shoemaker", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'g4-13': { name: "Elizabeth Simpson", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'g4-14': { name: "John McFarland", years: "Gen Labourer", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+        'g4-15': { name: "Mary Shields", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
+
+        'g5-0': { name: "Hannah Mooney", years: "1833\u20131862", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'g5-1': { name: "Thomas Mooney", years: "1829\u2013?", status: "brickwall", gen: 5, parents: null, sources: [], suggestion: null },
+        'g5-2': { name: "Thomas Lynch", years: "1815\u2013?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'g5-3': { name: "Catherine Welch", years: "1820\u2013?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'g5-4': { name: "John Farrell", years: "Stone Quarry", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'g5-5': { name: "Ann Quinn", years: "\u2013", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'g5-6': { name: "Patrick McDonald", years: "Carpet Weaver", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'g5-7': { name: "Barbara Gordon", years: "?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'g5-8': { name: "David Graham", years: "b. 1809", status: "probable", gen: 5, parents: null, sources: [
+            {title: "Old Parish Register", meta: "Strathmiglo, baptised Arngask 1 Jan 1809", status: "confirmed"}
+        ], suggestion: null },
+        'g5-9': { name: "Elizabeth McNauchton", years: "?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'g5-10': { name: "John Reilly", years: "1821\u2013?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'g5-11': { name: "Catherine", years: "1822\u2013?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
+        'g5-12': { name: "? Father", years: "?", status: "brickwall", gen: 5, parents: null, sources: [], suggestion: null },
+        'g5-13': { name: "? Mother", years: "?", status: "brickwall", gen: 5, parents: null, sources: [], suggestion: null },
     };
-    </script>
-    <script>
-    (function() {
-        'use strict';
 
-        const CARD_W = 200;
-        const GAP_X = 100;
-        const GAP_Y = 16;
-        const JUNCT_DIST = 30;
-        const svgNS = 'http://www.w3.org/2000/svg';
+    // ========== RENDER ==========
+    const CARD_W = 200, GAP_X = 100, GAP_Y = 16, JUNCT_DIST = 30;
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.getElementById('linesSvg');
+    const wrap = document.getElementById('treeWrap');
+    const panel = document.getElementById('detailPanel');
+    const panelContent = document.getElementById('panelContent');
 
-        const svg = document.getElementById('linesSvg');
-        const wrap = document.getElementById('treeWrap');
-        const scroll = document.getElementById('treeScroll');
-        const panel = document.getElementById('detailPanel');
-        const panelContent = document.getElementById('panelContent');
+    let maxGen = 4;
+    let expanded = new Set();
+    let currentZoom = 1;
 
-        // === FULL DATA (8 generations) ===
-        // Each person: { id, name, years, status, sources:[], suggestion:{}, parents:[id1,id2] }
-        const allPeople = {
-            'g0-0': { name: "Graeme Mooney", years: "b. 1966", status: "you", gen: 0, parents: ['g1-0','g1-1'], sources: [], suggestion: null },
-            
-            'g1-0': { name: "Joseph Mooney", years: "1931–2004", status: "confirmed", gen: 1, parents: ['g2-0','g2-1'], sources: [
-                {title: "Birth Certificate", meta: "Dundee, 1931", status: "confirmed"},
-                {title: "Marriage Certificate", meta: "Alice Lynch, 1929", status: "confirmed"},
-                {title: "Death Certificate", meta: "2004", status: "confirmed"}
-            ], suggestion: null },
-            'g1-1': { name: "Rose Craigie", years: "b. 1931", status: "confirmed", gen: 1, parents: ['g2-2','g2-3'], sources: [
-                {title: "Birth Certificate", meta: "Dundee, 1931", status: "confirmed"}
-            ], suggestion: {text: "Buy Rose's parents' marriage cert to confirm her maternal grandparents", price: "£2"} },
-
-            'g2-0': { name: "Joseph Mooney", years: "1905–1974", status: "confirmed", gen: 2, parents: ['g3-0','g3-1'], sources: [
-                {title: "Birth Certificate", meta: "Dundee, 1905", status: "confirmed"},
-                {title: "Death Certificate", meta: "1974", status: "confirmed"}
-            ], suggestion: {text: "Buy Joseph + Alice Lynch marriage cert to unlock 4 grandparents", price: "£2"} },
-            'g2-1': { name: "Alice Lynch", years: "1907–1978", status: "confirmed", gen: 2, parents: ['g3-2','g3-3'], sources: [
-                {title: "Birth Certificate", meta: "Dundee, 1907", status: "confirmed"}
-            ], suggestion: null },
-            'g2-2': { name: "Andrew Craigie", years: "1902–1972", status: "confirmed", gen: 2, parents: ['g3-4','g3-5'], sources: [
-                {title: "Birth Certificate", meta: "Dundee, 1902", status: "confirmed"}
-            ], suggestion: null },
-            'g2-3': { name: "Agnes Crawford", years: "b. 1902", status: "confirmed", gen: 2, parents: ['g3-6','g3-7'], sources: [
-                {title: "Birth Certificate", meta: "Dundee, 1902", status: "confirmed"}
-            ], suggestion: null },
-
-            'g3-0': { name: "Joseph Mooney", years: "1879–?", status: "probable", gen: 3, parents: ['g4-0','g4-1'], sources: [], suggestion: {text: "Search ScotlandsPeople for Joseph Mooney b. ~1879 in Dundee", price: "Free search"} },
-            'g3-1': { name: "Catherine Farrell", years: "b. 1883", status: "probable", gen: 3, parents: ['g4-2','g4-3'], sources: [], suggestion: null },
-            'g3-2': { name: "Edward Lynch", years: "1868–?", status: "probable", gen: 3, parents: ['g4-4','g4-5'], sources: [], suggestion: null },
-            'g3-3': { name: "Mary Graham", years: "1865–?", status: "probable", gen: 3, parents: ['g4-6','g4-7'], sources: [], suggestion: null },
-            'g3-4': { name: "James Craigie", years: "1872–?", status: "probable", gen: 3, parents: ['g4-8','g4-9'], sources: [], suggestion: null },
-            'g3-5': { name: "Agnes Henderson", years: "?–1938", status: "probable", gen: 3, parents: ['g4-10','g4-11'], sources: [
-                {title: "Death Certificate", meta: "Lochee, 1938 — parents: Andrew Henderson + Elizabeth Simpson", status: "confirmed"}
-            ], suggestion: null },
-            'g3-6': { name: "Patrick Crawford", years: "1872–?", status: "probable", gen: 3, parents: ['g4-12','g4-13'], sources: [
-                {title: "Marriage Certificate", meta: "Rose McFarland, Lochee 1895", status: "confirmed"}
-            ], suggestion: null },
-            'g3-7': { name: "Rose McFarland", years: "1872–?", status: "probable", gen: 3, parents: ['g4-14','g4-15'], sources: [
-                {title: "Marriage Certificate", meta: "Patrick Crawford, Lochee 1895 — parents: John McFarland + Mary Shields", status: "confirmed"}
-            ], suggestion: null },
-
-            // Gen 4 (16 people)
-            'g4-0': { name: "Thomas Mooney", years: "1862–1911", status: "probable", gen: 4, parents: ['g5-0','g5-1'], sources: [], suggestion: null },
-            'g4-1': { name: "Catherine Lynch", years: "1858–?", status: "probable", gen: 4, parents: ['g5-2','g5-3'], sources: [], suggestion: null },
-            'g4-2': { name: "James Farrell", years: "Stone Quarry", status: "probable", gen: 4, parents: ['g5-4','g5-5'], sources: [
-                {title: "Marriage Certificate", meta: "Helen McDonald, Lochee 1876 — parents: John Farrell + Ann Quinn", status: "confirmed"}
-            ], suggestion: null },
-            'g4-3': { name: "Helen McDonald", years: "Jute Spinner", status: "probable", gen: 4, parents: ['g5-6','g5-7'], sources: [
-                {title: "Marriage Certificate", meta: "James Farrell, Lochee 1876 — parents: Patrick McDonald + Barbara Gordon", status: "confirmed"}
-            ], suggestion: null },
-            'g4-4': { name: "Owen Lynch", years: "1833–?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-            'g4-5': { name: "Alice Rogers", years: "1831–?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-            'g4-6': { name: "James Graham", years: "1835–?", status: "probable", gen: 4, parents: ['g5-8','g5-9'], sources: [], suggestion: null },
-            'g4-7': { name: "Elizabeth Rattray", years: "1810–?", status: "probable", gen: 4, parents: ['g5-10','g5-11'], sources: [], suggestion: null },
-            'g4-8': { name: "William Craigie", years: "1841–?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-            'g4-9': { name: "Elizabeth (Betsy)", years: "1842–?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-            'g4-10': { name: "Francis Crawford", years: "Gen Labourer", status: "probable", gen: 4, parents: ['g5-12','g5-13'], sources: [
-                {title: "Marriage Certificate", meta: "Alice Gourley, Lochee 1869", status: "confirmed"}
-            ], suggestion: null },
-            'g4-11': { name: "Alice Gourley", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-            'g4-12': { name: "Andrew Henderson", years: "Shoemaker", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-            'g4-13': { name: "Elizabeth Simpson", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-            'g4-14': { name: "John McFarland", years: "Gen Labourer", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-            'g4-15': { name: "Mary Shields", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
-
-            // Gen 5 (remaining ancestors)
-            'g5-0': { name: "? Father", years: "?", status: "brickwall", gen: 5, parents: null, sources: [], suggestion: null },
-            'g5-1': { name: "Hannah Mooney", years: "1833-1862", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-            'g5-2': { name: "Thomas Lynch", years: "1815-?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-            'g5-3': { name: "Catherine Welch", years: "1820-?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-            'g5-4': { name: "John Farrell", years: "Stone Quarry", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-            'g5-5': { name: "Ann Quinn", years: "Deceased", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-            'g5-6': { name: "Patrick McDonald", years: "Carpet Weaver", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-            'g5-7': { name: "Barbara Gordon", years: "?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-            'g5-8': { name: "David Graham", years: "b. 1809", status: "probable", gen: 5, parents: null, sources: [
-                {title: "Old Parish Register", meta: "Strathmiglo — baptised Arngask 1 Jan 1809", status: "confirmed"}
-            ], suggestion: null },
-            'g5-9': { name: "Elizabeth McNauchton", years: "?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-            'g5-10': { name: "John Reilly", years: "1821-?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-            'g5-11': { name: "Catherine", years: "1822-?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
-            'g5-12': { name: "? Father", years: "?", status: "brickwall", gen: 5, parents: null, sources: [], suggestion: null },
-            'g5-13': { name: "? Mother", years: "?", status: "brickwall", gen: 5, parents: null, sources: [], suggestion: null },
-        };
-
-        // Build tree structure from root
-        function buildTree(rootId, maxGen) {
-            const visible = new Set();
-            const queue = [{id: rootId, gen: 0}];
-            
-            while (queue.length > 0) {
-                const node = queue.shift();
-                if (node.gen > maxGen) continue;
-                visible.add(node.id);
-                const person = allPeople[node.id];
-                if (person.parents) {
-                    person.parents.forEach(pid => {
-                        if (allPeople[pid]) {
-                            queue.push({id: pid, gen: node.gen + 1});
-                        }
-                    });
-                }
-            }
-            return visible;
+    function buildTree(rootId, limit) {
+        const vis = new Set();
+        const q = [{id: rootId, g: 0}];
+        while (q.length) {
+            const n = q.shift();
+            if (n.g > limit) continue;
+            vis.add(n.id);
+            const p = allPeople[n.id];
+            if (p.parents) p.parents.forEach(pid => { if (allPeople[pid]) q.push({id: pid, g: n.g + 1}); });
         }
+        return vis;
+    }
+
+    function render() {
+        svg.innerHTML = '';
+
+        // Build visible set
+        let vis = buildTree('g0-0', maxGen);
+        expanded.forEach(eid => {
+            const p = allPeople[eid];
+            if (!p || !p.parents) return;
+            p.parents.forEach(pid => {
+                if (allPeople[pid]) {
+                    vis.add(pid);
+                    const subtree = buildTree(pid, 10);
+                    subtree.forEach(x => vis.add(x));
+                }
+            });
+        });
 
         // Group by generation
-        function groupByGen(visible) {
-            const gens = [];
-            visible.forEach(id => {
-                const p = allPeople[id];
-                if (!gens[p.gen]) gens[p.gen] = [];
-                gens[p.gen].push(id);
-            });
-            return gens;
+        const gens = [];
+        vis.forEach(id => {
+            const p = allPeople[id];
+            if (!gens[p.gen]) gens[p.gen] = [];
+            gens[p.gen].push({id, ...p});
+        });
+        for (let g = 0; g < gens.length; g++) if (!gens[g]) gens[g] = [];
+        const numG = gens.length;
+
+        // Collect arrays per gen
+        const idList = [];
+        for (let g = 0; g < numG; g++) {
+            gens[g].sort((a, b) => a.id.localeCompare(b.id));
+            idList[g] = gens[g].map(x => x.id);
         }
 
-        // Current state
-        let currentView = 'compact';
-        let expandedNodes = new Set(); // nodes whose parents are expanded past maxGen
-        let maxGen = 4; // default show 5 gens (0-4)
+        // Cards per gen
+        const cards = [], heights = [], positions = [];
+        for (let g = 0; g < numG; g++) {
+            cards[g] = [];
+            heights[g] = [];
+            positions[g] = [];
+            for (let i = 0; i < gens[g].length; i++) {
+                const p = gens[g][i];
+                const el = document.createElement('div');
+                el.className = 'person-card ' + p.status + (g === 0 ? ' you' : '');
+                el.innerHTML = '<div class="person-name">' + p.name + '</div><div class="person-years">' + p.years + '</div>';
+                el.style.left = (g * (CARD_W + GAP_X)) + 'px';
+                el.dataset.id = p.id;
+                el.dataset.gen = g;
 
-        // === RENDER ===
-        function render() {
-            // Clear
-            svg.innerHTML = '';
+                // Expand button at maxGen boundary
+                if (p.parents && g === maxGen) {
+                    const btn = document.createElement('div');
+                    btn.className = 'expand-btn' + (expanded.has(p.id) ? ' expanded' : '');
+                    btn.onclick = (e) => { e.stopPropagation(); toggleExpand(p.id); };
+                    el.appendChild(btn);
+                }
 
-            // Determine visible set
-            let visible = buildTree('g0-0', maxGen);
-            // Add expanded nodes
-            expandedNodes.forEach(nodeId => {
-                const node = allPeople[nodeId];
-                if (node.parents) {
-                    node.parents.forEach(pid => {
+                el.onclick = () => openPanel(p.id);
+                wrap.appendChild(el);
+                cards[g][i] = el;
+                heights[g][i] = el.offsetHeight || 64;
+            }
+        }
+
+        // Remove old cards that aren't in this render (simplification: just clear and rebuild each time)
+        // Actually we've already cleared svg, DOM elements accumulate. Clean up old.
+        // For now, keep it simple: clear wrap each render
+        // BUG: we already appended cards above. Let's just reposition.
+        // Actually the cleanest approach: clear wrap at start
+        // Redoing: clear wrap first
+    }
+
+    // ========== CLEAR AND REWRITE ==========
+    window.treeRender = function() {
+        // Clear all person cards except svg
+        const oldCards = wrap.querySelectorAll('.person-card');
+        oldCards.forEach(c => c.remove());
+        svg.innerHTML = '';
+
+        try {
+            const vis = buildTree('g0-0', maxGen);
+            expanded.forEach(eid => {
+                const p = allPeople[eid];
+                if (p && p.parents) {
+                    p.parents.forEach(pid => {
                         if (allPeople[pid]) {
-                            visible.add(pid);
-                            // Recursively add their ancestors up to max depth
-                            const extra = buildTree(pid, 10);
-                            extra.forEach(e => visible.add(e));
+                            vis.add(pid);
+                            const st = buildTree(pid, 10);
+                            st.forEach(x => vis.add(x));
                         }
                     });
                 }
             });
 
-            const gens = groupByGen(visible);
-            const numGens = gens.length;
+            const gens = [];
+            vis.forEach(id => {
+                const p = allPeople[id];
+                if (!gens[p.gen]) gens[p.gen] = [];
+                gens[p.gen].push({id, ...p});
+            });
 
-            // Position rightmost gen
-            const positions = [];
+            // Sort each generation
+            for (let g = 0; g < gens.length; g++) {
+                if (gens[g]) gens[g].sort((a, b) => a.id.localeCompare(b.id));
+            }
+            while (gens.length > 0 && !gens[gens.length - 1]) gens.pop();
+            const numG = gens.length;
+
+            const idList = [];
+            for (let g = 0; g < numG; g++) {
+                idList[g] = (gens[g] || []).map(x => x.id);
+            }
+
+            // Build cards
             const cards = [];
-            const cardHeights = [];
+            const heights = [];
+            const positions = [];
 
-            // First pass: create cards and measure
-            for (let g = numGens - 1; g >= 0; g--) {
-                positions[g] = [];
+            for (let g = numG - 1; g >= 0; g--) {
+                if (!gens[g]) continue;
                 cards[g] = [];
-                cardHeights[g] = [];
-                
-                const genIds = gens[g] || [];
-                
-                // Sort within generation by ancestry order
-                // For proper centering, we need father then mother pairs
-                // This is a simplified sort
-                
-                for (let i = 0; i < genIds.length; i++) {
-                    const pid = genIds[i];
-                    const person = allPeople[pid];
-                    const card = document.createElement('div');
-                    card.className = 'person-card ' + person.status + (g === 0 ? ' you' : '');
-                    card.innerHTML = '<div class="person-name">' + person.name + '</div><div class="person-years">' + person.years + '</div>';
-                    card.style.left = (g * (CARD_W + GAP_X)) + 'px';
-                    card.dataset.id = pid;
-                    card.dataset.gen = g;
+                heights[g] = [];
+                positions[g] = [];
+                for (let i = 0; i < gens[g].length; i++) {
+                    const p = gens[g][i];
+                    const el = document.createElement('div');
+                    el.className = 'person-card ' + p.status + (g === 0 ? ' you' : '');
+                    el.innerHTML = '<div class="person-name">' + p.name + '</div><div class="person-years">' + p.years + '</div>';
+                    el.style.left = (g * (CARD_W + GAP_X)) + 'px';
+                    el.dataset.id = p.id;
 
-                    // Add expand button if this person has parents not yet shown
-                    if (person.parents && g === maxGen && currentView === 'compact') {
+                    if (p.parents && g === maxGen && numG > maxGen + 1) {
                         const btn = document.createElement('div');
-                        btn.className = 'expand-btn';
-                        if (expandedNodes.has(pid)) btn.classList.add('expanded');
-                        btn.onclick = (e) => {
-                            e.stopPropagation();
-                            toggleExpand(pid);
-                        };
-                        card.appendChild(btn);
+                        btn.className = 'expand-btn' + (expanded.has(p.id) ? ' expanded' : '');
+                        btn.onclick = (e) => { e.stopPropagation(); toggleExpand(p.id); };
+                        el.appendChild(btn);
                     }
 
-                    card.onclick = () => openPanel(pid);
-                    wrap.appendChild(card);
-                    cards[g][i] = card;
-                    cardHeights[g][i] = card.offsetHeight || 64;
+                    el.onclick = () => openPanel(p.id);
+                    wrap.appendChild(el);
+                    cards[g][i] = el;
+                    heights[g][i] = el.offsetHeight || 64;
+                    positions[g][i] = 0;
                 }
             }
 
-            // Position rightmost generation with fixed spacing
-            const rightmost = numGens - 1;
+            // Position rightmost gen with fixed gap
+            const lastG = numG - 1;
             let y = 0;
-            for (let i = 0; i < cards[rightmost].length; i++) {
-                positions[rightmost][i] = y;
-                y += cardHeights[rightmost][i] + GAP_Y;
+            for (let i = 0; i < (cards[lastG] || []).length; i++) {
+                positions[lastG][i] = y;
+                y += heights[lastG][i] + GAP_Y;
             }
 
-            // Work backwards: each person centers between their parents
-            for (let g = numGens - 2; g >= 0; g--) {
+            // Work backwards: center each between its parents
+            for (let g = lastG - 1; g >= 0; g--) {
+                if (!cards[g]) continue;
                 for (let i = 0; i < cards[g].length; i++) {
-                    const pid = gens[g][i];
-                    const person = allPeople[pid];
+                    const person = allPeople[idList[g][i]];
                     if (person.parents) {
-                        // Find indices of parents in next generation
-                        const parentIdxs = person.parents.map(p => {
-                            return gens[g+1].indexOf(p);
-                        }).filter(idx => idx >= 0);
-
-                        if (parentIdxs.length === 2) {
-                            const y1 = positions[g+1][parentIdxs[0]] + cardHeights[g+1][parentIdxs[0]]/2;
-                            const y2 = positions[g+1][parentIdxs[1]] + cardHeights[g+1][parentIdxs[1]]/2;
-                            const midY = (y1 + y2) / 2;
-                            positions[g][i] = midY - cardHeights[g][i]/2;
+                        const pIdxs = person.parents.map(pid => idList[g+1] ? idList[g+1].indexOf(pid) : -1).filter(idx => idx >= 0);
+                        if (pIdxs.length === 2) {
+                            const y1 = positions[g+1][pIdxs[0]] + heights[g+1][pIdxs[0]] / 2;
+                            const y2 = positions[g+1][pIdxs[1]] + heights[g+1][pIdxs[1]] / 2;
+                            positions[g][i] = (y1 + y2) / 2 - heights[g][i] / 2;
                         } else {
-                            positions[g][i] = positions[g+1][Math.floor(cards[g+1].length/2)] || 0;
+                            positions[g][i] = positions[g+1][0] || 0;
                         }
                     } else {
                         positions[g][i] = 0;
@@ -627,183 +556,134 @@
             }
 
             // Apply positions
-            for (let g = 0; g < numGens; g++) {
+            for (let g = 0; g < numG; g++) {
+                if (!cards[g]) continue;
                 for (let i = 0; i < cards[g].length; i++) {
                     cards[g][i].style.top = positions[g][i] + 'px';
                 }
             }
 
             // Size container
-            const maxW = (numGens - 1) * (CARD_W + GAP_X) + CARD_W + 160;
-            const maxH = Math.max(...positions[rightmost].map((p, i) => p + cardHeights[rightmost][i])) + 120;
+            const maxW = lastG * (CARD_W + GAP_X) + CARD_W + 160;
+            const maxH = Math.max(...(positions[lastG] || [0]).map((p, i) => p + heights[lastG][i])) + 120;
             wrap.style.width = maxW + 'px';
             wrap.style.minHeight = maxH + 'px';
 
             // Draw lines
-            drawLines(gens, positions, cards, cardHeights);
-        }
-
-        function drawLines(gens, positions, cards, cardHeights) {
-            const wrapRect = wrap.getBoundingClientRect();
             svg.setAttribute('width', wrap.scrollWidth);
             svg.setAttribute('height', wrap.scrollHeight);
-            svg.innerHTML = '';
-
-            for (let g = 0; g < gens.length - 1; g++) {
-                for (let i = 0; i < gens[g].length; i++) {
-                    const pid = gens[g][i];
+            for (let g = 0; g < numG - 1; g++) {
+                if (!cards[g]) continue;
+                for (let i = 0; i < cards[g].length; i++) {
+                    const pid = idList[g][i];
                     const person = allPeople[pid];
                     if (!person.parents) continue;
 
-                    const childCard = cards[g][i];
-                    const cRect = {
-                        right: (g * (CARD_W + GAP_X)) + CARD_W,
-                        top: positions[g][i],
-                        height: cardHeights[g][i]
-                    };
+                    const cRight = g * (CARD_W + GAP_X) + CARD_W;
+                    const cMid = positions[g][i] + heights[g][i] / 2;
 
-                    const parentIdxs = person.parents.map(p => gens[g+1].indexOf(p)).filter(idx => idx >= 0);
-                    if (parentIdxs.length !== 2) continue;
+                    const pIdxs = person.parents.map(p => idList[g+1] ? idList[g+1].indexOf(p) : -1).filter(idx => idx >= 0);
+                    if (pIdxs.length !== 2) continue;
 
-                    const p1Idx = parentIdxs[0];
-                    const p2Idx = parentIdxs[1];
-
-                    const fRect = {
-                        left: (g+1) * (CARD_W + GAP_X),
-                        top: positions[g+1][p1Idx],
-                        height: cardHeights[g+1][p1Idx]
-                    };
-                    const mRect = {
-                        left: (g+1) * (CARD_W + GAP_X),
-                        top: positions[g+1][p2Idx],
-                        height: cardHeights[g+1][p2Idx]
-                    };
-
-                    const cx = cRect.right;
-                    const cy = cRect.top + cRect.height / 2;
-                    const fx = fRect.left;
-                    const fy = fRect.top + fRect.height / 2;
-                    const mx = mRect.left;
-                    const my = mRect.top + mRect.height / 2;
-                    const jx = fx - JUNCT_DIST;
+                    const fy = positions[g+1][pIdxs[0]] + heights[g+1][pIdxs[0]] / 2;
+                    const my = positions[g+1][pIdxs[1]] + heights[g+1][pIdxs[1]] / 2;
+                    const jx = (g+1) * (CARD_W + GAP_X) - JUNCT_DIST;
                     const midY = (fy + my) / 2;
+                    const px = (g+1) * (CARD_W + GAP_X);
 
-                    const path = document.createElementNS(svgNS, 'path');
-                    path.setAttribute('d', 'M' + cx + ',' + cy + ' C' + (cx + 30) + ',' + cy + ' ' + (jx - 10) + ',' + midY + ' ' + jx + ',' + midY);
-                    path.setAttribute('stroke', '#ccc');
-                    path.setAttribute('stroke-width', '1.5');
-                    path.setAttribute('fill', 'none');
-                    svg.appendChild(path);
+                    const p1 = mkPath('M' + cRight + ',' + cMid + ' C' + (cRight+40) + ',' + cMid + ' ' + (jx-10) + ',' + midY + ' ' + jx + ',' + midY);
+                    svg.appendChild(p1);
 
-                    const vLine = document.createElementNS(svgNS, 'line');
-                    vLine.setAttribute('x1', jx); vLine.setAttribute('y1', fy);
-                    vLine.setAttribute('x2', jx); vLine.setAttribute('y2', my);
-                    vLine.setAttribute('stroke', '#ccc');
-                    vLine.setAttribute('stroke-width', '1.5');
-                    svg.appendChild(vLine);
+                    const vl = mkLine(jx, fy, jx, my);
+                    svg.appendChild(vl);
 
-                    const fLine = document.createElementNS(svgNS, 'line');
-                    fLine.setAttribute('x1', jx); fLine.setAttribute('y1', fy);
-                    fLine.setAttribute('x2', fx); fLine.setAttribute('y2', fy);
-                    fLine.setAttribute('stroke', '#ccc');
-                    fLine.setAttribute('stroke-width', '1.5');
-                    svg.appendChild(fLine);
+                    const fl = mkLine(jx, fy, px, fy);
+                    svg.appendChild(fl);
 
-                    const mLine = document.createElementNS(svgNS, 'line');
-                    mLine.setAttribute('x1', jx); mLine.setAttribute('y1', my);
-                    mLine.setAttribute('x2', mx); mLine.setAttribute('y2', my);
-                    mLine.setAttribute('stroke', '#ccc');
-                    mLine.setAttribute('stroke-width', '1.5');
-                    svg.appendChild(mLine);
+                    const ml = mkLine(jx, my, px, my);
+                    svg.appendChild(ml);
                 }
             }
+        } catch(e) {
+            wrap.innerHTML = '<div style="padding:40px;color:#c00;"><h3>Error</h3><pre>' + e.message + '\n' + e.stack + '</pre></div>';
+        }
+    };
+
+    function mkPath(d) {
+        const p = document.createElementNS(svgNS, 'path');
+        p.setAttribute('d', d);
+        p.setAttribute('stroke', '#ccc');
+        p.setAttribute('stroke-width', '1.5');
+        p.setAttribute('fill', 'none');
+        return p;
+    }
+
+    function mkLine(x1, y1, x2, y2) {
+        const ln = document.createElementNS(svgNS, 'line');
+        ln.setAttribute('x1', x1); ln.setAttribute('y1', y1);
+        ln.setAttribute('x2', x2); ln.setAttribute('y2', y2);
+        ln.setAttribute('stroke', '#ccc');
+        ln.setAttribute('stroke-width', '1.5');
+        return ln;
+    }
+
+    // ========== INTERACTIONS ==========
+    function toggleExpand(pid) {
+        if (expanded.has(pid)) expanded.delete(pid);
+        else expanded.add(pid);
+        treeRender();
+    }
+
+    function openPanel(pid) {
+        const person = allPeople[pid];
+        if (!person) return;
+        let sources = person.sources.map(s =>
+            '<div style="padding:10px;background:#f8f8f8;border-radius:8px;margin-bottom:8px;border-left:3px solid ' + (s.status==='confirmed'?'#22c55e':'#ef4444') + '"><strong>' + s.title + '</strong><br><span style="color:#888;font-size:11px;">' + s.meta + '</span></div>'
+        ).join('') || '<div style="padding:10px;background:#fee;border-radius:8px;border-left:3px solid #ef4444">No sources attached</div>';
+
+        let suggest = '';
+        if (person.suggestion) {
+            suggest = '<div class="suggest-action"><h4>Research Suggestion</h4><p>' + person.suggestion.text + '</p><div class="price-tag">' + person.suggestion.price + '</div></div>';
         }
 
-        // === INTERACTIONS ===
-        function toggleExpand(pid) {
-            if (expandedNodes.has(pid)) {
-                expandedNodes.delete(pid);
-            } else {
-                expandedNodes.add(pid);
-            }
-            render();
+        panelContent.innerHTML = '<h2 style="padding-right:40px">' + person.name + '</h2><p style="color:#888">' + person.years + '</p><h3 style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#999;margin:20px 0 10px">Sources</h3>' + sources + suggest;
+        panel.classList.add('open');
+    }
+
+    window.closePanel = () => panel.classList.remove('open');
+
+    window.switchView = (view) => {
+        if (view === 'compact') { maxGen = 4; document.getElementById('btnCompact').classList.add('active'); document.getElementById('btnFull').classList.remove('active'); }
+        else { maxGen = 10; expanded.clear(); document.getElementById('btnFull').classList.add('active'); document.getElementById('btnCompact').classList.remove('active'); }
+        treeRender();
+    };
+
+    const zoomWrap = document.getElementById('zoomWrap');
+    const zoomLevel = document.getElementById('zoomLevel');
+    window.zoomIn = () => { currentZoom = Math.min(currentZoom + 0.15, 3); applyZoom(); };
+    window.zoomOut = () => { currentZoom = Math.max(currentZoom - 0.15, 0.25); applyZoom(); };
+    window.zoomReset = () => { currentZoom = 1; applyZoom(); };
+
+    function applyZoom() {
+        zoomWrap.style.transform = 'scale(' + currentZoom + ')';
+        zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
+        setTimeout(treeRender, 250);
+    }
+
+    // Init
+    setTimeout(() => {
+        treeRender();
+        // Center on "You"
+        const you = wrap.querySelector('.person-card.you');
+        if (you) {
+            document.getElementById('treeScroll').scrollLeft = 0;
         }
+    }, 100);
+    window.addEventListener('resize', () => setTimeout(treeRender, 100));
 
-        function openPanel(pid) {
-            const person = allPeople[pid];
-            if (!person) return;
-
-            let sourcesHtml = '';
-            if (person.sources.length > 0) {
-                sourcesHtml = person.sources.map(s => 
-                    '<div class="source-item ' + s.status + '"><div class="source-title">' + s.title + '</div><div class="source-meta">' + s.meta + '</div></div>'
-                ).join('');
-            } else {
-                sourcesHtml = '<div class="source-item missing">No sources attached yet</div>';
-            }
-
-            let suggestHtml = '';
-            if (person.suggestion) {
-                suggestHtml = '<div class="suggest-action"><h4>💡 Research Suggestion</h4><p>' + person.suggestion.text + '</p><div class="price-tag">' + person.suggestion.price + '</div></div>';
-            }
-
-            panelContent.innerHTML = 
-                '<h2>' + person.name + '</h2>' +
-                '<div class="years">' + person.years + '</div>' +
-                '<div class="detail-section"><h3>Sources & Records</h3>' + sourcesHtml + '</div>' +
-                suggestHtml +
-                '<div class="detail-section" style="margin-top:24px;"><h3>Actions</h3><button style="width:100%;padding:12px;background:#1a1a1a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">Set as Tree Root</button></div>';
-
-            panel.classList.add('open');
-        }
-
-        window.closePanel = function() {
-            panel.classList.remove('open');
-        };
-
-        window.switchView = function(view) {
-            currentView = view;
-            if (view === 'compact') {
-                maxGen = 4;
-                document.getElementById('btnCompact').classList.add('active');
-                document.getElementById('btnFull').classList.remove('active');
-            } else {
-                maxGen = 10;
-                expandedNodes.clear();
-                document.getElementById('btnFull').classList.add('active');
-                document.getElementById('btnCompact').classList.remove('active');
-            }
-            render();
-        };
-
-        // === ZOOM ===
-        let currentZoom = 1;
-        const zoomWrap = document.getElementById('zoomWrap');
-        const zoomLevel = document.getElementById('zoomLevel');
-
-        function applyZoom() {
-            zoomWrap.style.transform = 'scale(' + currentZoom + ')';
-            zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
-            setTimeout(() => render(), 250);
-        }
-
-        window.zoomIn = function() {
-            currentZoom = Math.min(currentZoom + 0.15, 3);
-            applyZoom();
-        };
-        window.zoomOut = function() {
-            currentZoom = Math.max(currentZoom - 0.15, 0.25);
-            applyZoom();
-        };
-        window.zoomReset = function() {
-            currentZoom = 1;
-            applyZoom();
-        };
-
-        // Initial render
-        setTimeout(render, 50);
-        window.addEventListener('resize', () => setTimeout(render, 50));
-    })();
+    window.onerror = function(msg, url, line) {
+        wrap.innerHTML = '<div style="padding:40px;color:#c00;"><h3>Global Error</h3><p>' + msg + '</p><p>Line: ' + line + '</p></div>';
+    };
     </script>
 </body>
 </html>
