@@ -376,6 +376,14 @@
     </div>
 
     <script>
+    // Global error catcher
+    window.onerror = function(msg, url, line) {
+        document.body.innerHTML = '<div style="position:fixed;top:0;left:0;right:0;bottom:0;background:#fee;z-index:99999;padding:20px;font-size:13px;">' +
+            '<h3>JS Error</h3><p>' + msg + '</p><p>Line: ' + line + '</p>' +
+            '<p>File: ' + url + '</p></div>';
+    };
+    </script>
+    <script>
     (function() {
         'use strict';
 
@@ -386,6 +394,7 @@
         const svgNS = 'http://www.w3.org/2000/svg';
 
         const svg = document.getElementById('linesSvg');
+        const wrap = document.getElementById('treeWrap');
         const scroll = document.getElementById('treeScroll');
         const panel = document.getElementById('detailPanel');
         const panelContent = document.getElementById('panelContent');
