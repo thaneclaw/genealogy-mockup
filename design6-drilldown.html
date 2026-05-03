@@ -622,177 +622,229 @@
 
     // ===== RENDER =====
     function render() {
-        // Clean old
         wrap.querySelectorAll('.person-card').forEach(c => c.remove());
         svg.innerHTML = '';
 
         const rootId = rootPath[rootPath.length - 1];
-        const depth = currentView === 'compact' ? 4 : 10;
+        const maxDepth = currentView === 'compact' ? 4 : 10;
+        const COL_W = 300;
+        const CARD_H = 64;
+        const GAP = 14;
+        const K_SPRING = 0.25;
+        const K_REPULSE = 1.0;
+        const K_FRICTION = 0.88;
+        const MAX_ITER = 250;
 
-        const nodes = getParents(rootId, depth);
-        const gens = groupByGen(nodes);
-        const numG = gens.length;
+        // ---- 1. Collect visible nodes ----
+        const visible = new Set();
+        const depthOf = {};
+        function visit(id, d) {
+            if (d > maxDepth) return;
+            if (depthOf[id] !== undefined && depthOf[id] <= d) return;
+            depthOf[id] = d;
+            visible.add(id);
+            const p = allPeople[id];
+            if (p.parents) p.parents.forEach(par => { if (allPeople[par]) visit(par, d+1); });
+        }
+        visit(rootId, 0);
 
-        // sort each gen (NUMERIC sort, not string sort — p49 < p410)
-        function idNum(id) { return parseInt(id.replace('p',''), 10); }
-        for (let g = 0; g < numG; g++) {
-            if (gens[g]) gens[g].sort((a,b) => idNum(a) - idNum(b));
+        // ---- 2. Build children map ----
+        const childrenOf = {};
+        for (let id of visible) {
+            const p = allPeople[id];
+            if (p.parents) {
+                p.parents.forEach(par => {
+                    if (visible.has(par)) {
+                        if (!childrenOf[par]) childrenOf[par] = [];
+                        if (!childrenOf[par].includes(id)) childrenOf[par].push(id);
+                    }
+                });
+            }
         }
 
-        // Build arrays
-        const cards = [], heights = [], positions = [];
-        for (let g = 0; g < numG; g++) { cards[g] = []; heights[g] = []; positions[g] = []; }
+        // ---- 3. Group by generation ----
+        const gens = [];
+        for (let id of visible) {
+            const d = depthOf[id];
+            if (!gens[d]) gens[d] = [];
+            gens[d].push(id);
+        }
 
-        for (let g = numG - 1; g >= 0; g--) {
-            if (!gens[g]) continue;
-            for (let i = 0; i < gens[g].length; i++) {
-                const pid = gens[g][i];
-                const person = allPeople[pid];
+        // ---- 4. Initialize Y positions ----
+        // Leaves (oldest generation) get sequential Y, others start at 0
+        const y = {};
+        const maxGen = gens.length - 1;
+        for (let d = maxGen; d >= 0; d--) {
+            if (!gens[d]) continue;
+            // sort by ID for consistent initial ordering
+            gens[d].sort((a,b) => parseInt(a.replace('p',''),10) - parseInt(b.replace('p',''),10));
+            if (d === maxGen) {
+                // Oldest generation: spread them out
+                gens[d].forEach((id, i) => { y[id] = 100 + i * (CARD_H + GAP * 1.5); });
+            } else {
+                gens[d].forEach(id => { y[id] = 0; });
+            }
+        }
+
+        // ---- 5. Spring relaxation ----
+        let vy = {};
+        for (let iter = 0; iter < MAX_ITER; iter++) {
+            let maxMove = 0;
+
+            // Process generations from oldest (parents) to youngest (root)
+            // This ensures leaf Ys are stable before their children settle
+            for (let d = maxGen; d >= 0; d--) {
+                if (!gens[d]) continue;
+
+                for (let id of gens[d]) {
+                    let force = 0;
+
+                    // Spring: pulled toward average of children's Y positions
+                    const children = childrenOf[id] || [];
+                    if (children.length > 0) {
+                        const avg = children.reduce((s, c) => s + y[c], 0) / children.length;
+                        force += K_SPRING * (avg - y[id]);
+                    }
+
+                    // Spring: pulled toward average of parents' Y positions (for smoother convergence)
+                    const myParents = allPeople[id].parents;
+                    if (myParents && myParents.length > 0) {
+                        const validParents = myParents.filter(pid => visible.has(pid) && y[pid] !== undefined);
+                        if (validParents.length > 0) {
+                            const avgP = validParents.reduce((s, p) => s + y[p], 0) / validParents.length;
+                            force -= K_SPRING * 0.3 * (y[id] - avgP); // weaker pull to parents
+                        }
+                    }
+
+                    // Repulsion from same-generation neighbors
+                    for (let other of gens[d]) {
+                        if (other === id) continue;
+                        const dy = y[other] - y[id];
+                        const minSep = CARD_H + GAP;
+                        if (dy > 0 && dy < minSep) {
+                            force -= K_REPULSE * (minSep - dy); // other below me, push me up
+                        } else if (dy < 0 && Math.abs(dy) < minSep) {
+                            force += K_REPULSE * (minSep - Math.abs(dy)); // other above me, push me down
+                        }
+                    }
+
+                    vy[id] = (vy[id] || 0) + force;
+                    vy[id] *= K_FRICTION;
+                    const move = vy[id];
+                    y[id] += move;
+                    maxMove = Math.max(maxMove, Math.abs(move));
+                }
+            }
+
+            if (maxMove < 0.05) break;
+        }
+
+        // ---- 6. Post-process: enforce exact gaps ----
+        for (let d = 0; d <= maxGen; d++) {
+            if (!gens[d]) continue;
+            gens[d].sort((a, b) => y[a] - y[b]);
+            for (let i = 1; i < gens[d].length; i++) {
+                const prev = gens[d][i-1];
+                const curr = gens[d][i];
+                const minY = y[prev] + CARD_H + GAP;
+                if (y[curr] < minY) y[curr] = minY;
+            }
+            // One more pass to re-center any single-parent nodes that got pushed
+        }
+
+        // ---- 7. Create DOM elements ----
+        const cardMap = {};
+        for (let d = 0; d <= maxGen; d++) {
+            if (!gens[d]) continue;
+            for (let id of gens[d]) {
+                const person = allPeople[id];
                 const el = document.createElement('div');
-                const isRoot = (pid === rootId);
-                el.className = 'person-card ' + person.status + (isRoot ? ' root' : '');
+                el.className = 'person-card ' + person.status + (id === rootId ? ' root' : '');
                 el.innerHTML = '<div class="person-name">' + person.name + '</div><div class="person-years">' + person.years + '</div>';
-                el.style.left = (g * 300) + 'px';
-                el.dataset.pid = pid;
+                el.style.left = (d * COL_W) + 'px';
+                el.style.top = y[id] + 'px';
+                el.dataset.pid = id;
 
-                // Drill-down button on leaf nodes that have parents
-                if (person.parents && g === numG - 1 && currentView === 'compact') {
+                if (person.parents && d === maxGen && currentView === 'compact') {
                     const btn = document.createElement('div');
                     btn.className = 'drill-btn';
                     btn.innerHTML = '&rarr;';
                     btn.title = 'Drill into this branch';
-                    btn.onclick = (e) => { e.stopPropagation(); drillDown(pid); };
+                    btn.onclick = (e) => { e.stopPropagation(); drillDown(id); };
                     el.appendChild(btn);
                 }
 
-                el.onclick = () => openPanel(pid);
+                el.onclick = () => openPanel(id);
                 wrap.appendChild(el);
-                cards[g][i] = el;
-                heights[g][i] = el.offsetHeight || 64;
-                positions[g][i] = 0;
+                cardMap[id] = el;
             }
         }
 
-        const lastG = numG - 1;
-
-        // Initialize all positions to 0
-        for (let g = 0; g < numG; g++) {
-            if (!cards[g]) continue;
-            for (let i = 0; i < cards[g].length; i++) {
-                positions[g][i] = 0;
+        // ---- 8. Resize container ----
+        let maxY = 0;
+        for (let d = 0; d <= maxGen; d++) {
+            if (!gens[d]) continue;
+            for (let id of gens[d]) {
+                maxY = Math.max(maxY, y[id] + CARD_H);
             }
         }
-
-        // Iterative layout: bottom-up centering + collision resolution
-        for (let pass = 0; pass < 15; pass++) {
-            let moved = false;
-
-            // Bottom-up: center each parent between its children
-            for (let g = lastG - 1; g >= 0; g--) {
-                if (!cards[g]) continue;
-                for (let i = 0; i < cards[g].length; i++) {
-                    const pid = gens[g][i];
-                    const person = allPeople[pid];
-                    if (!person.parents) continue;
-
-                    const idxs = person.parents.map(p => gens[g+1] ? gens[g+1].indexOf(p) : -1).filter(x => x >= 0);
-                    if (idxs.length === 0) continue;
-
-                    let target;
-                    if (idxs.length === 2) {
-                        const y1 = positions[g+1][idxs[0]] + heights[g+1][idxs[0]] / 2;
-                        const y2 = positions[g+1][idxs[1]] + heights[g+1][idxs[1]] / 2;
-                        target = (y1 + y2) / 2 - heights[g][i] / 2;
-                    } else {
-                        target = positions[g+1][idxs[0]] + heights[g+1][idxs[0]] / 2 - heights[g][i] / 2;
-                    }
-
-                    if (Math.abs(positions[g][i] - target) > 0.5) {
-                        positions[g][i] = target;
-                        moved = true;
-                    }
-                }
-            }
-
-            // Top-down collision: push apart overlapping cards (and all cards after them)
-            for (let g = 0; g < numG; g++) {
-                if (!cards[g] || cards[g].length < 2) continue;
-                for (let i = 1; i < cards[g].length; i++) {
-                    const prevBottom = positions[g][i-1] + heights[g][i-1];
-                    if (positions[g][i] < prevBottom + 8) {
-                        const shift = (prevBottom + 8) - positions[g][i];
-                        for (let j = i; j < cards[g].length; j++) {
-                            positions[g][j] += shift;
-                        }
-                        moved = true;
-                    }
-                }
-            }
-
-            if (!moved) break;
-        }
-        for (let g = 0; g < numG; g++) {
-            if (!cards[g]) continue;
-            for (let i = 0; i < cards[g].length; i++) {
-                cards[g][i].style.top = positions[g][i] + 'px';
-            }
-        }
-
-        // Container sizing
-        const maxW = (numG - 1) * 300 + 200 + 160;
-        const maxH = (positions[lastG] || []).length ? Math.max(...positions[lastG].map((p, i) => p + heights[lastG][i])) + 120 : 400;
+        const maxW = maxGen * COL_W + 200 + 160;
         wrap.style.width = maxW + 'px';
-        wrap.style.minHeight = maxH + 'px';
+        wrap.style.minHeight = (maxY + 100) + 'px';
 
-        // Draw lines
+        // ---- 9. Draw SVG lines ----
         svg.setAttribute('width', wrap.scrollWidth);
         svg.setAttribute('height', wrap.scrollHeight);
         const svgNS = 'http://www.w3.org/2000/svg';
 
-        for (let g = 0; g < numG - 1; g++) {
-            if (!cards[g]) continue;
-            for (let i = 0; i < cards[g].length; i++) {
-                const pid = gens[g][i];
-                const person = allPeople[pid];
+        for (let d = 0; d < maxGen; d++) {
+            if (!gens[d]) continue;
+            for (let id of gens[d]) {
+                const person = allPeople[id];
                 if (!person.parents) continue;
 
-                const cRight = g * 300 + 200;
-                const cMid = positions[g][i] + heights[g][i] / 2;
+                const cMidX = d * COL_W + 200;
+                const cMidY = y[id] + CARD_H / 2;
 
-                const idxs = person.parents.map(p => gens[g+1] ? gens[g+1].indexOf(p) : -1).filter(x => x >= 0);
-                if (idxs.length === 0) continue;
+                const validParents = person.parents.filter(pid => visible.has(pid));
+                if (validParents.length === 0) continue;
 
-                if (idxs.length === 2) {
-                    const fy = positions[g+1][idxs[0]] + heights[g+1][idxs[0]] / 2;
-                    const my = positions[g+1][idxs[1]] + heights[g+1][idxs[1]] / 2;
-                    const jx = (g+1) * 300 - 30;
+                if (validParents.length === 2) {
+                    const fId = validParents[0], mId = validParents[1];
+                    const fy = y[fId] + CARD_H / 2;
+                    const my = y[mId] + CARD_H / 2;
+                    const jx = (d+1) * COL_W - 30;
                     const midY = (fy + my) / 2;
-                    const px = (g+1) * 300;
+                    const px = (d+1) * COL_W;
 
                     const p1 = document.createElementNS(svgNS, 'path');
-                    p1.setAttribute('d', 'M' + cRight + ',' + cMid + ' C' + (cRight+40) + ',' + cMid + ' ' + (jx-10) + ',' + midY + ' ' + jx + ',' + midY);
+                    p1.setAttribute('d', 'M' + cMidX + ',' + cMidY + ' C' + (cMidX+40) + ',' + cMidY + ' ' + (jx-10) + ',' + midY + ' ' + jx + ',' + midY);
                     p1.setAttribute('stroke', '#ccc'); p1.setAttribute('stroke-width', '1.5'); p1.setAttribute('fill', 'none');
                     svg.appendChild(p1);
 
                     const vl = document.createElementNS(svgNS, 'line');
-                    vl.setAttribute('x1', jx); vl.setAttribute('y1', fy); vl.setAttribute('x2', jx); vl.setAttribute('y2', my);
+                    vl.setAttribute('x1', jx); vl.setAttribute('y1', fy);
+                    vl.setAttribute('x2', jx); vl.setAttribute('y2', my);
                     vl.setAttribute('stroke', '#ccc'); vl.setAttribute('stroke-width', '1.5');
                     svg.appendChild(vl);
 
                     const fl = document.createElementNS(svgNS, 'line');
-                    fl.setAttribute('x1', jx); fl.setAttribute('y1', fy); fl.setAttribute('x2', px); fl.setAttribute('y2', fy);
+                    fl.setAttribute('x1', jx); fl.setAttribute('y1', fy);
+                    fl.setAttribute('x2', px); fl.setAttribute('y2', fy);
                     fl.setAttribute('stroke', '#ccc'); fl.setAttribute('stroke-width', '1.5');
                     svg.appendChild(fl);
 
                     const ml = document.createElementNS(svgNS, 'line');
-                    ml.setAttribute('x1', jx); ml.setAttribute('y1', my); ml.setAttribute('x2', px); ml.setAttribute('y2', my);
+                    ml.setAttribute('x1', jx); ml.setAttribute('y1', my);
+                    ml.setAttribute('x2', px); fl.setAttribute('y2', my);
                     ml.setAttribute('stroke', '#ccc'); ml.setAttribute('stroke-width', '1.5');
                     svg.appendChild(ml);
                 } else {
-                    const fy = positions[g+1][idxs[0]] + heights[g+1][idxs[0]] / 2;
-                    const px = (g+1) * 300;
+                    const pId = validParents[0];
+                    const py = y[pId] + CARD_H / 2;
+                    const px = (d+1) * COL_W;
                     const ln = document.createElementNS(svgNS, 'path');
-                    ln.setAttribute('d', 'M' + cRight + ',' + cMid + ' C' + (cRight+40) + ',' + cMid + ' ' + (px-40) + ',' + fy + ' ' + px + ',' + fy);
+                    ln.setAttribute('d', 'M' + cMidX + ',' + cMidY + ' C' + (cMidX+40) + ',' + cMidY + ' ' + (px-40) + ',' + py + ' ' + px + ',' + py);
                     ln.setAttribute('stroke', '#ccc'); ln.setAttribute('stroke-width', '1.5'); ln.setAttribute('fill', 'none');
                     svg.appendChild(ln);
                 }
