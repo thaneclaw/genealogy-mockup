@@ -346,7 +346,8 @@
     </div>
 
     <script>
-    // ===== DATA =====    const allPeople = {
+    // ===== DATA =====
+    const allPeople = {
         'p000': { name: "Graeme Mooney", years: "b. 1966", status: "you", gen: 0, parents: ['p100','p101'], sources: [], suggestion: null },
 
         'p100': { name: "Joseph Mooney", years: "1931–2004", status: "confirmed", gen: 1, parents: ['p200','p201'], sources: [
@@ -391,22 +392,16 @@
             {title: "1871 Census", meta: "29 Blackness Rd, Dundee — daughter of James Graham (34, Shoemaker) + Ann (25). Mary age 2.", status: "confirmed"}
         ], suggestion: {text: "Search marriage of Edward Lynch + Mary J. Graham, or birth cert for Mary J. Graham", price: "Free"} },
         'p320': { name: "James Craigie", years: "~1872–?", status: "confirmed", gen: 3, parents: ['p440','p441'], sources: [
-            {title: "1901 Census", meta: "Glencraig Cottages, Fife — age 28, Coal Miner. Wife Agnes (26) [Agnes B. Henderson]. Children: Elizabeth (10m), James (2). Boarder Andrew Henderson (12, brother-in-law).", status: "confirmed"}
+            {title: "1901 Census", meta: "Glencraig Cottages, Fife — age 28, Coal Miner. Wife Agnes (26) [Agnes B. Henderson].", status: "confirmed"}
         ], suggestion: null },
         'p321': { name: "Agnes Henderson", years: "~1875–?", status: "probable", gen: 3, parents: ['p450','p451'], sources: [
             {title: "1881 Census", meta: "Castle St, Clackmannan — daughter of Andrew Henderson (31, Shoemaker) + Eliza (31). Agnes B. age 5.", status: "confirmed"}
         ], suggestion: {text: "Search marriage of James Craigie + Agnes Henderson, or birth cert for Agnes Henderson", price: "Free"} },
-        'p330': { name: "Francis Crawford", years: "1850–?", status: "probable", gen: 3, parents: ['p460','p461'], sources: [
+        'p330': { name: "Francis Crawford", years: "1850–?", status: "probable", gen: 3, parents: null, sources: [
             {title: "Marriage Certificate", meta: "Eliza McGinley, 22 Jan 1869 — Power Loom Tenter, age 19. Parents: Francis Crawford + Alice Crawford", status: "confirmed"}
         ], suggestion: null },
         'p331': { name: "Eliza McGinley", years: "1852–?", status: "probable", gen: 3, parents: null, sources: [
             {title: "Marriage Certificate", meta: "Francis Crawford, 22 Jan 1869 — age 17. Parents: Peter McLinley + Frances McLinley", status: "confirmed"}
-        ], suggestion: null },
-        'p340': { name: "Patrick Crawford", years: "1872–?", status: "probable", gen: 3, parents: null, sources: [
-            {title: "Marriage Certificate", meta: "Rose Anna McFarline, Lochee 1895", status: "confirmed"}
-        ], suggestion: null },
-        'p341': { name: "Rose Anna McFarline", years: "1872–?", status: "probable", gen: 3, parents: null, sources: [
-            {title: "Marriage Certificate", meta: "Patrick Crawford, Lochee 1895", status: "confirmed"}
         ], suggestion: null },
 
         'p400': { name: "Thomas Mooney", years: "1857–1911", status: "confirmed", gen: 4, parents: ['p500'], sources: [
@@ -415,8 +410,8 @@
             {title: "1891 Census", meta: "4 Albert St, Lochee — age 33, Fireman. Children: Joseph (12), Hannah (8), Agnes (6), Catherine (4), John (1)", status: "confirmed"}
         ], suggestion: {text: "Age discrepancy: birth cert says b.1857 (~age 54 at death) but death cert says age 49. Occupation varies: Fireman (1891), Mason's Lab (1901), Jute Mill Worker (1911).", price: "Free"} },
         'p401': { name: "Catherine Lynch", years: "~1858–?", status: "confirmed", gen: 4, parents: ['p510','p511'], sources: [
-            {title: "Marriage Certificate", meta: "Lochee, 30 Jan 1880 — Age 22. Spinster, Spinner (Jute Mill), 7 Albert Street. Parents: Thomas Lynch (Weaver) + Catherine Lynch M.S. Welsh.", status: "confirmed"},
-            {title: "1901 Census", meta: "Living with son John (19), daughter Susan (7). Not with husband (he died 1911). Address: 19 Rosebank St. Likely widowed.", status: "confirmed"}
+            {title: "Marriage Certificate", meta: "Lochee, 30 Jan 1880 — Age 22. Spinster, Spinner (Jute Mill). Parents: Thomas Lynch (Weaver) + Catherine Lynch M.S. Welsh.", status: "confirmed"},
+            {title: "1901 Census", meta: "Living with son John (19), daughter Susan (7). Address: 19 Rosebank St.", status: "confirmed"}
         ], suggestion: null },
         'p410': { name: "Owen Lynch", years: "~1834–?", status: "probable", gen: 4, parents: ['p540','p541'], sources: [
             {title: "1851 Census", meta: "Dundee — age 17, Millworker, cousin in household. Born Ireland.", status: "confirmed"},
@@ -424,24 +419,23 @@
         ], suggestion: null },
         'p411': { name: "Alice Rogers", years: "~1841–1892", status: "confirmed", gen: 4, parents: ['p542','p543'], sources: [
             {title: "1853 Marriage", meta: "Married Owen Lynch 22 Apr 1853 — 'of this parish'", status: "confirmed"},
-            {title: "1892 Death", meta: "Died 5 Aug 1892, age 51. Wife of Owen Lynch (Jute Batcher). Parents: John Rogers (Crofter) + Alice Smith.", status: "confirmed"},
-            {title: "1871 Census", meta: "141 Scouringburn — wife of Owen Lynch, age 30. Children: Edward (4), John (3), Mary (1).", status: "confirmed"}
+            {title: "1892 Death", meta: "Died 5 Aug 1892, age 51. Wife of Owen Lynch (Jute Batcher). Parents: John Rogers (Crofter) + Alice Smith.", status: "confirmed"}
         ], suggestion: null },
         'p420': { name: "James Farrell", years: "~1855–?", status: "confirmed", gen: 4, parents: ['p520','p521'], sources: [
             {title: "Marriage Certificate", meta: "Lochee, 24 Nov 1876 — Age 21. Stone Quarry Worker. Parents: John Farrell (Stone Quarry Worker) + Ann Quinn (deceased).", status: "confirmed"},
-            {title: "1901 Census", meta: "80 Liff Road, Lochee — father present. Listed as Yarn Dresser on daughter's 1904 marriage (occupation changed)", status: "confirmed"}
+            {title: "1901 Census", meta: "80 Liff Road, Lochee — father present. Listed as Yarn Dresser on daughter's 1904 marriage.", status: "confirmed"}
         ], suggestion: null },
         'p421': { name: "Helen McDonald", years: "~1857–<1904", status: "confirmed", gen: 4, parents: ['p530','p531'], sources: [
             {title: "Marriage Certificate", meta: "Lochee, 24 Nov 1876 — Age 19. Parents: Patrick McDonald (Carpet Weaver) + Barbara Gordon (deceased).", status: "confirmed"},
             {title: "1904 Daughter's Marriage", meta: "Listed as deceased by 1904. M.S. McDonald.", status: "confirmed"}
         ], suggestion: null },
         'p430': { name: "James Graham", years: "~1837–?", status: "probable", gen: 4, parents: null, sources: [
-            {title: "1871 Census", meta: "29 Blackness Rd, Dundee — head, age 34, Shoemaker. Wife Ann (25). Children: John (7), Patrick (4), James (11m). Mary age 2 (Mary J. Graham).", status: "confirmed"}
+            {title: "1871 Census", meta: "29 Blackness Rd, Dundee — head, age 34, Shoemaker. Wife Ann (25). Children: John (7), Patrick (4), James (11m). Mary age 2.", status: "confirmed"}
         ], suggestion: null },
         'p431': { name: "Ann", years: "~1846–?", status: "probable", gen: 4, parents: null, sources: [
             {title: "1871 Census", meta: "29 Blackness Rd — wife of James Graham, age 25", status: "probable"}
         ], suggestion: null },
-        'p440': { name: "William Craigie", years: "~1841–?", status: "probable", gen: 4, parents: null, sources: [
+        'p440': { name: "William Craigie", years: "~1841–?", status: "probable", gen: 4, parents: ['p550','p551'], sources: [
             {title: "1851 Census", meta: "Russell St, Auchterderran — age 10, born Kennoway. Parents: William (50, Coal Miner) + Betsy (48).", status: "confirmed"}
         ], suggestion: null },
         'p441': { name: "Betsy", years: "~1843–?", status: "probable", gen: 4, parents: null, sources: [
@@ -453,45 +447,38 @@
         'p451': { name: "Eliza", years: "~1850–?", status: "probable", gen: 4, parents: null, sources: [
             {title: "1881 Census", meta: "Castle St, Clackmannan — wife of Andrew Henderson, age 31", status: "probable"}
         ], suggestion: null },
-        'p460': { name: "Francis Crawford", years: "~1850–?", status: "probable", gen: 4, parents: null, sources: [
-            {title: "1869 Marriage", meta: "Francis Crawford (Power Loom Tenter, age 19) + Elizabeth McLinley — Parents: Francis Crawford + Alice Crawford", status: "confirmed"}
-        ], suggestion: null },
-        'p461': { name: "Alice Crawford", years: "?", status: "probable", gen: 4, parents: null, sources: [
-            {title: "1869 Marriage", meta: "Mother of Francis Crawford (groom)", status: "probable"}
-        ], suggestion: null },
 
         'p500': { name: "Hannah Mooney", years: "~1833–1863", status: "confirmed", gen: "interp", parents: ['p600','p601'], sources: [
-            {title: "Death Certificate", meta: "Lochee, 18 Feb 1863 — Age 30 (b. ~1833). Jute Millworker (Single). Died Liff Road. Cause: Suicide by Vitriol (3 weeks). Father: Michael Mooney, General Labourer. Mother: Agnes Mooney M.S. Harrington (deceased). Brother James Mooney informant (+ mark).", status: "confirmed"},
-            {title: "1851 Census", meta: "North Road, Lochee — age 17, Jute Millworker. Parents: Michael (50) + Nancy [Agnes] (52). Siblings: Mary (30), James (24), Nancy (15).", status: "confirmed"},
-            {title: "1861 Census", meta: "Liff Road, Lochee — age 28, Flax Millworker. Living with father Michael (63). Son Thomas (4) present.", status: "confirmed"},
-            {title: "Birth Cert child (Thomas)", meta: "Lochee, 22 Mar 1857 — mother Hannah Mooney Mill Worker (illegitimate, no father). Age ~24 at birth.", status: "confirmed"}
-        ], suggestion: {text: "Census vs death cert age: 1851 says 17 (b.~1834), 1861 says 28 (b.~1833), death cert says 30 (b.~1833). All consistent. Born in Ireland (per 1851 census birthplace for children)", price: "Free"} },
+            {title: "Death Certificate", meta: "Lochee, 18 Feb 1863 — Age 30 (b. ~1833). Jute Millworker (Single). Cause: Suicide by Vitriol. Father: Michael Mooney. Mother: Agnes Mooney M.S. Harrington (deceased). Brother James Mooney informant (+ mark).", status: "confirmed"},
+            {title: "1851 Census", meta: "North Road, Lochee — age 17. Parents: Michael (50) + Nancy [Agnes] (52). Siblings: Mary (30), James (24), Nancy (15).", status: "confirmed"},
+            {title: "1861 Census", meta: "Liff Road, Lochee — age 28, Flax Millworker. Living with father Michael (63). Son Thomas (4).", status: "confirmed"}
+        ], suggestion: {text: "Census vs death cert age: 1851 says 17 (b.~1834), 1861 says 28 (b.~1833), death cert says 30 (b.~1833). All consistent. Born Ireland.", price: "Free"} },
         'p510': { name: "Thomas Lynch", years: "~1819–1892", status: "confirmed", gen: 5, parents: ['p610','p611'], sources: [
-            {title: "1880 Marriage (Catherine)", meta: "Lochee, 30 Jan 1880 — listed as father. Weaver. Wife Catherine Welsh. Born Maryborough, Queen's Co (now Laois), Ireland.", status: "confirmed"},
-            {title: "1892 Death", meta: "Died 22 Jun 1892, age 73. Weaver. Married to Catherine Welsh. Parents: John Lynch (Laborer) + Betty Dillon.", status: "confirmed"},
-            {title: "1891 Census", meta: "Liff Road, Lochee — age 72, Retired Weaver. Wife Catherine (60) + grandchildren. Born Maryborough, Queen's Co, Ireland.", status: "confirmed"}
+            {title: "1880 Marriage", meta: "Lochee, 30 Jan 1880 — Father of Catherine Lynch. Weaver. Born Maryborough, Queen's Co (now Laois), Ireland.", status: "confirmed"},
+            {title: "1892 Death", meta: "Died 22 Jun 1892, age 73. Weaver. Parents: John Lynch (Laborer) + Betty Dillon.", status: "confirmed"},
+            {title: "1891 Census", meta: "Liff Road — age 72, Retired Weaver. Wife Catherine (60). Born Maryborough, Queen's Co.", status: "confirmed"}
         ], suggestion: null },
         'p511': { name: "Catherine Welsh", years: "~1833–1899", status: "confirmed", gen: 5, parents: ['p612','p613'], sources: [
-            {title: "1880 Marriage (Catherine Lynch)", meta: "Lochee, 30 Jan 1880 — listed as mother. Deceased by 1880.", status: "confirmed"},
-            {title: "1899 Death", meta: "Died 17 Jan 1899, age 66. Widow of Thomas Lynch. Parents: Patrick Welsh (Crofter) + Elizabeth Currie.", status: "confirmed"}
+            {title: "1880 Marriage", meta: "Mother of Catherine Lynch (deceased by 1880).", status: "confirmed"},
+            {title: "1899 Death", meta: "Died 17 Jan 1899, age 66. Parents: Patrick Welsh (Crofter) + Elizabeth Currie.", status: "confirmed"}
         ], suggestion: null },
         'p520': { name: "John Farrell", years: "?", status: "confirmed", gen: 5, parents: null, sources: [
-            {title: "1876 Marriage (James)", meta: "Lochee, 24 Nov 1876 — Father of James Farrell. Stone Quarry Worker. Born Ireland.", status: "confirmed"},
-            {title: "1871 Census", meta: "117 Scouringburn, Dundee — age 40, Lab at Foundry. Wife Ann (41). Children: Francis (17), John (14), Mary Ann (10), Jane (12), Cathrine (5). Born Ireland.", status: "confirmed"}
+            {title: "1876 Marriage (James)", meta: "Father of James Farrell. Stone Quarry Worker. Born Ireland.", status: "confirmed"},
+            {title: "1871 Census", meta: "117 Scouringburn — age 40, Lab at Foundry. Wife Ann (41). Born Ireland.", status: "confirmed"}
         ], suggestion: null },
         'p521': { name: "Ann Quinn", years: "?", status: "confirmed", gen: 5, parents: null, sources: [
-            {title: "1876 Marriage (James)", meta: "Lochee, 24 Nov 1876 — Mother of James Farrell. Deceased by 1876.", status: "confirmed"}
+            {title: "1876 Marriage (James)", meta: "Mother of James Farrell. Deceased by 1876.", status: "confirmed"}
         ], suggestion: null },
         'p530': { name: "Patrick McDonald", years: "?", status: "confirmed", gen: 5, parents: null, sources: [
-            {title: "1876 Marriage (Helen)", meta: "Lochee, 24 Nov 1876 — Father of Helen McDonald. Carpet Weaver.", status: "confirmed"}
+            {title: "1876 Marriage (Helen)", meta: "Father of Helen McDonald. Carpet Weaver.", status: "confirmed"}
         ], suggestion: null },
         'p531': { name: "Barbara Gordon", years: "?", status: "confirmed", gen: 5, parents: null, sources: [
-            {title: "1876 Marriage (Helen)", meta: "Lochee, 24 Nov 1876 — Mother of Helen McDonald. M.S. Gordon. Deceased by 1876.", status: "confirmed"}
+            {title: "1876 Marriage (Helen)", meta: "Mother of Helen McDonald. M.S. Gordon. Deceased by 1876.", status: "confirmed"}
         ], suggestion: null },
         'p540': { name: "Owen Lynch", years: "~1806–1897", status: "probable", gen: 5, parents: ['p614','p615'], sources: [
             {title: "1841 Census", meta: "Dee Bridge, Balmaghie — age 30, born Ireland. Wife: Margaret (30). Children: Philip (10), Edward (8), John (6), Mary (3), James (1).", status: "confirmed"},
-            {title: "1897 Death", meta: "Died 29 Aug 1897, age 56. Occupation: Jute Selector. Parents: Edward Lynch + Catherine Clark.", status: "confirmed"}
-        ], suggestion: {text: "This is a DIFFERENT Owen Lynch from the one who married Alice Rogers (~1834). Likely uncle or cousin. Need to verify relationship to Edward Lynch (Alice's father).", price: "Free"} },
+            {title: "1897 Death", meta: "Died 29 Aug 1897, age 56. Parents: Edward Lynch + Catherine Clark.", status: "confirmed"}
+        ], suggestion: {text: "This is a DIFFERENT Owen Lynch from the one who married Alice Rogers (~1834). Likely uncle or cousin.", price: "Free"} },
         'p541': { name: "Margaret", years: "~1811–?", status: "probable", gen: 5, parents: null, sources: [
             {title: "1841 Census", meta: "Dee Bridge, Balmaghie — wife of Owen Lynch, age 30, born Ireland", status: "probable"}
         ], suggestion: null },
@@ -501,25 +488,22 @@
         'p543': { name: "Alice Smith", years: "?", status: "probable", gen: 5, parents: null, sources: [
             {title: "1892 Death (Alice Rogers)", meta: "Mother of Alice Rogers", status: "probable"}
         ], suggestion: null },
-        'p544': { name: "David Graham", years: "~1809–?", status: "probable", gen: 5, parents: ['p616','p617'], sources: [
-            {title: "1841 Census", meta: "Cowgate, Dundee — age 30, Shoemaker. Wife Elizabeth (30). Children: James (6), Alexander (4), John (2).", status: "confirmed"},
-            {title: "1851 Census", meta: "Scouringburn — age 42, Shoemaker. Wife Betsy (41). Children: James (15), Alexander (13), Jean (9), John (11), Thomas (1).", status: "confirmed"}
+        'p550': { name: "William Craigie", years: "~1816–?", status: "probable", gen: 5, parents: null, sources: [
+            {title: "1851 Census", meta: "Russell St, Auchterderran — age ~35, Labourer on Coal Work", status: "probable"}
         ], suggestion: null },
-        'p545': { name: "Elizabeth Rattray", years: "b. 26 Jan 1807", status: "confirmed", gen: 5, parents: ['p618','p619'], sources: [
-            {title: "Birth Certificate", meta: "26 Jan 1807, Kirriemuir — parents George Rattray (Dyer) + Helen Garvie", status: "confirmed"},
-            {title: "1834 Marriage", meta: "David Graham, 13 Jun 1834 — David listed as Shoemaker", status: "confirmed"}
+        'p551': { name: "Ann", years: "~1822–?", status: "probable", gen: 5, parents: null, sources: [
+            {title: "1851 Census", meta: "Russell St — wife of William Craigie", status: "probable"}
         ], suggestion: null },
 
         'p600': { name: "Michael Mooney", years: "~1801–1875", status: "confirmed", gen: 6, parents: ['p700','p701'], sources: [
-            {title: "Death Certificate", meta: "Lochee, 23 Mar 1875 — Age 74 (b. ~1801). Jute Millworker, Widower of Agnes Harrington. Died 130 Liff Road. Daughter Agnes Mooney informant (X). Parents: Thomas Mooney (Farm Labourer, deceased) + Bridget Reilly (M.S. deceased). Cause: Paralysis 3y + Bronchitis 7d.", status: "confirmed"},
-            {title: "1851 Census", meta: "North Road, Lochee — Age 50, Mill Worker, born County Cavan, Ireland. Wife Nancy [Agnes] (52). Children: Mary (30), James (24), Hannah (17), Nancy (15).", status: "confirmed"},
-            {title: "1861 Census", meta: "Liff Road, Lochee — Age 63, Labourer. Living with daughter Hannah (28) + grandson Thomas (4).", status: "confirmed"}
-        ], suggestion: {text: "County Cavan, Ireland confirmed as birthplace. Age consistent across 1851 (50) and death cert (74 in 1875 = b.~1801). The OPR entry for 1798 is likely a different Michael Mooney.", price: "Free search"} },
+            {title: "Death Certificate", meta: "Lochee, 23 Mar 1875 — Age 74 (b. ~1801). Jute Millworker. Parents: Thomas Mooney (Farm Labourer, deceased) + Bridget Reilly (M.S. deceased).", status: "confirmed"},
+            {title: "1851 Census", meta: "North Road, Lochee — Age 50, Mill Worker, born County Cavan, Ireland. Wife Nancy [Agnes] (52).", status: "confirmed"},
+            {title: "1861 Census", meta: "Liff Road — Age 63, Labourer. Living with Hannah (28) + Thomas (4).", status: "confirmed"}
+        ], suggestion: {text: "County Cavan confirmed. Age consistent: 50 in 1851, 74 in 1875. OPR 1798 is likely a different Michael Mooney.", price: "Free"} },
         'p601': { name: "Agnes Harrington", years: "~1806–1867", status: "confirmed", gen: 6, parents: ['p702','p703'], sources: [
-            {title: "1867 Death Certificate", meta: "Died 13 Nov 1867, age 61 (b. ~1806). Wife of Michael Mooney. Parents: John Harrington (Tailor) + Betsy McKnight.", status: "confirmed"},
-            {title: "1851 Census", meta: "North Road, Lochee — listed as Nancy Mooney (52), born Ireland. Also called Agnes.", status: "confirmed"},
-            {title: "1875 Death (Michael)", meta: "Listed as Agnes Herrington, deceased (widower)", status: "confirmed"}
-        ], suggestion: {text: "Name appears as 'Nancy' (variant of Agnes) in 1851 census. Age 61 = born ~1806. Verify with 1861 census.", price: "Free"} },
+            {title: "1867 Death Certificate", meta: "Died 13 Nov 1867, age 61 (b. ~1806). Parents: John Harrington (Tailor) + Betsy McKnight.", status: "confirmed"},
+            {title: "1851 Census", meta: "North Road — Nancy Mooney (52), born Ireland. Also called Agnes.", status: "confirmed"}
+        ], suggestion: {text: "Name appears as 'Nancy' in census. Age 61 = born ~1806.", price: "Free"} },
         'p610': { name: "Patrick Welsh", years: "?", status: "confirmed", gen: 6, parents: null, sources: [
             {title: "1899 Death (Catherine Welsh)", meta: "Father of Catherine Welsh. Crofter.", status: "confirmed"}
         ], suggestion: null },
@@ -539,8 +523,8 @@
             {title: "1897 Death (Owen Lynch)", meta: "Mother of Owen Lynch. M.S. Clark.", status: "probable"}
         ], suggestion: null },
         'p616': { name: "David Graham", years: "~1809–?", status: "probable", gen: 6, parents: null, sources: [
-            {title: "1841 Census", meta: "Cowgate, Dundee — age 30, Shoemaker. Wife Elizabeth (30). Children: James (6), Alexander (4), John (2).", status: "confirmed"},
-            {title: "1851 Census", meta: "Scouringburn — age 42, Shoemaker. Wife Betsy (41). Children: James (15), Alexander (13), Jean (9), John (11), Thomas (1).", status: "confirmed"}
+            {title: "1841 Census", meta: "Cowgate, Dundee — age 30, Shoemaker. Wife Elizabeth (30).", status: "confirmed"},
+            {title: "1851 Census", meta: "Scouringburn — age 42, Shoemaker. Wife Betsy (41).", status: "confirmed"}
         ], suggestion: null },
         'p617': { name: "Elizabeth Rattray", years: "b. 26 Jan 1807", status: "confirmed", gen: 6, parents: ['p704','p705'], sources: [
             {title: "Birth Certificate", meta: "26 Jan 1807, Kirriemuir — parents George Rattray (Dyer) + Helen Garvie", status: "confirmed"},
@@ -551,7 +535,7 @@
             {title: "1875 Death (Michael)", meta: "Father of Michael Mooney. Farm Labourer, deceased by 1875.", status: "probable"}
         ], suggestion: {text: "Search Ireland parish registers for Thomas Mooney + Bridget Reilly marriage, Cavan/Meath area", price: "Free"} },
         'p701': { name: "Bridget Reilly", years: "?", status: "probable", gen: 7, parents: null, sources: [
-            {title: "1875 Death (Michael)", meta: "Mother of Michael Mooney. Bridget Reilly M.S. (deceased). Maiden surname.", status: "probable"}
+            {title: "1875 Death (Michael)", meta: "Mother of Michael Mooney. Bridget Reilly M.S. (deceased).", status: "probable"}
         ], suggestion: {text: "Search Ireland parish registers for Bridget Reilly marrying Thomas Mooney. Cavan/Meath area.", price: "Free"} },
         'p702': { name: "John Harrington", years: "?", status: "confirmed", gen: 7, parents: null, sources: [
             {title: "1867 Death (Agnes)", meta: "Father of Agnes Harrington. Tailor.", status: "confirmed"}
@@ -569,3 +553,325 @@
 
     // ===== STATE =====
     let rootPath = ['p000'];
+    let currentView = 'compact'; // 'compact' = 5 gens, 'full' = all
+    let currentZoom = 1;
+
+    const svg = document.getElementById('linesSvg');
+    const wrap = document.getElementById('treeWrap');
+    const panel = document.getElementById('detailPanel');
+    const panelContent = document.getElementById('panelContent');
+
+    // ===== HELPERS =====
+    function getParents(pid, depth) {
+        const result = [];
+        const queue = [{id: pid, g: 0}];
+        while (queue.length) {
+            const n = queue.shift();
+            if (n.g > depth) continue;
+            result.push(n);
+            const p = allPeople[n.id];
+            if (p.parents) {
+                p.parents.forEach(parentId => {
+                    if (allPeople[parentId]) queue.push({id: parentId, g: n.g + 1});
+                });
+            }
+        }
+        return result;
+    }
+
+    function groupByGen(nodes) {
+        const groups = [];
+        nodes.forEach(n => {
+            if (!groups[n.g]) groups[n.g] = [];
+            groups[n.g].push(n.id);
+        });
+        return groups;
+    }
+
+    function rebuildBreadcrumbs() {
+        const bc = document.getElementById('breadcrumbs');
+        bc.innerHTML = '';
+        rootPath.forEach((pid, i) => {
+            const person = allPeople[pid];
+            const span = document.createElement('span');
+            span.className = 'crumb' + (i === rootPath.length - 1 ? ' active' : '');
+            span.textContent = person.name.split(' ')[0];
+            span.title = person.name;
+            span.onclick = () => jumpTo(i);
+            bc.appendChild(span);
+            if (i < rootPath.length - 1) {
+                const sep = document.createElement('span');
+                sep.className = 'crumb-sep';
+                sep.textContent = '>';
+                bc.appendChild(sep);
+            }
+        });
+    }
+
+    function jumpTo(index) {
+        rootPath = rootPath.slice(0, index + 1);
+        rebuildBreadcrumbs();
+        render();
+    }
+
+    function drillDown(pid) {
+        rootPath.push(pid);
+        rebuildBreadcrumbs();
+        render();
+    }
+
+    // ===== RENDER =====
+    function render() {
+        // Clean old
+        wrap.querySelectorAll('.person-card').forEach(c => c.remove());
+        svg.innerHTML = '';
+
+        const rootId = rootPath[rootPath.length - 1];
+        const depth = currentView === 'compact' ? 4 : 10;
+
+        const nodes = getParents(rootId, depth);
+        const gens = groupByGen(nodes);
+        const numG = gens.length;
+
+        // sort each gen (NUMERIC sort, not string sort — p49 < p410)
+        function idNum(id) { return parseInt(id.replace('p',''), 10); }
+        for (let g = 0; g < numG; g++) {
+            if (gens[g]) gens[g].sort((a,b) => idNum(a) - idNum(b));
+        }
+
+        // Build arrays
+        const cards = [], heights = [], positions = [];
+        for (let g = 0; g < numG; g++) { cards[g] = []; heights[g] = []; positions[g] = []; }
+
+        for (let g = numG - 1; g >= 0; g--) {
+            if (!gens[g]) continue;
+            for (let i = 0; i < gens[g].length; i++) {
+                const pid = gens[g][i];
+                const person = allPeople[pid];
+                const el = document.createElement('div');
+                const isRoot = (pid === rootId);
+                el.className = 'person-card ' + person.status + (isRoot ? ' root' : '');
+                el.innerHTML = '<div class="person-name">' + person.name + '</div><div class="person-years">' + person.years + '</div>';
+                el.style.left = (g * 300) + 'px';
+                el.dataset.pid = pid;
+
+                // Drill-down button on leaf nodes that have parents
+                if (person.parents && g === numG - 1 && currentView === 'compact') {
+                    const btn = document.createElement('div');
+                    btn.className = 'drill-btn';
+                    btn.innerHTML = '&rarr;';
+                    btn.title = 'Drill into this branch';
+                    btn.onclick = (e) => { e.stopPropagation(); drillDown(pid); };
+                    el.appendChild(btn);
+                }
+
+                el.onclick = () => openPanel(pid);
+                wrap.appendChild(el);
+                cards[g][i] = el;
+                heights[g][i] = el.offsetHeight || 64;
+                positions[g][i] = 0;
+            }
+        }
+
+        const lastG = numG - 1;
+
+        // Initialize all positions to 0
+        for (let g = 0; g < numG; g++) {
+            if (!cards[g]) continue;
+            for (let i = 0; i < cards[g].length; i++) {
+                positions[g][i] = 0;
+            }
+        }
+
+        // Iterative layout: bottom-up centering + collision resolution
+        for (let pass = 0; pass < 15; pass++) {
+            let moved = false;
+
+            // Bottom-up: center each parent between its children
+            for (let g = lastG - 1; g >= 0; g--) {
+                if (!cards[g]) continue;
+                for (let i = 0; i < cards[g].length; i++) {
+                    const pid = gens[g][i];
+                    const person = allPeople[pid];
+                    if (!person.parents) continue;
+
+                    const idxs = person.parents.map(p => gens[g+1] ? gens[g+1].indexOf(p) : -1).filter(x => x >= 0);
+                    if (idxs.length === 0) continue;
+
+                    let target;
+                    if (idxs.length === 2) {
+                        const y1 = positions[g+1][idxs[0]] + heights[g+1][idxs[0]] / 2;
+                        const y2 = positions[g+1][idxs[1]] + heights[g+1][idxs[1]] / 2;
+                        target = (y1 + y2) / 2 - heights[g][i] / 2;
+                    } else {
+                        target = positions[g+1][idxs[0]] + heights[g+1][idxs[0]] / 2 - heights[g][i] / 2;
+                    }
+
+                    if (Math.abs(positions[g][i] - target) > 0.5) {
+                        positions[g][i] = target;
+                        moved = true;
+                    }
+                }
+            }
+
+            // Top-down collision: push apart overlapping cards (and all cards after them)
+            for (let g = 0; g < numG; g++) {
+                if (!cards[g] || cards[g].length < 2) continue;
+                for (let i = 1; i < cards[g].length; i++) {
+                    const prevBottom = positions[g][i-1] + heights[g][i-1];
+                    if (positions[g][i] < prevBottom + 8) {
+                        const shift = (prevBottom + 8) - positions[g][i];
+                        for (let j = i; j < cards[g].length; j++) {
+                            positions[g][j] += shift;
+                        }
+                        moved = true;
+                    }
+                }
+            }
+
+            if (!moved) break;
+        }
+        for (let g = 0; g < numG; g++) {
+            if (!cards[g]) continue;
+            for (let i = 0; i < cards[g].length; i++) {
+                cards[g][i].style.top = positions[g][i] + 'px';
+            }
+        }
+
+        // Container sizing
+        const maxW = (numG - 1) * 300 + 200 + 160;
+        const maxH = (positions[lastG] || []).length ? Math.max(...positions[lastG].map((p, i) => p + heights[lastG][i])) + 120 : 400;
+        wrap.style.width = maxW + 'px';
+        wrap.style.minHeight = maxH + 'px';
+
+        // Draw lines
+        svg.setAttribute('width', wrap.scrollWidth);
+        svg.setAttribute('height', wrap.scrollHeight);
+        const svgNS = 'http://www.w3.org/2000/svg';
+
+        for (let g = 0; g < numG - 1; g++) {
+            if (!cards[g]) continue;
+            for (let i = 0; i < cards[g].length; i++) {
+                const pid = gens[g][i];
+                const person = allPeople[pid];
+                if (!person.parents) continue;
+
+                const cRight = g * 300 + 200;
+                const cMid = positions[g][i] + heights[g][i] / 2;
+
+                const idxs = person.parents.map(p => gens[g+1] ? gens[g+1].indexOf(p) : -1).filter(x => x >= 0);
+                if (idxs.length === 0) continue;
+
+                if (idxs.length === 2) {
+                    const fy = positions[g+1][idxs[0]] + heights[g+1][idxs[0]] / 2;
+                    const my = positions[g+1][idxs[1]] + heights[g+1][idxs[1]] / 2;
+                    const jx = (g+1) * 300 - 30;
+                    const midY = (fy + my) / 2;
+                    const px = (g+1) * 300;
+
+                    const p1 = document.createElementNS(svgNS, 'path');
+                    p1.setAttribute('d', 'M' + cRight + ',' + cMid + ' C' + (cRight+40) + ',' + cMid + ' ' + (jx-10) + ',' + midY + ' ' + jx + ',' + midY);
+                    p1.setAttribute('stroke', '#ccc'); p1.setAttribute('stroke-width', '1.5'); p1.setAttribute('fill', 'none');
+                    svg.appendChild(p1);
+
+                    const vl = document.createElementNS(svgNS, 'line');
+                    vl.setAttribute('x1', jx); vl.setAttribute('y1', fy); vl.setAttribute('x2', jx); vl.setAttribute('y2', my);
+                    vl.setAttribute('stroke', '#ccc'); vl.setAttribute('stroke-width', '1.5');
+                    svg.appendChild(vl);
+
+                    const fl = document.createElementNS(svgNS, 'line');
+                    fl.setAttribute('x1', jx); fl.setAttribute('y1', fy); fl.setAttribute('x2', px); fl.setAttribute('y2', fy);
+                    fl.setAttribute('stroke', '#ccc'); fl.setAttribute('stroke-width', '1.5');
+                    svg.appendChild(fl);
+
+                    const ml = document.createElementNS(svgNS, 'line');
+                    ml.setAttribute('x1', jx); ml.setAttribute('y1', my); ml.setAttribute('x2', px); ml.setAttribute('y2', my);
+                    ml.setAttribute('stroke', '#ccc'); ml.setAttribute('stroke-width', '1.5');
+                    svg.appendChild(ml);
+                } else {
+                    const fy = positions[g+1][idxs[0]] + heights[g+1][idxs[0]] / 2;
+                    const px = (g+1) * 300;
+                    const ln = document.createElementNS(svgNS, 'path');
+                    ln.setAttribute('d', 'M' + cRight + ',' + cMid + ' C' + (cRight+40) + ',' + cMid + ' ' + (px-40) + ',' + fy + ' ' + px + ',' + fy);
+                    ln.setAttribute('stroke', '#ccc'); ln.setAttribute('stroke-width', '1.5'); ln.setAttribute('fill', 'none');
+                    svg.appendChild(ln);
+                }
+            }
+        }
+    }
+
+    // ===== DETAIL PANEL =====
+    function openPanel(pid) {
+        const person = allPeople[pid];
+        if (!person) return;
+
+        let sourcesHtml = person.sources.length ? person.sources.map(s =>
+            '<div class="source-item ' + s.status + '"><div class="source-title">' + s.title + '</div><div class="source-meta">' + s.meta + '</div></div>'
+        ).join('') : '<div class="source-item missing">No sources attached yet</div>';
+
+        let suggestHtml = person.suggestion ?
+            '<div class="suggest-action"><h4>\uD83D\uDCA1 Research Suggestion</h4><p>' + person.suggestion.text + '</p><div class="price-tag">' + person.suggestion.price + '</div></div>' : '';
+
+        let actionsHtml = '';
+        if (person.parents) {
+            actionsHtml += '<button class="action-btn" onclick="drillDown(\'' + pid + '\'); closePanel();">Drill into this branch</button>';
+        }
+        actionsHtml += '<button class="action-btn" style="background:#f0f0f0;color:#333;" onclick="closePanel()">Close</button>';
+
+        panelContent.innerHTML =
+            '<h2>' + person.name + '</h2>' +
+            '<div class="years">' + person.years + '</div>' +
+            '<div class="detail-section"><h3>Sources & Records</h3>' + sourcesHtml + '</div>' +
+            suggestHtml +
+            '<div class="detail-section"><h3>Actions</h3>' + actionsHtml + '</div>';
+
+        panel.classList.add('open');
+    }
+
+    window.closePanel = function() { panel.classList.remove('open'); };
+
+    window.drillDown = function(pid) {
+        rootPath.push(pid);
+        rebuildBreadcrumbs();
+        render();
+    };
+
+    window.switchView = function(view) {
+        currentView = view;
+        document.getElementById('btnCompact').classList.toggle('active', view === 'compact');
+        document.getElementById('btnFull').classList.toggle('active', view === 'full');
+        if (view === 'full') rootPath = ['p000'];
+        rebuildBreadcrumbs();
+        render();
+    };
+
+    function jumpTo(index) {
+        rootPath = rootPath.slice(0, index + 1);
+        rebuildBreadcrumbs();
+        render();
+    }
+    window.jumpTo = jumpTo;
+
+    // ===== ZOOM =====
+    const zoomWrap = document.getElementById('zoomWrap');
+    const zoomLevel = document.getElementById('zoomLevel');
+    window.zoomIn = function() { currentZoom = Math.min(currentZoom + 0.15, 3); applyZoom(); };
+    window.zoomOut = function() { currentZoom = Math.max(currentZoom - 0.15, 0.25); applyZoom(); };
+    window.zoomReset = function() { currentZoom = 1; applyZoom(); };
+
+    function applyZoom() {
+        zoomWrap.style.transform = 'scale(' + currentZoom + ')';
+        zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
+    }
+
+    // ===== INIT =====
+    rebuildBreadcrumbs();
+    setTimeout(render, 50);
+    window.addEventListener('resize', () => setTimeout(render, 50));
+
+    window.onerror = function(msg, url, line) {
+        wrap.innerHTML = '<div style="padding:40px;color:#c00;"><h3>Error</h3><p>' + msg + '</p><p>Line: ' + line + '</p></div>';
+    };
+    </script>
+</body>
+</html>
