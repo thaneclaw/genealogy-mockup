@@ -389,10 +389,10 @@
             {title: "Marriage Certificate", meta: "Patrick Crawford, Lochee 1895", status: "confirmed"}
         ], suggestion: null },
 
-        'p400': { name: "Thomas Mooney", years: "1857\u20131911", status: "confirmed", gen: 4, parents: ['p501'], sources: [
-            {title: "Birth Certificate", meta: "Lochee, 22 Mar 1857 — illegitimate, mother Hannah Mooney Mill Worker", status: "confirmed"},
-            {title: "Death Certificate", meta: "Lochee, 22 Dec 1911 — Alcohol Poisoning. Age stated as 49 (likely inaccurate). Occupation: Jute Mill Worker. Widow Catherine Mooney (née Lynch). Mother: Hannah Mooney, Jute Spinner (deceased, no father listed).", status: "confirmed"}
-        ], suggestion: {text: "Age discrepancy: birth cert says b.1857 (~age 54 at death) but death cert says age 49. Catherine Mooney may have given wrong age. Verify via 1871/1881 census.", price: "Free"} },
+        'p400': { name: "Thomas Mooney", years: "1857\u20131911", status: "confirmed", gen: 4, parents: ['p550'], sources: [
+            {title: "Birth Certificate", meta: "Lochee, 22 Mar 1857 — illegitimate, mother Hannah Mooney Mill Worker, 130 Liff Road", status: "confirmed"},
+            {title: "Death Certificate", meta: "Lochee, 22 Dec 1911 — Alcohol Poisoning. Age stated as 49. Occupation: Jute Mill Worker. Widow Catherine Mooney (née Lynch). Mother: Hannah Mooney, Jute Spinner (deceased).", status: "confirmed"}
+        ], suggestion: {text: "Age discrepancy: birth cert says b.1857 (~age 54 at death) but death cert says age 49. Verify via 1871/1881 census.", price: "Free"} },
         'p401': { name: "Catherine Lynch", years: "b. 1858", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
         'p402': { name: "James Farrell", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
         'p403': { name: "Helen McDonald", years: "?", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
@@ -411,13 +411,19 @@
         'p414': { name: "Alex Craigie", years: "b. 1816, Fife", status: "probable", gen: 4, parents: ['p508','p509'], sources: [], suggestion: null },
         'p415': { name: "Ann", years: "b. 1822, Fife", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
 
+        'p550': { name: "Hannah Mooney", years: "~1843–1863", status: "confirmed", gen: "interp", parents: ['p500','p501'], sources: [
+            {title: "Death Certificate", meta: "Lochee, 18 Feb 1863 — Age 20. Jute Millworker (Single). Died Liff Road. Cause: Suicide by Vitriol (3 weeks). Father: Michael Mooney, General Labourer. Mother: Agnes Mooney M.S. Harrington (deceased). Brother James Mooney informant (+ mark).", status: "confirmed"},
+            {title: "Birth Cert child (Thomas)", meta: "Lochee, 22 Mar 1857 — mother Hannah Mooney Mill Worker (illegitimate, no father). She would have been ~14 at the time.", status: "confirmed"}
+        ], suggestion: {text: "Search 1851 census for Hannah Mooney age ~8, living with Michael + Agnes Mooney on Liff Road, Lochee", price: "Free"} },
+
         'p500': { name: "Michael Mooney", years: "b. ~1809–1875", status: "confirmed", gen: 5, parents: ['p600','p601'], sources: [
-            {title: "Death Certificate", meta: "Lochee, 23 Mar 1875 — Age 66 (b. ~1809). Jute Millworker, Widower of Agnes Herrington. Died 130 Liff Road. Daughter Agnes Mooney informant (signed X). Parents: Thomas Mooney (Farm Labourer, deceased) + Bridget Reilly (M.S. deceased). Cause: Paralysis 3 years + Bronchitis 7 days.", status: "confirmed"},
-            {title: "Old Parish Register", meta: "b. 1798 Cavan, Ireland (age discrepancy: 11 years vs death cert)", status: "needs_verification"}
-        ], suggestion: {text: "Age discrepancy: OPR says b.1798, death cert implies ~1809. Search baptismal record around 1809 in Cavan, or check if OPR entry is for a different Michael Mooney.", price: "Free search"} },
-        'p501': { name: "Agnes Herrington", years: "1799\u20131857", status: "probable", gen: 5, parents: null, sources: [
-            {title: "Death Certificate", meta: "12 Nov 1857", status: "confirmed"}
-        ], suggestion: {text: "Spelling 'Herrington' per Michael's death cert (wife). Previous spelling 'Harrington' from other records. Verify original cert.", price: "Free"} },
+            {title: "Death Certificate", meta: "Lochee, 23 Mar 1875 — Age 66. Jute Millworker, Widower of Agnes Herrington. Died 130 Liff Road. Daughter Agnes Mooney informant (X). Parents: Thomas Mooney (Farm Labourer, deceased) + Bridget Reilly (M.S. deceased). Cause: Paralysis 3y + Bronchitis 7d.", status: "confirmed"},
+            {title: "OPR", meta: "b. 1798 Cavan, Ireland (age discrepancy: 11y vs death cert)", status: "needs_verification"}
+        ], suggestion: {text: "Birth year discrepancy: OPR says 1798, death cert implies ~1809. Verify via census or alternative baptism record.", price: "Free search"} },
+        'p501': { name: "Agnes Herrington", years: "d. pre-1863", status: "confirmed", gen: 5, parents: null, sources: [
+            {title: "Hannah Mooney Death Certificate", meta: "1863 — listed as mother Agnes Mooney M.S. Harrington, deceased", status: "confirmed"},
+            {title: "Death Certificate", meta: "12 Nov 1857 (unverified: same person? needs confirmation)", status: "needs_verification"}
+        ], suggestion: {text: "1857 death cert may be same Agnes Herrington, but needs verification. Search 1851-1861 census for Agnes Mooney in Lochee to confirm death date.", price: "Free search"} },
         'p502': { name: "David Graham", years: "1800\u2013?", status: "probable", gen: 5, parents: ['p602','p603'], sources: [
             {title: "Marriage Certificate", meta: "12 Jun 1834", status: "confirmed"}
         ], suggestion: null },
