@@ -2,745 +2,358 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heritage — The Mooney Line</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
+<title>The Mooney Line — Heritage</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=UnifrakturMaguntia&display=swap');
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body {
-    height: 100%;
-    overflow: hidden;
-    background: #1a1208;
-}
+html, body { height: 100%; overflow: hidden; background: #1a1208; }
 
-/* ===== MAIN SCROLLING AREA ===== */
-.heritage-scroll {
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
+#viewport { width: 100vw; height: 100vh; overflow: auto; position: relative; background: #1a1208; }
+
+#canvas {
     position: relative;
-}
-
-/* Parchment background pattern */
-.heritage-scroll::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    width: 3000px; height: 2200px;
     background:
-        radial-gradient(ellipse at 30% 20%, rgba(160,130,80,0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 70% 80%, rgba(140,110,60,0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(180,150,100,0.03) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
+        radial-gradient(ellipse at 25% 15%, rgba(160,130,80,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 85%, rgba(140,110,60,0.06) 0%, transparent 50%),
+        linear-gradient(180deg, #e8d5b0 0%, #dccca0 35%, #d0ba88 65%, #c4a878 100%);
+    transform-origin: top center;
+    box-shadow: inset 0 0 300px rgba(80,50,20,0.2);
 }
 
-/* ===== TREE CONTAINER ===== */
-#treeContainer {
-    position: relative;
-    width: 1400px;
-    min-height: 2000px;
-    margin: 0 auto;
-    background:
-        linear-gradient(180deg, #f4e8d0 0%, #e8d5b0 15%, #dccca0 40%, #d4c090 60%, #c8b080 80%, #b89868 100%);
-    background-attachment: local;
-    /* Parchment texture overlay */
-    box-shadow: inset 0 0 200px rgba(100,70,30,0.3);
-}
-
-/* Aged edges */
-#treeContainer::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+#canvas::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     border: 20px solid transparent;
-    border-image: repeating-linear-gradient(
-        45deg,
-        rgba(100,70,30,0.15) 0px,
-        rgba(120,80,40,0.2) 2px,
-        rgba(100,70,30,0.15) 4px
+    border-image: repeating-linear-gradient(45deg,
+        rgba(100,70,30,0.12) 0px, rgba(130,90,50,0.18) 2px, rgba(100,70,30,0.12) 4px
     ) 20;
-    pointer-events: none;
-    z-index: 100;
+    pointer-events: none; z-index: 200;
 }
 
-/* Stain spots on parchment */
-.stain {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(30px);
-    pointer-events: none;
-    z-index: 1;
-}
-.stain-1 { width: 200px; height: 150px; background: rgba(120,80,30,0.08); top: 10%; left: 5%; }
-.stain-2 { width: 300px; height: 200px; background: rgba(100,60,20,0.06); top: 35%; right: 8%; }
-.stain-3 { width: 150px; height: 250px; background: rgba(130,80,30,0.05); bottom: 20%; left: 15%; }
+.stain { position: absolute; border-radius: 50%; filter: blur(40px); pointer-events: none; z-index: 1; }
+.stain-1 { width: 300px; height: 200px; background: rgba(120,80,30,0.06); top: 8%; left: 5%; }
+.stain-2 { width: 350px; height: 250px; background: rgba(100,60,20,0.05); top: 30%; right: 5%; }
+.stain-3 { width: 180px; height: 280px; background: rgba(130,80,30,0.04); bottom: 25%; left: 12%; }
 
-/* ===== TITLE BANNER ===== */
-.title-banner {
-    text-align: center;
-    padding: 60px 20px 30px;
-    position: relative;
-    z-index: 10;
-}
+#treeSvg { position: absolute; top: 0; left: 0; width: 3000px; height: 2200px; pointer-events: none; z-index: 2; }
 
-.title-banner .ornament-top {
-    font-size: 28px;
-    color: #7a5c2a;
-    letter-spacing: 8px;
-    margin-bottom: 15px;
-    opacity: 0.7;
-}
-
-.title-banner h1 {
-    font-family: 'UnifrakturMaguntia', cursive;
-    font-size: 64px;
-    color: #4a3010;
-    letter-spacing: 4px;
-    text-shadow: 2px 2px 0px rgba(180,150,100,0.5);
-    line-height: 1.2;
-}
-
-.title-banner .subtitle {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    font-style: italic;
-    color: #6b4e20;
-    margin-top: 10px;
-    letter-spacing: 3px;
-}
-
-.title-banner .ornament-divider {
-    margin: 20px auto;
-    width: 300px;
-    height: 30px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 30'%3E%3Cpath d='M0 15 L120 15 M130 15 L140 5 L150 25 L160 5 L170 15 L300 15' stroke='%237a5c2a' stroke-width='1.5' fill='none' opacity='0.6'/%3E%3Ccircle cx='150' cy='15' r='4' fill='%237a5c2a' opacity='0.5'/%3E%3C/svg%3E") center no-repeat;
-}
-
-/* ===== TREE TRUNK BASE ===== */
-.trunk-base {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 180px;
-    z-index: 2;
-}
-
-.trunk-base::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 180px;
-    height: 160px;
-    background: linear-gradient(180deg, #5a3a18 0%, #3a2208 100%);
-    clip-path: polygon(45% 0%, 55% 0%, 65% 30%, 75% 60%, 85% 85%, 90% 100%, 10% 100%, 15% 85%, 25% 60%, 35% 30%);
-}
-
-.trunk-base .roots {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 400px;
-    height: 80px;
-}
-
-.trunk-base .roots::before,
-.trunk-base .roots::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    height: 60px;
-    width: 8px;
-    background: linear-gradient(180deg, #4a2a10 0%, #2a1505 100%);
-    border-radius: 50%;
-}
-.trunk-base .roots::before { left: 30%; transform: rotate(-25deg); }
-.trunk-base .roots::after { right: 30%; transform: rotate(25deg); }
-
-/* Oak leaf decoration on trunk */
-.trunk-leaf {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    background: #4a6b28;
-    clip-path: polygon(50% 0%, 60% 35%, 100% 35%, 70% 60%, 85% 100%, 50% 75%, 15% 100%, 30% 60%, 0% 35%, 40% 35%);
-    opacity: 0.7;
-}
-.trunk-leaf.l1 { top: 20px; left: 45%; }
-.trunk-leaf.l2 { top: 50px; left: 52%; transform: scale(0.8) rotate(30deg); }
-.trunk-leaf.l3 { top: 35px; left: 38%; transform: scale(0.6) rotate(-20deg); }
-
-/* ===== GENERATION ROWS ===== */
-.gen-row {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 40px;
-    padding: 30px 60px;
-    position: relative;
-    z-index: 5;
-}
-
-/* Generation number badge on left */
-.gen-badge {
-    position: absolute;
-    left: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 2px solid rgba(122,92,42,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Cinzel', serif;
-    font-size: 16px;
-    color: #7a5c2a;
-    background: rgba(240,220,180,0.6);
-}
-
-/* ===== COUPLE CONTAINER ===== */
-.couple-box {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    position: relative;
-}
-
-/* Ampersand between couple */
-.couple-box .ampersand {
-    font-family: 'UnifrakturMaguntia', cursive;
-    font-size: 28px;
-    color: #8a6a3a;
-    opacity: 0.6;
-}
-
-/* ===== PERSON CARD ===== */
-.person-card {
-    width: 200px;
+.person {
+    position: absolute; width: 200px;
     background: linear-gradient(145deg, #fdf6e3 0%, #f0e4c8 50%, #e8dcc0 100%);
-    border: 1px solid rgba(122,92,42,0.3);
-    border-radius: 6px;
-    padding: 14px 12px 10px;
-    position: relative;
-    text-align: center;
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.4),
-        0 3px 8px rgba(80,50,20,0.15),
-        0 1px 3px rgba(80,50,20,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-}
-
-.person-card:hover {
-    transform: translateY(-3px);
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.4),
-        0 6px 16px rgba(80,50,20,0.2),
-        0 2px 6px rgba(80,50,20,0.15);
-}
-
-/* Decorative corner flourishes */
-.person-card::before,
-.person-card::after {
-    content: '';
-    position: absolute;
-    width: 12px;
-    height: 12px;
     border: 1.5px solid rgba(122,92,42,0.3);
+    border-radius: 8px; padding: 12px 10px 8px;
+    text-align: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 4px 12px rgba(60,40,15,0.15);
+    z-index: 10; cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.person-card::before { top: 4px; left: 4px; border-right: none; border-bottom: none; border-radius: 2px 0 0 0; }
-.person-card::after { bottom: 4px; right: 4px; border-left: none; border-top: none; border-radius: 0 0 2px 0; }
-
-/* Name */
-.person-card .name {
-    font-family: 'Cinzel', serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #3a2210;
-    line-height: 1.3;
-    margin-bottom: 4px;
+.person:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 8px 24px rgba(60,40,15,0.25);
 }
 
-/* Years */
-.person-card .years {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 13px;
-    font-style: italic;
-    color: #7a5c2a;
-    margin-bottom: 8px;
+.person::before, .person::after {
+    content: ''; position: absolute; width: 12px; height: 12px; border: 1.5px solid rgba(122,92,42,0.25);
 }
+.person::before { top: 4px; left: 4px; border-right: none; border-bottom: none; }
+.person::after { bottom: 4px; right: 4px; border-left: none; border-top: none; }
 
-/* Occupation badge */
-.occ-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 3px 8px;
-    background: rgba(122,92,42,0.1);
-    border: 1px solid rgba(122,92,42,0.2);
-    border-radius: 12px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 11px;
-    color: #5a3a10;
-    margin-top: 2px;
-}
+.person .name { font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600; color: #3a2210; line-height: 1.2; margin-bottom: 3px; }
+.person .years { font-family: 'Cormorant Garamond', serif; font-size: 12px; font-style: italic; color: #6b4e20; margin-bottom: 5px; }
+.person .occ { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; background: rgba(122,92,42,0.08); border: 1px solid rgba(122,92,42,0.15); border-radius: 10px; font-size: 10px; color: #5a3a10; }
 
-.occ-badge .occ-icon {
-    font-size: 13px;
-}
-
-/* Status colors */
 .status-you { border-top: 3px solid #8B6914; }
 .status-confirmed { border-top: 3px solid #4a6b28; }
 .status-probable { border-top: 3px solid #cc8800; }
 .status-brickwall { border-top: 3px solid #8b0000; }
 .status-single { border-top: 3px solid #6a5acd; }
 
-/* ===== SVG CONNECTION LINES ===== */
-#linesSvg {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 2;
-}
+.title-box { position: absolute; top: 30px; left: 1500px; transform: translateX(-50%); text-align: center; z-index: 50; }
+.title-box h1 { font-family: 'UnifrakturMaguntia', cursive; font-size: 52px; color: #4a3010; letter-spacing: 3px; text-shadow: 2px 2px 0 rgba(180,150,100,0.4); }
+.title-box .subtitle { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; color: #6b4e20; margin-top: 6px; letter-spacing: 2px; }
 
-.connection-line {
-    fill: none;
-    stroke: #6b4226;
-    stroke-width: 1.5;
-    opacity: 0.5;
+.trunk {
+    position: absolute; bottom: 0; left: 1500px; transform: translateX(-50%);
+    z-index: 3;
 }
+.trunk-body { width: 140px; height: 200px; background: linear-gradient(180deg, #5a3a18 0%, #4a2a10 50%, #3a2208 100%); clip-path: polygon(42% 0%,58% 0%,64% 25%,70% 50%,78% 80%,85% 100%,15% 100%,22% 80%,30% 50%,36% 25%); position: relative; }
+.trunk-body::before { content: ''; position: absolute; left: 47%; top: 0; bottom: 0; width: 3px; background: rgba(255,255,255,0.05); }
 
-.connection-vertical {
-    fill: none;
-    stroke: #6b4226;
-    stroke-width: 1.5;
-    opacity: 0.5;
-}
+.leaf { position: absolute; width: 18px; height: 18px; background: #4a6b28; opacity: 0.7; clip-path: polygon(50% 0%,60% 35%,100% 35%,70% 60%,85% 100%,50% 75%,15% 100%,30% 60%,0% 35%,40% 35%); }
 
-/* ===== BOTTOM DECORATION ===== */
-.bottom-ornament {
-    text-align: center;
-    padding: 40px 20px 80px;
-    position: relative;
-    z-index: 5;
-}
+.bottom-text { position: absolute; bottom: 20px; left: 1500px; transform: translateX(-50%); text-align: center; z-index: 50; }
+.bottom-text .est { font-family: 'Cinzel', serif; font-size: 10px; color: #7a5c2a; letter-spacing: 3px; opacity: 0.5; }
 
-.bottom-ornament .line {
-    width: 200px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #7a5c2a, transparent);
-    margin: 0 auto 15px;
-    opacity: 0.5;
-}
+.zoom-bar { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; align-items: center; gap: 2px; z-index: 1000; }
+.zoom-bar button { width: 34px; height: 34px; border: 1px solid rgba(122,92,42,0.4); background: rgba(240,220,180,0.95); border-radius: 4px; font-size: 16px; color: #4a3010; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.zoom-bar button:hover { background: rgba(220,200,160,1); }
+.zoom-bar .zl { font-size: 10px; font-family: 'Cinzel', serif; color: #6b4e20; padding: 1px 0; }
 
-.bottom-ornament .est {
-    font-family: 'Cinzel', serif;
-    font-size: 12px;
-    color: #7a5c2a;
-    letter-spacing: 4px;
-    opacity: 0.6;
-}
-
-/* ===== ZOOM CONTROLS ===== */
-.zoom-controls {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    z-index: 1000;
-}
-
-.zoom-controls button {
-    width: 36px;
-    height: 36px;
-    border: 1px solid rgba(122,92,42,0.4);
-    background: rgba(240,220,180,0.9);
-    border-radius: 4px;
-    font-family: 'Cinzel', serif;
-    font-size: 16px;
-    color: #4a3010;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.zoom-controls button:hover {
-    background: rgba(220,200,160,1);
-}
-
-.zoom-level-display {
-    text-align: center;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 11px;
-    color: #6b4e20;
-    padding: 2px 0;
-}
-
-/* ===== SCROLLBAR STYLING ===== */
-.heritage-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
-.heritage-scroll::-webkit-scrollbar-track { background: #1a1208; }
-.heritage-scroll::-webkit-scrollbar-thumb { background: #7a5c2a; border-radius: 5px; }
-.heritage-scroll::-webkit-scrollbar-thumb:hover { background: #9a7c4a; }
-
-/* Responsive */
-@media (max-width: 768px) {
-    #treeContainer { width: 100vw; }
-    .gen-row { padding: 20px 10px; flex-wrap: wrap; }
-    .person-card { width: 160px; }
-    .title-banner h1 { font-size: 36px; }
-}
+#viewport::-webkit-scrollbar { width: 8px; height: 8px; }
+#viewport::-webkit-scrollbar-track { background: #1a1208; }
+#viewport::-webkit-scrollbar-thumb { background: #7a5c2a; border-radius: 4px; }
 </style>
 </head>
 <body>
+<div id="viewport">
+<div id="canvas">
 
-<div class="heritage-scroll" id="heritageScroll">
-    <div id="treeContainer">
-        <!-- Stain overlays -->
-        <div class="stain stain-1"></div>
-        <div class="stain stain-2"></div>
-        <div class="stain stain-3"></div>
+<div class="stain stain-1"></div>
+<div class="stain stain-2"></div>
+<div class="stain stain-3"></div>
 
-        <!-- Tree trunk at bottom -->
-        <div class="trunk-base" id="trunkBase">
-            <div class="roots"></div>
-            <div class="trunk-leaf l1"></div>
-            <div class="trunk-leaf l2"></div>
-            <div class="trunk-leaf l3"></div>
-        </div>
+<svg id="treeSvg" xmlns="http://www.w3.org/2000/svg"></svg>
 
-        <!-- SVG overlay for connection lines -->
-        <svg id="linesSvg"></svg>
+<div class="title-box">
+    <h1>The Mooney Heritage</h1>
+    <div class="subtitle">Eight Generations</div>
+</div>
 
-        <!-- Title -->
-        <div class="title-banner">
-            <div class="ornament-top">~ ~ ~</div>
-            <h1>The Mooney Heritage</h1>
-            <div class="subtitle">A Record of Eight Generations</div>
-            <div class="ornament-divider"></div>
-        </div>
+<div id="peopleLayer"></div>
 
-        <!-- Tree content populated by JS -->
-        <div id="treeContent"></div>
-
-        <div class="bottom-ornament">
-            <div class="line"></div>
-            <div class="est">EST. MDCCCLXXX</div>
-        </div>
+<div class="trunk">
+    <div class="trunk-body">
+        <div class="leaf" style="top:50px;left:30%;transform:rotate(-20deg);"></div>
+        <div class="leaf" style="top:90px;left:55%;transform:rotate(15deg) scale(0.8);"></div>
+        <div class="leaf" style="top:130px;left:22%;transform:rotate(-35deg) scale(0.7);"></div>
     </div>
 </div>
 
-<!-- Zoom controls -->
-<div class="zoom-controls">
-    <button onclick="zoomIn()">+</button>
-    <div class="zoom-level-display" id="zoomLevel">100%</div>
-    <button onclick="zoomOut()">&minus;</button>
-    <button onclick="zoomReset()" title="Reset">&#x21BB;</button>
+<div class="bottom-text">
+    <div class="est">EST. MDCCCLXXX · CAVAN → DUNDEE</div>
+</div>
+
+</div>
+</div>
+
+<div class="zoom-bar">
+    <button onclick="zIn()">+</button>
+    <div class="zl" id="zl">100%</div>
+    <button onclick="zOut()">−</button>
+    <button onclick="zFit()" title="Fit">⌂</button>
 </div>
 
 <script>
-// ===== OCCUPATION ICONS (Unicode symbols) =====
 const occIcons = {
-    'Engineer': '\u2699\uFE0F',
-    'Draughtsman': '\u270F\uFE0F',
-    'Stoker': '\u26A1',
-    'Fireman': '\uD83D\uDD25',
-    'Jute Spinner': '\uD83E\uDDF5',
-    'Jute Mill Worker': '\uD83C\uDF3E',
-    'Flax Mill Worker': '\uD83C\uDF3E',
-    'Mill Worker': '\uD83C\uDF3E',
-    'Spinner': '\uD83E\uDDF5',
-    'Labourer': '\uD83D\uDCAA',
-    'Mason\'s Labourer': '\uD83E\uDDF1',
-    'Weaver': '\uD83E\uDD5C',
-    'Tailor': '\uD83E\uDE91',
-    'Shoemaker': '\uD83D\uDC5F',
-    'Carpet Weaver': '\uD83E\uDE9E',
-    'Crofter': '\uD83C\uDF3B',
-    'Farm Labourer': '\uD83C\uDF3E',
-    'Quarry Worker': '\u26CF\uFE0F',
-    'Miner': '\u26CF\uFE0F',
-    'Coal Miner': '\u26CF\uFE0F',
-    'Stone Quarry Worker': '\u26CF\uFE0F',
-    'Baker': '\uD83E\uDD6F',
-    'Power Loom Tenter': '\uD83E\uDDF5',
-    'Dyer': '\uD83C\uDFA8',
-    'default': '\uD83D\uDCDC'
+    'Engineer':'⚙️','Draughtsman':'✏️','Stoker':'⚡','Fireman':'🔥',
+    'Jute Spinner':'🌾','Jute Mill Worker':'🧵','Flax Millworker':'🌾',
+    'Mill Worker':'🧵','Spinner':'🧵','Labourer':'💪',"Mason's Labourer":'🧱',
+    'Weaver':'🧶','Tailor':'🪡','Shoemaker':'👞','Carpet Weaver':'🧶',
+    'Crofter':'🌻','Farm Labourer':'🌾','Quarry Worker':'⛏️',
+    'Stone Quarry Worker':'⛏️','Miner':'⛏️','Coal Miner':'⛏️',
+    'Baker':'🥖','Power Loom Tenter':'🧵','Dyer':'🎨',
+    'Motor Engineer':'🔧','Motor Mechanic':'🔧','Jute Selector':'🌿',
+    'Jute Mill Manager':'📋','Baker/Fireman':'🥖','default':'📜'
+};
+function getIcon(occ){ if(!occ)return''; for(let k in occIcons)if(occ.toLowerCase().includes(k.toLowerCase()))return occIcons[k]; return occIcons['default'];}
+
+// Gen=1(you) to Gen=8(oldest ancestors)
+const P = {
+    'g':{name:'Graeme Mooney',y:'b. 1966',s:'you',g:1,oc:'',pa:['a','b']},
+    'a':{name:'Joseph Mooney',y:'1931–2004',s:'confirmed',g:2,oc:'Engineering Draughtsman',pa:['c','d']},
+    'b':{name:'Rose Craigie',y:'b. 1931',s:'confirmed',g:2,oc:'',pa:['e','f']},
+    'c':{name:'Joseph Mooney',y:'1908–?',s:'confirmed',g:3,oc:'Motor Engineer',pa:['g','h']},
+    'd':{name:'Alice Lynch',y:'1907–?',s:'confirmed',g:3,oc:'Jute Spinner',pa:['i','j']},
+    'e':{name:'Andrew H. Craigie',y:'1904–1972',s:'confirmed',g:3,oc:'',pa:['k','l']},
+    'f':{name:'Agnes Crawford',y:'1900–1987',s:'confirmed',g:3,oc:'',pa:['m','n']},
+    'g':{name:'Joseph Mooney',y:'1879–?',s:'confirmed',g:4,oc:'Stoker',pa:['o']},
+    'h':{name:'Catherine Farrell',y:'~1883–?',s:'confirmed',g:4,oc:'Jute Spinner',pa:['p','q']},
+    'i':{name:'Edward Lynch',y:'~1868–?',s:'confirmed',g:4,oc:'Jute Selector',pa:['r']},
+    'j':{name:'Mary J. Graham',y:'~1869–?',s:'probable',g:4,oc:'',pa:['s','t']},
+    'k':{name:'James Craigie',y:'~1872–?',s:'confirmed',g:4,oc:'Coal Miner',pa:['u','v']},
+    'l':{name:'Agnes Henderson',y:'~1875–?',s:'probable',g:4,oc:'',pa:['w','x']},
+    'm':{name:'Francis Crawford',y:'1850–?',s:'probable',g:4,oc:'Power Loom Tenter',pa:null},
+    'n':{name:'Eliza McGinley',y:'1852–?',s:'probable',g:4,oc:'',pa:null},
+    'o':{name:'Hannah Mooney',y:'~1833–1863',s:'confirmed',g:5,oc:'Flax Millworker',pa:['y','z']},
+    'p':{name:'James Farrell',y:'~1855–?',s:'confirmed',g:5,oc:'Stone Quarry Worker',pa:['aa','ab']},
+    'q':{name:'Helen McDonald',y:'~1857–<1904',s:'confirmed',g:5,oc:'',pa:['ac','ad']},
+    'r':{name:'Owen Lynch',y:'~1834–?',s:'probable',g:5,oc:'Jute Selector',pa:['ae','af']},
+    's':{name:'James Graham',y:'~1837–?',s:'probable',g:5,oc:'Shoemaker',pa:null},
+    't':{name:'Ann',y:'~1846–?',s:'probable',g:5,oc:'',pa:null},
+    'u':{name:'William Craigie',y:'~1841–?',s:'probable',g:5,oc:'Coal Miner',pa:['ag','ah']},
+    'v':{name:'Betsy',y:'~1843–?',s:'probable',g:5,oc:'',pa:null},
+    'w':{name:'Andrew Henderson',y:'~1850–?',s:'probable',g:5,oc:'Shoemaker',pa:null},
+    'x':{name:'Eliza',y:'~1850–?',s:'probable',g:5,oc:'',pa:null},
+    'y':{name:'Michael Mooney',y:'~1801–1875',s:'confirmed',g:6,oc:'Jute Mill Worker',pa:['ai','aj']},
+    'z':{name:'Agnes Harrington',y:'~1806–1867',s:'confirmed',g:6,oc:'',pa:['ak','al']},
+    'aa':{name:'John Farrell',y:'?',s:'confirmed',g:6,oc:'Stone Quarry Worker',pa:null},
+    'ab':{name:'Ann Quinn',y:'?',s:'confirmed',g:6,oc:'',pa:null},
+    'ac':{name:'Patrick McDonald',y:'?',s:'confirmed',g:6,oc:'Carpet Weaver',pa:null},
+    'ad':{name:'Barbara Gordon',y:'?',s:'confirmed',g:6,oc:'',pa:null},
+    'ae':{name:'Owen Lynch',y:'~1806–1897',s:'probable',g:6,oc:'Weaver',pa:['am','an']},
+    'af':{name:'Margaret',y:'~1811–?',s:'probable',g:6,oc:'',pa:null},
+    'ag':{name:'William Craigie',y:'~1816–?',s:'probable',g:6,oc:'Labourer',pa:null},
+    'ah':{name:'',y:'',s:'brickwall',g:6,oc:'',pa:null},
+    'ai':{name:'Thomas Mooney',y:'?',s:'probable',g:7,oc:'Farm Labourer',pa:['ao','ap']},
+    'aj':{name:'Bridget Reilly',y:'?',s:'probable',g:7,oc:'',pa:null},
+    'ak':{name:'John Harrington',y:'?',s:'confirmed',g:7,oc:'Tailor',pa:null},
+    'al':{name:'Betsy McKnight',y:'?',s:'confirmed',g:7,oc:'',pa:null},
+    'am':{name:'Edward Lynch',y:'?',s:'probable',g:7,oc:'',pa:null},
+    'an':{name:'Catherine Clark',y:'?',s:'probable',g:7,oc:'',pa:null},
+    'ao':{name:'Thomas Mooney',y:'?',s:'probable',g:8,oc:'Farm Labourer',pa:null},
+    'ap':{name:'Bridget Reilly',y:'?',s:'probable',g:8,oc:'',pa:null},
 };
 
-function getOccIcon(occ) {
-    if (!occ) return '';
-    for (let key in occIcons) {
-        if (occ.toLowerCase().includes(key.toLowerCase())) return occIcons[key];
+// Recursively compute subtree width for each node
+const CW = 200, CH = 76, CP = 50, CY = 155; // card width, card height, couple padding, Y gap
+const L = {}; // layout cache
+
+function getDescendants(pid, seen=new Set()) {
+    if (seen.has(pid)) return new Set();
+    seen.add(pid);
+    const d = new Set([pid]);
+    for (let k in P) {
+        if (P[k].pa && P[k].pa.includes(pid)) d.add(...getDescendants(k, seen));
     }
-    return occIcons['default'];
+    return d;
 }
 
-// ===== DATA (8 generations, you = Gen 1) =====
-const allPeople = {
-    'p000': { name: 'Graeme Mooney', years: 'b. 1966', status: 'you', gen: 1, occ: '', parents: ['p100','p101'] },
+// Count leaf descendants at bottom of subtree
+function countLeaves(pid) {
+    const desc = Array.from(getDescendants(pid));
+    return desc.filter(d => !P[d].pa || P[d].pa.length === 0).length || 1;
+}
 
-    'p100': { name: 'Joseph Mooney', years: '1931–2004', status: 'confirmed', gen: 2, occ: 'Engineering Draughtsman', parents: ['p200','p201'] },
-    'p101': { name: 'Rose Craigie', years: 'b. 1931', status: 'confirmed', gen: 2, occ: '', parents: ['p210','p211'] },
+// First: set parents recursively from a child
+function placeParents(childId, childX, childY) {
+    const child = P[childId];
+    if (!child.pa || child.pa.length === 0) return;
 
-    'p200': { name: 'Joseph Mooney', years: '1908–?', status: 'confirmed', gen: 3, occ: 'Motor Engineer', parents: ['p300','p301'] },
-    'p201': { name: 'Alice Lynch', years: '1907–?', status: 'confirmed', gen: 3, occ: 'Jute Spinner', parents: ['p310','p311'] },
-    'p210': { name: 'Andrew H. Craigie', years: '1904–1972', status: 'confirmed', gen: 3, occ: '', parents: ['p320','p321'] },
-    'p211': { name: 'Agnes Crawford', years: '1900–1987', status: 'confirmed', gen: 3, occ: '', parents: ['p330','p331'] },
+    const parentY = childY - CY;
+    const pw = CP + CW; // width of parent couple
 
-    'p300': { name: 'Joseph Mooney', years: '1879–?', status: 'confirmed', gen: 4, occ: 'Stoker', parents: ['p400','p401'] },
-    'p301': { name: 'Catherine Farrell', years: '~1883–?', status: 'confirmed', gen: 4, occ: 'Jute Spinner', parents: ['p420','p421'] },
-    'p310': { name: 'Edward Lynch', years: '~1868–?', status: 'confirmed', gen: 4, occ: 'Jute Selector', parents: ['p410','p411'] },
-    'p311': { name: 'Mary J. Graham', years: '~1869–?', status: 'probable', gen: 4, occ: '', parents: ['p430','p431'] },
-    'p320': { name: 'James Craigie', years: '~1872–?', status: 'confirmed', gen: 4, occ: 'Coal Miner', parents: ['p440','p441'] },
-    'p321': { name: 'Agnes Henderson', years: '~1875–?', status: 'probable', gen: 4, occ: '', parents: ['p450','p451'] },
-    'p330': { name: 'Francis Crawford', years: '1850–?', status: 'probable', gen: 4, occ: 'Power Loom Tenter', parents: null },
-    'p331': { name: 'Eliza McGinley', years: '1852–?', status: 'probable', gen: 4, occ: '', parents: null },
+    if (child.pa.length === 2) {
+        const px1 = childX - pw / 2 + CW/2;
+        const px2 = childX + pw / 2 - CW/2;
+        L[child.pa[0]] = { x: px1, y: parentY };
+        L[child.pa[1]] = { x: px2, y: parentY };
+        // Recurse
+        placeParents(child.pa[0], px1, parentY);
+        placeParents(child.pa[1], px2, parentY);
+    } else {
+        L[child.pa[0]] = { x: childX, y: parentY };
+        placeParents(child.pa[0], childX, parentY);
+    }
+}
 
-    'p400': { name: 'Thomas Mooney', years: '1857–1911', status: 'confirmed', gen: 5, occ: 'Fireman', parents: ['p500'] },
-    'p401': { name: 'Catherine Lynch', years: '~1858–?', status: 'confirmed', gen: 5, occ: 'Jute Spinner', parents: ['p510','p511'] },
-    'p410': { name: 'Owen Lynch', years: '~1834–?', status: 'probable', gen: 5, occ: 'Jute Selector', parents: ['p540'] },
-    'p411': { name: 'Alice Rogers', years: '~1841–1892', status: 'confirmed', gen: 5, occ: '', parents: null },
-    'p420': { name: 'James Farrell', years: '~1855–?', status: 'confirmed', gen: 5, occ: 'Stone Quarry Worker', parents: ['p520','p521'] },
-    'p421': { name: 'Helen McDonald', years: '~1857–<1904', status: 'confirmed', gen: 5, occ: '', parents: ['p530','p531'] },
-    'p430': { name: 'James Graham', years: '~1837–?', status: 'probable', gen: 5, occ: 'Shoemaker', parents: null },
-    'p431': { name: 'Ann', years: '~1846–?', status: 'probable', gen: 5, occ: '', parents: null },
-    'p440': { name: 'William Craigie', years: '~1841–?', status: 'probable', gen: 5, occ: 'Coal Miner', parents: null },
-    'p441': { name: 'Betsy', years: '~1843–?', status: 'probable', gen: 5, occ: '', parents: null },
-    'p450': { name: 'Andrew Henderson', years: '~1850–?', status: 'probable', gen: 5, occ: 'Shoemaker', parents: null },
-    'p451': { name: 'Eliza', years: '~1850–?', status: 'probable', gen: 5, occ: '', parents: null },
+// Start from Graeme at bottom
+L['g'] = { x: 1500, y: 2100 };
+placeParents('g', 1500, 2100);
 
-    'p500': { name: 'Hannah Mooney', years: '~1833–1863', status: 'confirmed', gen: 6, occ: 'Flax Mill Worker', parents: ['p600','p601'] },
-    'p510': { name: 'Thomas Lynch', years: '~1819–1892', status: 'confirmed', gen: 6, occ: 'Weaver', parents: ['p612','p613'] },
-    'p511': { name: 'Catherine Welsh', years: '~1833–1899', status: 'confirmed', gen: 6, occ: '', parents: ['p610','p611'] },
-    'p520': { name: 'John Farrell', years: '?', status: 'confirmed', gen: 6, occ: 'Stone Quarry Worker', parents: null },
-    'p521': { name: 'Ann Quinn', years: '?', status: 'confirmed', gen: 6, occ: '', parents: null },
-    'p530': { name: 'Patrick McDonald', years: '?', status: 'confirmed', gen: 6, occ: 'Carpet Weaver', parents: null },
-    'p531': { name: 'Barbara Gordon', years: '?', status: 'confirmed', gen: 6, occ: '', parents: null },
-    'p540': { name: 'Owen Lynch', years: '~1806–1897', status: 'probable', gen: 6, occ: 'Weaver', parents: null },
+// Now resolve collisions: people with overlapping x at same generation
+// Group by generation
+const byGen = {};
+for (let k in L) {
+    const g = P[k].g;
+    if (!byGen[g]) byGen[g] = [];
+    byGen[g].push(k);
+}
 
-    'p600': { name: 'Michael Mooney', years: '~1801–1875', status: 'confirmed', gen: 7, occ: 'Jute Mill Worker', parents: ['p700','p701'] },
-    'p601': { name: 'Agnes Harrington', years: '~1806–1867', status: 'confirmed', gen: 7, occ: '', parents: ['p702','p703'] },
-    'p610': { name: 'Patrick Welsh', years: '?', status: 'confirmed', gen: 7, occ: 'Crofter', parents: null },
-    'p611': { name: 'Elizabeth Currie', years: '?', status: 'confirmed', gen: 7, occ: '', parents: null },
-    'p612': { name: 'John Lynch', years: '?', status: 'confirmed', gen: 7, occ: 'Labourer', parents: null },
-    'p613': { name: 'Betty Dillon', years: '?', status: 'confirmed', gen: 7, occ: '', parents: null },
-    'p700': { name: 'Thomas Mooney', years: '?', status: 'probable', gen: 8, occ: 'Farm Labourer', parents: null },
-    'p701': { name: 'Bridget Reilly', years: '?', status: 'probable', gen: 8, occ: '', parents: null },
-    'p702': { name: 'John Harrington', years: '?', status: 'confirmed', gen: 8, occ: 'Tailor', parents: null },
-    'p703': { name: 'Betsy McKnight', years: '?', status: 'confirmed', gen: 8, occ: '', parents: null },
-};
+// Sort each gen by x, shift right if overlapping
+for (let g = 8; g >= 1; g--) {
+    const ids = byGen[g]?.sort((a,b) => L[a].x - L[b].x) || [];
+    for (let i = 1; i < ids.length; i++) {
+        const cur = ids[i], prev = ids[i-1];
+        if (L[cur].x - L[prev].x < CW + 20) {
+            const shift = (CW + 20) - (L[cur].x - L[prev].x);
+            // Shift current and everything to its right (same gen AND all descendants)
+            // Simple: shift all with x >= L[cur].x by shift (same gen only for now)
+            for (let j = i; j < ids.length; j++) {
+                L[ids[j]].x += shift;
+            }
+        }
+    }
+}
 
-// ===== TREE BUILDING =====
-function buildTree() {
-    const container = document.getElementById('treeContent');
-    const svg = document.getElementById('linesSvg');
-    container.innerHTML = '';
+// After shifting, children's x might no longer be centered. For now just display.
+
+// ===== RENDER =====
+function render() {
+    const layer = document.getElementById('peopleLayer');
+    const svg = document.getElementById('treeSvg');
+    layer.innerHTML = '';
     svg.innerHTML = '';
 
-    // Group by generation
-    const genMap = {};
-    for (let pid in allPeople) {
-        const g = allPeople[pid].gen;
-        if (!genMap[g]) genMap[g] = [];
-        genMap[g].push(pid);
+    for (let k in L) {
+        if (!P[k].name) continue;
+        const pos = L[k];
+        const card = document.createElement('div');
+        card.className = 'person status-' + P[k].s;
+        card.style.left = (pos.x - CW/2) + 'px';
+        card.style.top = pos.y + 'px';
+        let h = '<div class="name">' + P[k].name + '</div>';
+        h += '<div class="years">' + P[k].y + '</div>';
+        if (P[k].oc) h += '<div class="occ"><span>' + getIcon(P[k].oc) + '</span> ' + P[k].oc + '</div>';
+        card.innerHTML = h;
+        layer.appendChild(card);
     }
 
-    const maxGen = Math.max(...Object.keys(genMap).map(Number));
+    // Draw lines
+    for (let k in P) {
+        const p = P[k];
+        if (!p.pa || !L[k]) continue;
+        const cx = L[k].x, cy = L[k].y;
+        // Parent positions
+        const parents = p.pa.filter(pid => L[pid] && P[pid].name);
+        if (parents.length === 0) continue;
 
-    // Create rows from Gen 1 (you) down to Gen 8 (oldest)
-    for (let g = 1; g <= maxGen; g++) {
-        const row = document.createElement('div');
-        row.className = 'gen-row';
-        row.id = 'gen-' + g;
+        const py = Math.max(...parents.map(pid => L[pid].y + CH));
+        const my = (py + cy) / 2;
 
-        const badge = document.createElement('div');
-        badge.className = 'gen-badge';
-        badge.textContent = g;
-        row.appendChild(badge);
-
-        // Group into couples
-        const people = genMap[g] || [];
-
-        if (g === 1) {
-            // Just you
-            row.appendChild(createPersonCard(people[0]));
+        if (parents.length === 2) {
+            const x1 = L[parents[0]].x, x2 = L[parents[1]].x;
+            svgLine(x1, L[parents[0]].y + CH, x1, my);
+            svgLine(x2, L[parents[1]].y + CH, x2, my);
+            svgLine(x1, my, x2, my);
+            svgLine((x1+x2)/2, my, cx, cy);
         } else {
-            // Build couples by finding children from previous gen
-            const prevGen = g - 1;
-            const prevPeople = genMap[prevGen] || [];
-
-            // Collect unique parent pairs from previous generation
-            const couples = [];
-            const seenCouples = new Set();
-            prevPeople.forEach(pid => {
-                const p = allPeople[pid];
-                if (p.parents) {
-                    const key = p.parents.join(',');
-                    if (!seenCouples.has(key)) {
-                        seenCouples.add(key);
-                        couples.push(p.parents);
-                    }
-                }
-            });
-
-            couples.forEach(coupleIds => {
-                const coupleBox = document.createElement('div');
-                coupleBox.className = 'couple-box';
-                coupleBox.dataset.parents = coupleIds.join(',');
-
-                coupleIds.forEach((pid, idx) => {
-                    if (allPeople[pid]) {
-                        coupleBox.appendChild(createPersonCard(pid));
-                        if (idx === 0 && coupleIds.length > 1) {
-                            const amp = document.createElement('div');
-                            amp.className = 'ampersand';
-                            amp.textContent = '&';
-                            coupleBox.appendChild(amp);
-                        }
-                    }
-                });
-
-                row.appendChild(coupleBox);
-            });
+            const px = L[parents[0]].x, pyb = L[parents[0]].y + CH;
+            svgPath(px, pyb, cx, cy);
         }
-
-        container.appendChild(row);
-    }
-
-    // Position trunk base at bottom
-    const trunk = document.getElementById('trunkBase');
-    trunk.style.top = (container.offsetHeight + 200) + 'px';
-}
-
-function createPersonCard(pid) {
-    const p = allPeople[pid];
-    const card = document.createElement('div');
-    card.className = 'person-card status-' + p.status;
-    card.dataset.pid = pid;
-
-    let html = '<div class="name">' + p.name + '</div>';
-    html += '<div class="years">' + p.years + '</div>';
-
-    if (p.occ) {
-        const icon = getOccIcon(p.occ);
-        html += '<div class="occ-badge"><span class="occ-icon">' + icon + '</span>' + p.occ + '</div>';
-    }
-
-    // Status indicator dot
-    const statusLabels = { you: 'You', confirmed: 'Verified', probable: 'Likely', brickwall: 'Unknown', single: 'Single Parent' };
-
-    card.innerHTML = html;
-    card.title = statusLabels[p.status] || p.status;
-
-    return card;
-}
-
-// ===== DRAW CONNECTION LINES =====
-function drawLines() {
-    const svg = document.getElementById('linesSvg');
-    const container = document.getElementById('treeContent');
-    const treeContainer = document.getElementById('treeContainer');
-
-    // Set SVG size
-    svg.style.width = treeContainer.offsetWidth + 'px';
-    svg.style.height = treeContainer.offsetHeight + 'px';
-    svg.setAttribute('viewBox', '0 0 ' + treeContainer.offsetWidth + ' ' + treeContainer.offsetHeight);
-
-    let pathStr = '';
-
-    // For each generation (from 2 up), connect parents to children in previous gen
-    for (let g = 2; g <= 8; g++) {
-        const row = document.getElementById('gen-' + g);
-        const prevRow = document.getElementById('gen-' + (g - 1));
-        if (!row || !prevRow) continue;
-
-        const couples = row.querySelectorAll('.couple-box');
-        const children = prevRow.querySelectorAll('.person-card');
-
-        couples.forEach(coupleBox => {
-            const parentIds = coupleBox.dataset.parents.split(',');
-            const parentCards = Array.from(coupleBox.querySelectorAll('.person-card'));
-
-            // Find children that reference these parents
-            children.forEach(childCard => {
-                const childPid = childCard.dataset.pid;
-                const child = allPeople[childPid];
-                if (!child.parents) return;
-
-                const parentKey = child.parents.join(',');
-                if (parentKey === coupleBox.dataset.parents) {
-                    // Draw connection from couple to child
-                    const coupleRect = coupleBox.getBoundingClientRect();
-                    const childRect = childCard.getBoundingClientRect();
-                    const containerRect = treeContainer.getBoundingClientRect();
-
-                    const coupleX = coupleRect.left + coupleRect.width / 2 - containerRect.left;
-                    const coupleY = coupleRect.top + coupleRect.height - containerRect.top;
-                    const childX = childRect.left + childRect.width / 2 - containerRect.left;
-                    const childY = childRect.top - containerRect.top;
-
-                    const midY = (coupleY + childY) / 2;
-
-                    pathStr += `M ${coupleX} ${coupleY} C ${coupleX} ${midY}, ${childX} ${midY}, ${childX} ${childY} `;
-                }
-            });
-        });
-    }
-
-    if (pathStr) {
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', pathStr);
-        path.setAttribute('class', 'connection-line');
-        svg.appendChild(path);
     }
 }
 
-// ===== ZOOM =====
-let currentZoom = 1;
-const zoomWrap = document.getElementById('treeContainer');
-
-function zoomIn() {
-    currentZoom = Math.min(currentZoom + 0.15, 2.5);
-    applyZoom();
+function svgLine(x1,y1,x2,y2) {
+    const s = document.getElementById('treeSvg');
+    const ln = document.createElementNS('http://www.w3.org/2000/svg','line');
+    ln.setAttribute('x1',x1); ln.setAttribute('y1',y1);
+    ln.setAttribute('x2',x2); ln.setAttribute('y2',y2);
+    ln.setAttribute('stroke','#6b4226');
+    ln.setAttribute('stroke-width','1.5');
+    ln.setAttribute('opacity','0.45');
+    s.appendChild(ln);
+}
+function svgPath(x1,y1,x2,y2) {
+    const s = document.getElementById('treeSvg');
+    const my = (y1+y2)/2;
+    const d = `M${x1} ${y1} C${x1} ${my},${x2} ${my},${x2} ${y2}`;
+    const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d',d);
+    p.setAttribute('fill','none');
+    p.setAttribute('stroke','#6b4226');
+    p.setAttribute('stroke-width','1.5');
+    p.setAttribute('opacity','0.45');
+    s.appendChild(p);
 }
 
-function zoomOut() {
-    currentZoom = Math.max(currentZoom - 0.15, 0.3);
-    applyZoom();
-}
+// Zoom
+let z = 1;
+const cv = document.getElementById('canvas');
+function zIn(){ z=Math.min(z+0.15,2); apply(); }
+function zOut(){ z=Math.max(z-0.15,0.3); apply(); }
+function zFit(){ z=0.5; apply(); }
+function apply(){ cv.style.transform='scale('+z+')'; document.getElementById('zl').textContent=Math.round(z*100)+'%'; }
 
-function zoomReset() {
-    currentZoom = 1;
-    applyZoom();
-}
-
-function applyZoom() {
-    zoomWrap.style.transform = 'scale(' + currentZoom + ')';
-    zoomWrap.style.transformOrigin = 'top center';
-    document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
-    setTimeout(drawLines, 100);
-}
-
-// ===== INIT =====
-window.addEventListener('load', () => {
-    buildTree();
-    setTimeout(drawLines, 100);
-});
-
-window.addEventListener('resize', () => {
-    setTimeout(drawLines, 100);
-});
+// Init
+render();
+setTimeout(()=>{
+    const vp = document.getElementById('viewport');
+    vp.scrollTop = (L['g'].y - vp.clientHeight + 280);
+    vp.scrollLeft = (L['g'].x - vp.clientWidth/2);
+}, 100);
 </script>
 </body>
 </html>
