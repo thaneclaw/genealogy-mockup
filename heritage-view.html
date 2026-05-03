@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heritage — The Mooney Line</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=UnifrakturMaguntia&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    background: #1a1208;
+}
+
+/* ===== MAIN SCROLLING AREA ===== */
+.heritage-scroll {
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    position: relative;
+}
+
+/* Parchment background pattern */
+.heritage-scroll::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(160,130,80,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(140,110,60,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(180,150,100,0.03) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ===== TREE CONTAINER ===== */
+#treeContainer {
+    position: relative;
+    width: 1400px;
+    min-height: 2000px;
+    margin: 0 auto;
+    background:
+        linear-gradient(180deg, #f4e8d0 0%, #e8d5b0 15%, #dccca0 40%, #d4c090 60%, #c8b080 80%, #b89868 100%);
+    background-attachment: local;
+    /* Parchment texture overlay */
+    box-shadow: inset 0 0 200px rgba(100,70,30,0.3);
+}
+
+/* Aged edges */
+#treeContainer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 20px solid transparent;
+    border-image: repeating-linear-gradient(
+        45deg,
+        rgba(100,70,30,0.15) 0px,
+        rgba(120,80,40,0.2) 2px,
+        rgba(100,70,30,0.15) 4px
+    ) 20;
+    pointer-events: none;
+    z-index: 100;
+}
+
+/* Stain spots on parchment */
+.stain {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(30px);
+    pointer-events: none;
+    z-index: 1;
+}
+.stain-1 { width: 200px; height: 150px; background: rgba(120,80,30,0.08); top: 10%; left: 5%; }
+.stain-2 { width: 300px; height: 200px; background: rgba(100,60,20,0.06); top: 35%; right: 8%; }
+.stain-3 { width: 150px; height: 250px; background: rgba(130,80,30,0.05); bottom: 20%; left: 15%; }
+
+/* ===== TITLE BANNER ===== */
+.title-banner {
+    text-align: center;
+    padding: 60px 20px 30px;
+    position: relative;
+    z-index: 10;
+}
+
+.title-banner .ornament-top {
+    font-size: 28px;
+    color: #7a5c2a;
+    letter-spacing: 8px;
+    margin-bottom: 15px;
+    opacity: 0.7;
+}
+
+.title-banner h1 {
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 64px;
+    color: #4a3010;
+    letter-spacing: 4px;
+    text-shadow: 2px 2px 0px rgba(180,150,100,0.5);
+    line-height: 1.2;
+}
+
+.title-banner .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: #6b4e20;
+    margin-top: 10px;
+    letter-spacing: 3px;
+}
+
+.title-banner .ornament-divider {
+    margin: 20px auto;
+    width: 300px;
+    height: 30px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 30'%3E%3Cpath d='M0 15 L120 15 M130 15 L140 5 L150 25 L160 5 L170 15 L300 15' stroke='%237a5c2a' stroke-width='1.5' fill='none' opacity='0.6'/%3E%3Ccircle cx='150' cy='15' r='4' fill='%237a5c2a' opacity='0.5'/%3E%3C/svg%3E") center no-repeat;
+}
+
+/* ===== TREE TRUNK BASE ===== */
+.trunk-base {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 180px;
+    z-index: 2;
+}
+
+.trunk-base::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 160px;
+    background: linear-gradient(180deg, #5a3a18 0%, #3a2208 100%);
+    clip-path: polygon(45% 0%, 55% 0%, 65% 30%, 75% 60%, 85% 85%, 90% 100%, 10% 100%, 15% 85%, 25% 60%, 35% 30%);
+}
+
+.trunk-base .roots {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 80px;
+}
+
+.trunk-base .roots::before,
+.trunk-base .roots::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 60px;
+    width: 8px;
+    background: linear-gradient(180deg, #4a2a10 0%, #2a1505 100%);
+    border-radius: 50%;
+}
+.trunk-base .roots::before { left: 30%; transform: rotate(-25deg); }
+.trunk-base .roots::after { right: 30%; transform: rotate(25deg); }
+
+/* Oak leaf decoration on trunk */
+.trunk-leaf {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: #4a6b28;
+    clip-path: polygon(50% 0%, 60% 35%, 100% 35%, 70% 60%, 85% 100%, 50% 75%, 15% 100%, 30% 60%, 0% 35%, 40% 35%);
+    opacity: 0.7;
+}
+.trunk-leaf.l1 { top: 20px; left: 45%; }
+.trunk-leaf.l2 { top: 50px; left: 52%; transform: scale(0.8) rotate(30deg); }
+.trunk-leaf.l3 { top: 35px; left: 38%; transform: scale(0.6) rotate(-20deg); }
+
+/* ===== GENERATION ROWS ===== */
+.gen-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 30px 60px;
+    position: relative;
+    z-index: 5;
+}
+
+/* Generation number badge on left */
+.gen-badge {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(122,92,42,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    color: #7a5c2a;
+    background: rgba(240,220,180,0.6);
+}
+
+/* ===== COUPLE CONTAINER ===== */
+.couple-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+}
+
+/* Ampersand between couple */
+.couple-box .ampersand {
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 28px;
+    color: #8a6a3a;
+    opacity: 0.6;
+}
+
+/* ===== PERSON CARD ===== */
+.person-card {
+    width: 200px;
+    background: linear-gradient(145deg, #fdf6e3 0%, #f0e4c8 50%, #e8dcc0 100%);
+    border: 1px solid rgba(122,92,42,0.3);
+    border-radius: 6px;
+    padding: 14px 12px 10px;
+    position: relative;
+    text-align: center;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.4),
+        0 3px 8px rgba(80,50,20,0.15),
+        0 1px 3px rgba(80,50,20,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.person-card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.4),
+        0 6px 16px rgba(80,50,20,0.2),
+        0 2px 6px rgba(80,50,20,0.15);
+}
+
+/* Decorative corner flourishes */
+.person-card::before,
+.person-card::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 1.5px solid rgba(122,92,42,0.3);
+}
+.person-card::before { top: 4px; left: 4px; border-right: none; border-bottom: none; border-radius: 2px 0 0 0; }
+.person-card::after { bottom: 4px; right: 4px; border-left: none; border-top: none; border-radius: 0 0 2px 0; }
+
+/* Name */
+.person-card .name {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #3a2210;
+    line-height: 1.3;
+    margin-bottom: 4px;
+}
+
+/* Years */
+.person-card .years {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: #7a5c2a;
+    margin-bottom: 8px;
+}
+
+/* Occupation badge */
+.occ-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    background: rgba(122,92,42,0.1);
+    border: 1px solid rgba(122,92,42,0.2);
+    border-radius: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    color: #5a3a10;
+    margin-top: 2px;
+}
+
+.occ-badge .occ-icon {
+    font-size: 13px;
+}
+
+/* Status colors */
+.status-you { border-top: 3px solid #8B6914; }
+.status-confirmed { border-top: 3px solid #4a6b28; }
+.status-probable { border-top: 3px solid #cc8800; }
+.status-brickwall { border-top: 3px solid #8b0000; }
+.status-single { border-top: 3px solid #6a5acd; }
+
+/* ===== SVG CONNECTION LINES ===== */
+#linesSvg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.connection-line {
+    fill: none;
+    stroke: #6b4226;
+    stroke-width: 1.5;
+    opacity: 0.5;
+}
+
+.connection-vertical {
+    fill: none;
+    stroke: #6b4226;
+    stroke-width: 1.5;
+    opacity: 0.5;
+}
+
+/* ===== BOTTOM DECORATION ===== */
+.bottom-ornament {
+    text-align: center;
+    padding: 40px 20px 80px;
+    position: relative;
+    z-index: 5;
+}
+
+.bottom-ornament .line {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #7a5c2a, transparent);
+    margin: 0 auto 15px;
+    opacity: 0.5;
+}
+
+.bottom-ornament .est {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: #7a5c2a;
+    letter-spacing: 4px;
+    opacity: 0.6;
+}
+
+/* ===== ZOOM CONTROLS ===== */
+.zoom-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 1000;
+}
+
+.zoom-controls button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(122,92,42,0.4);
+    background: rgba(240,220,180,0.9);
+    border-radius: 4px;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    color: #4a3010;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.zoom-controls button:hover {
+    background: rgba(220,200,160,1);
+}
+
+.zoom-level-display {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    color: #6b4e20;
+    padding: 2px 0;
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+.heritage-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+.heritage-scroll::-webkit-scrollbar-track { background: #1a1208; }
+.heritage-scroll::-webkit-scrollbar-thumb { background: #7a5c2a; border-radius: 5px; }
+.heritage-scroll::-webkit-scrollbar-thumb:hover { background: #9a7c4a; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    #treeContainer { width: 100vw; }
+    .gen-row { padding: 20px 10px; flex-wrap: wrap; }
+    .person-card { width: 160px; }
+    .title-banner h1 { font-size: 36px; }
+}
+</style>
+</head>
+<body>
+
+<div class="heritage-scroll" id="heritageScroll">
+    <div id="treeContainer">
+        <!-- Stain overlays -->
+        <div class="stain stain-1"></div>
+        <div class="stain stain-2"></div>
+        <div class="stain stain-3"></div>
+
+        <!-- Tree trunk at bottom -->
+        <div class="trunk-base" id="trunkBase">
+            <div class="roots"></div>
+            <div class="trunk-leaf l1"></div>
+            <div class="trunk-leaf l2"></div>
+            <div class="trunk-leaf l3"></div>
+        </div>
+
+        <!-- SVG overlay for connection lines -->
+        <svg id="linesSvg"></svg>
+
+        <!-- Title -->
+        <div class="title-banner">
+            <div class="ornament-top">~ ~ ~</div>
+            <h1>The Mooney Heritage</h1>
+            <div class="subtitle">A Record of Eight Generations</div>
+            <div class="ornament-divider"></div>
+        </div>
+
+        <!-- Tree content populated by JS -->
+        <div id="treeContent"></div>
+
+        <div class="bottom-ornament">
+            <div class="line"></div>
+            <div class="est">EST. MDCCCLXXX</div>
+        </div>
+    </div>
+</div>
+
+<!-- Zoom controls -->
+<div class="zoom-controls">
+    <button onclick="zoomIn()">+</button>
+    <div class="zoom-level-display" id="zoomLevel">100%</div>
+    <button onclick="zoomOut()">&minus;</button>
+    <button onclick="zoomReset()" title="Reset">&#x21BB;</button>
+</div>
+
+<script>
+// ===== OCCUPATION ICONS (Unicode symbols) =====
+const occIcons = {
+    'Engineer': '\u2699\uFE0F',
+    'Draughtsman': '\u270F\uFE0F',
+    'Stoker': '\u26A1',
+    'Fireman': '\uD83D\uDD25',
+    'Jute Spinner': '\uD83E\uDDF5',
+    'Jute Mill Worker': '\uD83C\uDF3E',
+    'Flax Mill Worker': '\uD83C\uDF3E',
+    'Mill Worker': '\uD83C\uDF3E',
+    'Spinner': '\uD83E\uDDF5',
+    'Labourer': '\uD83D\uDCAA',
+    'Mason\'s Labourer': '\uD83E\uDDF1',
+    'Weaver': '\uD83E\uDD5C',
+    'Tailor': '\uD83E\uDE91',
+    'Shoemaker': '\uD83D\uDC5F',
+    'Carpet Weaver': '\uD83E\uDE9E',
+    'Crofter': '\uD83C\uDF3B',
+    'Farm Labourer': '\uD83C\uDF3E',
+    'Quarry Worker': '\u26CF\uFE0F',
+    'Miner': '\u26CF\uFE0F',
+    'Coal Miner': '\u26CF\uFE0F',
+    'Stone Quarry Worker': '\u26CF\uFE0F',
+    'Baker': '\uD83E\uDD6F',
+    'Power Loom Tenter': '\uD83E\uDDF5',
+    'Dyer': '\uD83C\uDFA8',
+    'default': '\uD83D\uDCDC'
+};
+
+function getOccIcon(occ) {
+    if (!occ) return '';
+    for (let key in occIcons) {
+        if (occ.toLowerCase().includes(key.toLowerCase())) return occIcons[key];
+    }
+    return occIcons['default'];
+}
+
+// ===== DATA (8 generations, you = Gen 1) =====
+const allPeople = {
+    'p000': { name: 'Graeme Mooney', years: 'b. 1966', status: 'you', gen: 1, occ: '', parents: ['p100','p101'] },
+
+    'p100': { name: 'Joseph Mooney', years: '1931–2004', status: 'confirmed', gen: 2, occ: 'Engineering Draughtsman', parents: ['p200','p201'] },
+    'p101': { name: 'Rose Craigie', years: 'b. 1931', status: 'confirmed', gen: 2, occ: '', parents: ['p210','p211'] },
+
+    'p200': { name: 'Joseph Mooney', years: '1908–?', status: 'confirmed', gen: 3, occ: 'Motor Engineer', parents: ['p300','p301'] },
+    'p201': { name: 'Alice Lynch', years: '1907–?', status: 'confirmed', gen: 3, occ: 'Jute Spinner', parents: ['p310','p311'] },
+    'p210': { name: 'Andrew H. Craigie', years: '1904–1972', status: 'confirmed', gen: 3, occ: '', parents: ['p320','p321'] },
+    'p211': { name: 'Agnes Crawford', years: '1900–1987', status: 'confirmed', gen: 3, occ: '', parents: ['p330','p331'] },
+
+    'p300': { name: 'Joseph Mooney', years: '1879–?', status: 'confirmed', gen: 4, occ: 'Stoker', parents: ['p400','p401'] },
+    'p301': { name: 'Catherine Farrell', years: '~1883–?', status: 'confirmed', gen: 4, occ: 'Jute Spinner', parents: ['p420','p421'] },
+    'p310': { name: 'Edward Lynch', years: '~1868–?', status: 'confirmed', gen: 4, occ: 'Jute Selector', parents: ['p410','p411'] },
+    'p311': { name: 'Mary J. Graham', years: '~1869–?', status: 'probable', gen: 4, occ: '', parents: ['p430','p431'] },
+    'p320': { name: 'James Craigie', years: '~1872–?', status: 'confirmed', gen: 4, occ: 'Coal Miner', parents: ['p440','p441'] },
+    'p321': { name: 'Agnes Henderson', years: '~1875–?', status: 'probable', gen: 4, occ: '', parents: ['p450','p451'] },
+    'p330': { name: 'Francis Crawford', years: '1850–?', status: 'probable', gen: 4, occ: 'Power Loom Tenter', parents: null },
+    'p331': { name: 'Eliza McGinley', years: '1852–?', status: 'probable', gen: 4, occ: '', parents: null },
+
+    'p400': { name: 'Thomas Mooney', years: '1857–1911', status: 'confirmed', gen: 5, occ: 'Fireman', parents: ['p500'] },
+    'p401': { name: 'Catherine Lynch', years: '~1858–?', status: 'confirmed', gen: 5, occ: 'Jute Spinner', parents: ['p510','p511'] },
+    'p410': { name: 'Owen Lynch', years: '~1834–?', status: 'probable', gen: 5, occ: 'Jute Selector', parents: ['p540'] },
+    'p411': { name: 'Alice Rogers', years: '~1841–1892', status: 'confirmed', gen: 5, occ: '', parents: null },
+    'p420': { name: 'James Farrell', years: '~1855–?', status: 'confirmed', gen: 5, occ: 'Stone Quarry Worker', parents: ['p520','p521'] },
+    'p421': { name: 'Helen McDonald', years: '~1857–<1904', status: 'confirmed', gen: 5, occ: '', parents: ['p530','p531'] },
+    'p430': { name: 'James Graham', years: '~1837–?', status: 'probable', gen: 5, occ: 'Shoemaker', parents: null },
+    'p431': { name: 'Ann', years: '~1846–?', status: 'probable', gen: 5, occ: '', parents: null },
+    'p440': { name: 'William Craigie', years: '~1841–?', status: 'probable', gen: 5, occ: 'Coal Miner', parents: null },
+    'p441': { name: 'Betsy', years: '~1843–?', status: 'probable', gen: 5, occ: '', parents: null },
+    'p450': { name: 'Andrew Henderson', years: '~1850–?', status: 'probable', gen: 5, occ: 'Shoemaker', parents: null },
+    'p451': { name: 'Eliza', years: '~1850–?', status: 'probable', gen: 5, occ: '', parents: null },
+
+    'p500': { name: 'Hannah Mooney', years: '~1833–1863', status: 'confirmed', gen: 6, occ: 'Flax Mill Worker', parents: ['p600','p601'] },
+    'p510': { name: 'Thomas Lynch', years: '~1819–1892', status: 'confirmed', gen: 6, occ: 'Weaver', parents: ['p612','p613'] },
+    'p511': { name: 'Catherine Welsh', years: '~1833–1899', status: 'confirmed', gen: 6, occ: '', parents: ['p610','p611'] },
+    'p520': { name: 'John Farrell', years: '?', status: 'confirmed', gen: 6, occ: 'Stone Quarry Worker', parents: null },
+    'p521': { name: 'Ann Quinn', years: '?', status: 'confirmed', gen: 6, occ: '', parents: null },
+    'p530': { name: 'Patrick McDonald', years: '?', status: 'confirmed', gen: 6, occ: 'Carpet Weaver', parents: null },
+    'p531': { name: 'Barbara Gordon', years: '?', status: 'confirmed', gen: 6, occ: '', parents: null },
+    'p540': { name: 'Owen Lynch', years: '~1806–1897', status: 'probable', gen: 6, occ: 'Weaver', parents: null },
+
+    'p600': { name: 'Michael Mooney', years: '~1801–1875', status: 'confirmed', gen: 7, occ: 'Jute Mill Worker', parents: ['p700','p701'] },
+    'p601': { name: 'Agnes Harrington', years: '~1806–1867', status: 'confirmed', gen: 7, occ: '', parents: ['p702','p703'] },
+    'p610': { name: 'Patrick Welsh', years: '?', status: 'confirmed', gen: 7, occ: 'Crofter', parents: null },
+    'p611': { name: 'Elizabeth Currie', years: '?', status: 'confirmed', gen: 7, occ: '', parents: null },
+    'p612': { name: 'John Lynch', years: '?', status: 'confirmed', gen: 7, occ: 'Labourer', parents: null },
+    'p613': { name: 'Betty Dillon', years: '?', status: 'confirmed', gen: 7, occ: '', parents: null },
+    'p700': { name: 'Thomas Mooney', years: '?', status: 'probable', gen: 8, occ: 'Farm Labourer', parents: null },
+    'p701': { name: 'Bridget Reilly', years: '?', status: 'probable', gen: 8, occ: '', parents: null },
+    'p702': { name: 'John Harrington', years: '?', status: 'confirmed', gen: 8, occ: 'Tailor', parents: null },
+    'p703': { name: 'Betsy McKnight', years: '?', status: 'confirmed', gen: 8, occ: '', parents: null },
+};
+
+// ===== TREE BUILDING =====
+function buildTree() {
+    const container = document.getElementById('treeContent');
+    const svg = document.getElementById('linesSvg');
+    container.innerHTML = '';
+    svg.innerHTML = '';
+
+    // Group by generation
+    const genMap = {};
+    for (let pid in allPeople) {
+        const g = allPeople[pid].gen;
+        if (!genMap[g]) genMap[g] = [];
+        genMap[g].push(pid);
+    }
+
+    const maxGen = Math.max(...Object.keys(genMap).map(Number));
+
+    // Create rows from Gen 1 (you) down to Gen 8 (oldest)
+    for (let g = 1; g <= maxGen; g++) {
+        const row = document.createElement('div');
+        row.className = 'gen-row';
+        row.id = 'gen-' + g;
+
+        const badge = document.createElement('div');
+        badge.className = 'gen-badge';
+        badge.textContent = g;
+        row.appendChild(badge);
+
+        // Group into couples
+        const people = genMap[g] || [];
+
+        if (g === 1) {
+            // Just you
+            row.appendChild(createPersonCard(people[0]));
+        } else {
+            // Build couples by finding children from previous gen
+            const prevGen = g - 1;
+            const prevPeople = genMap[prevGen] || [];
+
+            // Collect unique parent pairs from previous generation
+            const couples = [];
+            const seenCouples = new Set();
+            prevPeople.forEach(pid => {
+                const p = allPeople[pid];
+                if (p.parents) {
+                    const key = p.parents.join(',');
+                    if (!seenCouples.has(key)) {
+                        seenCouples.add(key);
+                        couples.push(p.parents);
+                    }
+                }
+            });
+
+            couples.forEach(coupleIds => {
+                const coupleBox = document.createElement('div');
+                coupleBox.className = 'couple-box';
+                coupleBox.dataset.parents = coupleIds.join(',');
+
+                coupleIds.forEach((pid, idx) => {
+                    if (allPeople[pid]) {
+                        coupleBox.appendChild(createPersonCard(pid));
+                        if (idx === 0 && coupleIds.length > 1) {
+                            const amp = document.createElement('div');
+                            amp.className = 'ampersand';
+                            amp.textContent = '&';
+                            coupleBox.appendChild(amp);
+                        }
+                    }
+                });
+
+                row.appendChild(coupleBox);
+            });
+        }
+
+        container.appendChild(row);
+    }
+
+    // Position trunk base at bottom
+    const trunk = document.getElementById('trunkBase');
+    trunk.style.top = (container.offsetHeight + 200) + 'px';
+}
+
+function createPersonCard(pid) {
+    const p = allPeople[pid];
+    const card = document.createElement('div');
+    card.className = 'person-card status-' + p.status;
+    card.dataset.pid = pid;
+
+    let html = '<div class="name">' + p.name + '</div>';
+    html += '<div class="years">' + p.years + '</div>';
+
+    if (p.occ) {
+        const icon = getOccIcon(p.occ);
+        html += '<div class="occ-badge"><span class="occ-icon">' + icon + '</span>' + p.occ + '</div>';
+    }
+
+    // Status indicator dot
+    const statusLabels = { you: 'You', confirmed: 'Verified', probable: 'Likely', brickwall: 'Unknown', single: 'Single Parent' };
+
+    card.innerHTML = html;
+    card.title = statusLabels[p.status] || p.status;
+
+    return card;
+}
+
+// ===== DRAW CONNECTION LINES =====
+function drawLines() {
+    const svg = document.getElementById('linesSvg');
+    const container = document.getElementById('treeContent');
+    const treeContainer = document.getElementById('treeContainer');
+
+    // Set SVG size
+    svg.style.width = treeContainer.offsetWidth + 'px';
+    svg.style.height = treeContainer.offsetHeight + 'px';
+    svg.setAttribute('viewBox', '0 0 ' + treeContainer.offsetWidth + ' ' + treeContainer.offsetHeight);
+
+    let pathStr = '';
+
+    // For each generation (from 2 up), connect parents to children in previous gen
+    for (let g = 2; g <= 8; g++) {
+        const row = document.getElementById('gen-' + g);
+        const prevRow = document.getElementById('gen-' + (g - 1));
+        if (!row || !prevRow) continue;
+
+        const couples = row.querySelectorAll('.couple-box');
+        const children = prevRow.querySelectorAll('.person-card');
+
+        couples.forEach(coupleBox => {
+            const parentIds = coupleBox.dataset.parents.split(',');
+            const parentCards = Array.from(coupleBox.querySelectorAll('.person-card'));
+
+            // Find children that reference these parents
+            children.forEach(childCard => {
+                const childPid = childCard.dataset.pid;
+                const child = allPeople[childPid];
+                if (!child.parents) return;
+
+                const parentKey = child.parents.join(',');
+                if (parentKey === coupleBox.dataset.parents) {
+                    // Draw connection from couple to child
+                    const coupleRect = coupleBox.getBoundingClientRect();
+                    const childRect = childCard.getBoundingClientRect();
+                    const containerRect = treeContainer.getBoundingClientRect();
+
+                    const coupleX = coupleRect.left + coupleRect.width / 2 - containerRect.left;
+                    const coupleY = coupleRect.top + coupleRect.height - containerRect.top;
+                    const childX = childRect.left + childRect.width / 2 - containerRect.left;
+                    const childY = childRect.top - containerRect.top;
+
+                    const midY = (coupleY + childY) / 2;
+
+                    pathStr += `M ${coupleX} ${coupleY} C ${coupleX} ${midY}, ${childX} ${midY}, ${childX} ${childY} `;
+                }
+            });
+        });
+    }
+
+    if (pathStr) {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', pathStr);
+        path.setAttribute('class', 'connection-line');
+        svg.appendChild(path);
+    }
+}
+
+// ===== ZOOM =====
+let currentZoom = 1;
+const zoomWrap = document.getElementById('treeContainer');
+
+function zoomIn() {
+    currentZoom = Math.min(currentZoom + 0.15, 2.5);
+    applyZoom();
+}
+
+function zoomOut() {
+    currentZoom = Math.max(currentZoom - 0.15, 0.3);
+    applyZoom();
+}
+
+function zoomReset() {
+    currentZoom = 1;
+    applyZoom();
+}
+
+function applyZoom() {
+    zoomWrap.style.transform = 'scale(' + currentZoom + ')';
+    zoomWrap.style.transformOrigin = 'top center';
+    document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
+    setTimeout(drawLines, 100);
+}
+
+// ===== INIT =====
+window.addEventListener('load', () => {
+    buildTree();
+    setTimeout(drawLines, 100);
+});
+
+window.addEventListener('resize', () => {
+    setTimeout(drawLines, 100);
+});
+</script>
+</body>
+</html>
