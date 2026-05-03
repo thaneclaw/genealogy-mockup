@@ -411,13 +411,13 @@
         'p414': { name: "Alex Craigie", years: "b. 1816, Fife", status: "probable", gen: 4, parents: ['p508','p509'], sources: [], suggestion: null },
         'p415': { name: "Ann", years: "b. 1822, Fife", status: "probable", gen: 4, parents: null, sources: [], suggestion: null },
 
-        'p500': { name: "Michael Mooney", years: "1798\u20131875", status: "confirmed", gen: 5, parents: ['p600','p601'], sources: [
-            {title: "Old Parish Register", meta: "b. 1798 Cavan, Ireland", status: "confirmed"},
-            {title: "Death Certificate", meta: "23 Mar 1875", status: "confirmed"}
-        ], suggestion: null },
-        'p501': { name: "Agnes Harrington", years: "1799\u20131857", status: "probable", gen: 5, parents: null, sources: [
+        'p500': { name: "Michael Mooney", years: "b. ~1809–1875", status: "confirmed", gen: 5, parents: ['p600','p601'], sources: [
+            {title: "Death Certificate", meta: "Lochee, 23 Mar 1875 — Age 66 (b. ~1809). Jute Millworker, Widower of Agnes Herrington. Died 130 Liff Road. Daughter Agnes Mooney informant (signed X). Parents: Thomas Mooney (Farm Labourer, deceased) + Bridget Reilly (M.S. deceased). Cause: Paralysis 3 years + Bronchitis 7 days.", status: "confirmed"},
+            {title: "Old Parish Register", meta: "b. 1798 Cavan, Ireland (age discrepancy: 11 years vs death cert)", status: "needs_verification"}
+        ], suggestion: {text: "Age discrepancy: OPR says b.1798, death cert implies ~1809. Search baptismal record around 1809 in Cavan, or check if OPR entry is for a different Michael Mooney.", price: "Free search"} },
+        'p501': { name: "Agnes Herrington", years: "1799\u20131857", status: "probable", gen: 5, parents: null, sources: [
             {title: "Death Certificate", meta: "12 Nov 1857", status: "confirmed"}
-        ], suggestion: null },
+        ], suggestion: {text: "Spelling 'Herrington' per Michael's death cert (wife). Previous spelling 'Harrington' from other records. Verify original cert.", price: "Free"} },
         'p502': { name: "David Graham", years: "1800\u2013?", status: "probable", gen: 5, parents: ['p602','p603'], sources: [
             {title: "Marriage Certificate", meta: "12 Jun 1834", status: "confirmed"}
         ], suggestion: null },
@@ -431,8 +431,12 @@
         'p508': { name: "Peter McGinley", years: "?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
         'p509': { name: "Margaret", years: "?", status: "probable", gen: 5, parents: null, sources: [], suggestion: null },
 
-        'p600': { name: "Thomas Mooney", years: "b. ~1770 est.", status: "brickwall", gen: 6, parents: null, sources: [], suggestion: null },
-        'p601': { name: "Bridget Kelly", years: "?", status: "brickwall", gen: 6, parents: null, sources: [], suggestion: null },
+        'p600': { name: "Thomas Mooney", years: "?", status: "probable", gen: 6, parents: null, sources: [
+            {title: "Death Certificate informant", meta: "Daughter Agnes Mooney listed father as Thomas Mooney, Farm Labourer, deceased", status: "probable"}
+        ], suggestion: {text: "Search Ireland parish registers for Thomas Mooney + Bridget Reilly marriage pre-1809, Cavan/Meath area", price: "Free"} },
+        'p601': { name: "Bridget Reilly", years: "?", status: "probable", gen: 6, parents: null, sources: [
+            {title: "Death Certificate informant", meta: "Daughter Agnes Mooney listed mother as Bridget Reilly M.S. (deceased)", status: "probable"}
+        ], suggestion: {text: "Search Ireland parish registers for Bridget Reilly marrying Thomas Mooney. 'Reilly' = maiden name per M.S. (Maiden Surname) on death cert.", price: "Free"} },
         'p602': { name: "David Graham", years: "?", status: "probable", gen: 6, parents: null, sources: [], suggestion: null },
         'p603': { name: "Elizabeth McNauchton", years: "?", status: "probable", gen: 6, parents: null, sources: [], suggestion: null },
         'p604': { name: "George Rattray", years: "?", status: "brickwall", gen: 6, parents: null, sources: [], suggestion: null },
