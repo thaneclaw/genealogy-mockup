@@ -873,6 +873,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0c0803; }
   <button class="poster-icon-btn" id="loadSessionBtn" title="Load session" style="background:#3e3225;color:#f0e6d2;" onclick="hpLoadSession()">📂</button>
   <button class="poster-icon-btn" id="guideBtn" title="Next steps" style="background:#5a7a3a;color:#f0e6d2;" onclick="openGuide()">📖</button>
   <button class="poster-icon-btn" id="backToTreeBtn" title="Back to tree" style="background:#3e5a8a;color:#f0e6d2;" onclick="hpBackToTree()">🌳</button>
+  <button class="poster-icon-btn" id="prevSubjectBtn" title="Previous person" style="background:#8a6a3a;color:#f0e6d2;display:none;" onclick="hpPrevSubject()">⬅️</button>
   <button class="poster-icon-btn" id="printBtn" title="Print / PDF" style="background:#5a3a2a;color:#f0e6d2;" onclick="hpPrintPDF()">🖨️</button>
   <input type="file" id="sessionFileInput" accept=".familytree,.json,application/json" style="display:none;">
 </div>
@@ -1733,21 +1734,18 @@ async function importSession(file) {
 
 function hpSaveSession() { exportSession(); }
 function hpLoadSession() { sessionFileInput.click(); }
-function hpBackToTree() {
-  // Data-tree mode: if we have a history stack, go back within the poster
-  if (dtModeActive && subjectHistory.length > 0) {
-    const prevId = subjectHistory.pop();
-    if (prevId && dtPeopleMap.has(prevId)) {
-      // Set dtSubjectId early so populatePosterFromDataTree doesn't push current to history
-      dtSubjectId = prevId;
-      populatePosterFromDataTree(prevId);
-      const person = dtPeopleMap.get(prevId);
-      showToast('Back to: ' + (person?.name || person?.fullName || 'Previous'));
-      return;
-    }
+function hpBackToTree() { window.location.href = 'data-tree.html'; }
+function hpPrevSubject() {
+  if (!dtModeActive || subjectHistory.length === 0) return;
+  const prevId = subjectHistory.pop();
+  if (prevId && dtPeopleMap.has(prevId)) {
+    dtSubjectId = prevId;
+    populatePosterFromDataTree(prevId);
+    const person = dtPeopleMap.get(prevId);
+    showToast('Back to: ' + (person?.name || person?.fullName || 'Previous'));
   }
-  // No history: go to data-tree editor
-  window.location.href = 'data-tree.html';
+  const prevBtn = document.getElementById('prevSubjectBtn');
+  if (prevBtn) prevBtn.style.display = subjectHistory.length > 0 ? 'inline-block' : 'none';
 }
 function hpPrintPDF() {
   const wasGridOn = gridOverlay && gridOverlay.style.display !== 'none';
@@ -1785,6 +1783,7 @@ sessionFileInput.addEventListener('change', (e) => {
 });
 
 document.getElementById('backToTreeBtn').addEventListener('click', hpBackToTree);
+document.getElementById('prevSubjectBtn').addEventListener('click', hpPrevSubject);
 document.getElementById('printBtn').addEventListener('click', hpPrintPDF);
 
 certRetry.addEventListener('click', () => {
@@ -3924,9 +3923,11 @@ function populatePosterFromDataTree(subjectId) {
     }
   });
 
-  // Show back button
+  // Show back button and prev-subject button
   const backBtn = document.getElementById('backToTreeBtn');
   if (backBtn) backBtn.style.display = 'inline-block';
+  const prevBtn = document.getElementById('prevSubjectBtn');
+  if (prevBtn) prevBtn.style.display = subjectHistory.length > 0 ? 'inline-block' : 'none';
 
   // Update heraldic banner with subject surname
   updateBanner();
