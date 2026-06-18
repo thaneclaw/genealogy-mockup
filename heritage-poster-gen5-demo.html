@@ -137,6 +137,20 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0c0803; }
   line-height: 1.15;
   max-width: 140px;
 }
+.nameplate[data-gen="1"] {
+  padding: 4px 10px;
+}
+.nameplate[data-gen="1"] .name {
+  font-size: 9px;
+  max-width: 130px;
+}
+.nameplate[data-gen="2"] {
+  padding: 5px 12px;
+}
+.nameplate[data-gen="2"] .name {
+  font-size: 9px;
+  max-width: 150px;
+}
 .nameplate[data-gen="3"] .name {
   max-width: 170px;
   font-size: 9px;
@@ -1733,7 +1747,10 @@ async function importSession(file) {
 }
 
 function hpSaveSession() { exportSession(); }
-function hpLoadSession() { sessionFileInput.click(); }
+function hpLoadSession(e) {
+  if (e) { e.preventDefault(); e.stopPropagation(); }
+  setTimeout(() => sessionFileInput.click(), 50);
+}
 function hpBackToTree() { window.location.href = 'data-tree.html'; }
 function hpPrevSubject() {
   if (!dtModeActive || subjectHistory.length === 0) return;
@@ -1774,11 +1791,16 @@ function hpPrintPDF() {
   }, 50);
 }
 
-saveSessionBtn.addEventListener('click', hpSaveSession);
-loadSessionBtn.addEventListener('click', hpLoadSession);
-sessionFileInput.addEventListener('change', (e) => {
+sessionFileInput.addEventListener('change', async (e) => {
   const file = e.target.files[0];
-  if (file) importSession(file);
+  if (file) {
+    try {
+      await importSession(file);
+    } catch (err) {
+      console.error('Import error:', err);
+      showToast('Import failed: ' + (err.message || 'Unknown error'));
+    }
+  }
   sessionFileInput.value = '';
 });
 
