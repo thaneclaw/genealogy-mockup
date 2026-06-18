@@ -715,7 +715,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0c0803; }
   <div class="years">YYYY — YYYY</div>
 </div>
 
-<!-- Gen 4: Great-great-grandparents -->
+<!-- Gen 4: Great-great-grandparents — arched layout, pairs stay together -->
 <div class="nameplate" data-gen="4" data-slot="pat-pat-pat-grandfather" style="left: 111px; top: 376px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
@@ -724,51 +724,51 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0c0803; }
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
-<div class="nameplate" data-gen="4" data-slot="pat-pat-mat-grandfather" style="left: 268px; top: 376px;">
+<div class="nameplate" data-gen="4" data-slot="pat-pat-mat-grandfather" style="left: 268px; top: 366px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
-<div class="nameplate" data-gen="4" data-slot="pat-pat-mat-grandmother" style="left: 346px; top: 376px;">
+<div class="nameplate" data-gen="4" data-slot="pat-pat-mat-grandmother" style="left: 346px; top: 366px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
-<div class="nameplate" data-gen="4" data-slot="pat-mat-pat-grandfather" style="left: 424px; top: 376px;">
+<div class="nameplate" data-gen="4" data-slot="pat-mat-pat-grandfather" style="left: 424px; top: 356px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
-<div class="nameplate" data-gen="4" data-slot="pat-mat-pat-grandmother" style="left: 502px; top: 376px;">
+<div class="nameplate" data-gen="4" data-slot="pat-mat-pat-grandmother" style="left: 502px; top: 356px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
-<div class="nameplate" data-gen="4" data-slot="pat-mat-mat-grandfather" style="left: 580px; top: 376px;">
+<div class="nameplate" data-gen="4" data-slot="pat-mat-mat-grandfather" style="left: 580px; top: 346px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
-<div class="nameplate" data-gen="4" data-slot="pat-mat-mat-grandmother" style="left: 659px; top: 376px;">
+<div class="nameplate" data-gen="4" data-slot="pat-mat-mat-grandmother" style="left: 659px; top: 346px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
-<div class="nameplate" data-gen="4" data-slot="mat-pat-pat-grandfather" style="left: 737px; top: 376px;">
+<div class="nameplate" data-gen="4" data-slot="mat-pat-pat-grandfather" style="left: 737px; top: 346px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
-<div class="nameplate" data-gen="4" data-slot="mat-pat-pat-grandmother" style="left: 815px; top: 376px;">
+<div class="nameplate" data-gen="4" data-slot="mat-pat-pat-grandmother" style="left: 815px; top: 346px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
-<div class="nameplate" data-gen="4" data-slot="mat-pat-mat-grandfather" style="left: 893px; top: 376px;">
+<div class="nameplate" data-gen="4" data-slot="mat-pat-mat-grandfather" style="left: 893px; top: 356px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
-<div class="nameplate" data-gen="4" data-slot="mat-pat-mat-grandmother" style="left: 972px; top: 376px;">
+<div class="nameplate" data-gen="4" data-slot="mat-pat-mat-grandmother" style="left: 972px; top: 356px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
-<div class="nameplate" data-gen="4" data-slot="mat-mat-pat-grandfather" style="left: 1050px; top: 376px;">
+<div class="nameplate" data-gen="4" data-slot="mat-mat-pat-grandfather" style="left: 1050px; top: 366px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
-<div class="nameplate" data-gen="4" data-slot="mat-mat-pat-grandmother" style="left: 1128px; top: 376px;">
+<div class="nameplate" data-gen="4" data-slot="mat-mat-pat-grandmother" style="left: 1128px; top: 366px;">
   <div class="name">Name</div>
   <div class="years">YYYY — YYYY</div>
 </div>
@@ -1733,7 +1733,22 @@ async function importSession(file) {
 
 function hpSaveSession() { exportSession(); }
 function hpLoadSession() { sessionFileInput.click(); }
-function hpBackToTree() { window.location.href = 'data-tree.html'; }
+function hpBackToTree() {
+  // Data-tree mode: if we have a history stack, go back within the poster
+  if (dtModeActive && subjectHistory.length > 0) {
+    const prevId = subjectHistory.pop();
+    if (prevId && dtPeopleMap.has(prevId)) {
+      // Set dtSubjectId early so populatePosterFromDataTree doesn't push current to history
+      dtSubjectId = prevId;
+      populatePosterFromDataTree(prevId);
+      const person = dtPeopleMap.get(prevId);
+      showToast('Back to: ' + (person?.name || person?.fullName || 'Previous'));
+      return;
+    }
+  }
+  // No history: go to data-tree editor
+  window.location.href = 'data-tree.html';
+}
 function hpPrintPDF() {
   const wasGridOn = gridOverlay && gridOverlay.style.display !== 'none';
   const wasZoom = scale;
@@ -3840,10 +3855,15 @@ function updateBanner() {
 let dtPeopleMap = new Map();
 let dtSubjectId = null;
 let dtModeActive = false;
+let subjectHistory = []; // Stack for back-navigation in data-tree mode
 
 // Populate all poster slots from a given subject person ID
 function populatePosterFromDataTree(subjectId) {
   if (!dtPeopleMap.has(subjectId)) return;
+  // Push current subject to history before switching
+  if (dtSubjectId && dtSubjectId !== subjectId) {
+    subjectHistory.push(dtSubjectId);
+  }
   dtSubjectId = subjectId;
   dtModeActive = true;
 
